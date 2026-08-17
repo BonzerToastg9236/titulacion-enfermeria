@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control de Invitaciones — Titulación Enfermería</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --azul: #1a56db; --azul-claro: #e8f0fe; --verde: #0f6e56; --verde-claro: #e6f4f0;
+    --rojo: #c81e1e; --rojo-claro: #fde8e8; --naranja: #993c1d; --amarillo-claro: #fef3c7;
+    --morado: #5145cd; --gris-1: #f9fafb; --gris-2: #f3f4f6; --gris-3: #e5e7eb;
+    --gris-4: #9ca3af; --gris-5: #6b7280; --gris-6: #374151; --negro: #111827;
+    --sombra: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+    --radio: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--gris-2); color: var(--negro); min-height: 100vh; }
+
+  header { background: white; border-bottom: 1px solid var(--gris-3); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--sombra); }
+  .header-left h1 { font-size: 17px; font-weight: 600; color: var(--negro); }
+  .header-left p { font-size: 12px; color: var(--gris-5); margin-top: 1px; }
+  .header-badge { font-size: 11px; background: var(--azul-claro); color: var(--azul); padding: 4px 10px; border-radius: 20px; font-weight: 500; }
+
+  .tabs-nav { display: flex; background: white; border-bottom: 1px solid var(--gris-3); overflow-x: auto; }
+  .tab-btn { padding: 12px 20px; font-size: 13px; font-weight: 500; border: none; background: none; cursor: pointer; color: var(--gris-5); border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.15s; }
+  .tab-btn:hover { color: var(--gris-6); }
+  .tab-btn.active { color: var(--azul); border-bottom-color: var(--azul); }
+
+  .main { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .card { background: white; border: 1px solid var(--gris-3); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: var(--sombra); }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--negro); margin-bottom: 1rem; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  @media(max-width: 540px) { .grid2 { grid-template-columns: 1fr; } }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.25rem; }
+  @media(max-width: 540px) { .grid4 { grid-template-columns: repeat(2, 1fr); } }
+
+  label { display: block; font-size: 12px; font-weight: 500; color: var(--gris-5); margin-bottom: 4px; }
+  input, select { width: 100%; padding: 8px 12px; border: 1px solid var(--gris-3); border-radius: var(--radio); font-size: 13px; color: var(--negro); background: white; outline: none; transition: border-color 0.15s; }
+  input:focus, select:focus { border-color: var(--azul); box-shadow: 0 0 0 3px rgba(26,86,219,0.1); }
+
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radio); font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--gris-3); background: white; color: var(--gris-6); transition: all 0.15s; }
+  .btn:hover { background: var(--gris-2); }
+  .btn-primary { background: var(--azul); color: white; border-color: var(--azul); }
+  .btn-primary:hover { background: #1648c0; }
+  .btn-danger { background: var(--rojo-claro); color: var(--rojo); border-color: #fca5a5; }
+  .btn-full { width: 100%; justify-content: center; }
+
+  .alumno-list { display: flex; flex-direction: column; gap: 6px; max-height: 420px; overflow-y: auto; }
+  .alumno-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; background: var(--gris-1); border: 1px solid var(--gris-3); border-radius: var(--radio); }
+  .alumno-name { font-size: 13px; font-weight: 500; }
+  .alumno-meta { font-size: 11px; color: var(--gris-5); margin-top: 2px; }
+  .folio-tag { font-size: 10px; font-family: 'Courier New', monospace; background: var(--azul-claro); color: var(--azul); padding: 2px 7px; border-radius: 4px; font-weight: 600; white-space: nowrap; }
+
+  .grupo-sep { font-size: 11px; font-weight: 600; color: var(--gris-5); padding: 8px 0 4px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.3px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .filter-pill { padding: 4px 12px; font-size: 12px; border-radius: 20px; border: 1px solid var(--gris-3); background: white; cursor: pointer; color: var(--gris-5); font-weight: 500; transition: all 0.15s; }
+  .filter-pill.active { background: var(--azul-claro); color: var(--azul); border-color: #a4cafe; }
+
+  .stat-card { background: white; border: 1px solid var(--gris-3); border-radius: 12px; padding: 1rem; text-align: center; box-shadow: var(--sombra); }
+  .stat-n { font-size: 28px; font-weight: 700; }
+  .stat-l { font-size: 11px; color: var(--gris-5); margin-top: 2px; }
+
+  .result-box { border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .result-ok { background: var(--verde-claro); border: 1px solid #86efac; }
+  .result-err { background: var(--rojo-claro); border: 1px solid #fca5a5; }
+  .result-warn { background: var(--amarillo-claro); border: 1px solid #fcd34d; }
+  .result-title { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+  .result-ok .result-title { color: var(--verde); }
+  .result-err .result-title { color: var(--rojo); }
+  .result-warn .result-title { color: #92400e; }
+  .result-sub { font-size: 13px; color: var(--gris-5); }
+
+  .scan-row { display: flex; gap: 8px; margin-bottom: 1rem; }
+  .scan-row input { flex: 1; font-family: monospace; font-size: 15px; }
+
+  .log-list { display: flex; flex-direction: column; gap: 5px; max-height: 280px; overflow-y: auto; }
+  .log-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 10px; border-radius: var(--radio); font-size: 12px; }
+  .log-ok { background: var(--verde-claro); }
+  .log-dup { background: var(--rojo-claro); }
+
+  .progress-bar { height: 6px; background: var(--gris-3); border-radius: 4px; overflow: hidden; margin-top: 4px; }
+  .progress-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
+
+  .empty { text-align: center; padding: 2rem; color: var(--gris-4); font-size: 13px; }
+
+  /* Invitación */
+  .inv-bg { background: linear-gradient(135deg, #1a56db 0%, #0f6e56 100%); border-radius: 12px; padding: 2rem; display: flex; justify-content: center; min-height: 380px; align-items: center; }
+  .inv-card-inner { background: white; border-radius: 14px; padding: 2rem; max-width: 320px; width: 100%; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+  .inv-escuela { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--gris-4); text-transform: uppercase; margin-bottom: 6px; }
+  .inv-titulo { font-size: 22px; font-weight: 700; color: var(--negro); margin-bottom: 2px; }
+  .inv-subtitulo { font-size: 12px; color: var(--gris-5); margin-bottom: 1.5rem; }
+  .inv-sep { width: 40px; height: 2px; background: var(--azul); border-radius: 2px; margin: 0 auto 1.25rem; }
+  .inv-nombre { font-size: 17px; font-weight: 700; color: var(--azul); margin-bottom: 4px; }
+  .inv-grupo { font-size: 12px; color: var(--gris-5); margin-bottom: 1rem; }
+  .inv-pase { font-size: 13px; font-weight: 500; color: var(--gris-6); background: var(--gris-2); padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 1.25rem; }
+  .inv-folio { font-family: monospace; font-size: 11px; color: var(--gris-4); margin-top: 8px; }
+  .inv-nota { font-size: 10px; color: var(--gris-4); margin-top: 6px; }
+  .inv-print-hint { text-align: center; margin-top: 12px; font-size: 12px; color: var(--gris-5); }
+
+  .err-msg { font-size: 12px; color: var(--rojo); margin-top: 4px; display: none; }
+  .count-badge { font-size: 12px; color: var(--gris-5); }
+  .pase-row { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .pase-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--gris-4); }
+  .pase-dot.used { background: var(--verde); border-color: var(--verde); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>🎓 Control de Titulación</h1>
+    <p>Licenciatura en Enfermería · 9° cuatrimestre · Matutino</p>
+  </div>
+  <span class="header-badge" id="badge-total">Cargando...</span>
+</header>
+
+<nav class="tabs-nav">
+  <button class="tab-btn active" onclick="showTab('alumnos')">👥 Alumnos</button>
+  <button class="tab-btn" onclick="showTab('invitaciones')">🎟️ Invitaciones</button>
+  <button class="tab-btn" onclick="showTab('puerta')">🚪 Validar acceso</button>
+  <button class="tab-btn" onclick="showTab('reporte')">📊 Reporte</button>
+</nav>
+
+<div class="main">
+
+  <!-- ALUMNOS -->
+  <div id="panel-alumnos" class="panel active">
+    <div class="card">
+      <div class="card-title">Agregar alumno</div>
+      <div class="grid2">
+        <div><label>Nombre completo</label><input type="text" id="inp-nombre" placeholder="APELLIDO APELLIDO NOMBRE"></div>
+        <div><label>Grupo</label>
+          <select id="inp-grupo">
+            <option value="">— Seleccionar —</option>
+            <option value="B">Grupo B — Matutino</option>
+            <option value="C">Grupo C — Matutino</option>
+            <option value="D">Grupo D — Matutino</option>
+            <option value="E">Grupo E — Vespertino</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid2">
+        <div><label>Acompañantes (máx. 3)</label>
+          <select id="inp-acomp">
+            <option value="1">1 acompañante</option>
+            <option value="2">2 acompañantes</option>
+            <option value="3" selected>3 acompañantes</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:flex-end">
+          <button class="btn btn-primary btn-full" onclick="agregarAlumno()">＋ Agregar alumno</button>
+        </div>
+      </div>
+      <div class="err-msg" id="err-admin"></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <span class="card-title" style="margin:0">Alumnos registrados</span>
+        <span class="count-badge" id="count-alumnos"></span>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-pill active" onclick="setFiltro('todos',this)">Todos</button>
+        <button class="filter-pill" onclick="setFiltro('B',this)"><span class="dot" style="background:#1a56db;display:inline-block;margin-right:4px"></span>Grupo B</button>
+        <button class="filter-pill" onclick="setFiltro('C',this)"><span class="dot" style="background:#0f6e56;display:inline-block;margin-right:4px"></span>Grupo C</button>
+        <button class="filter-pill" onclick="setFiltro('D',this)"><span class="dot" style="background:#993c1d;display:inline-block;margin-right:4px"></span>Grupo D</button>
+        <button class="filter-pill" onclick="setFiltro('E',this)"><span class="dot" style="background:#5145cd;display:inline-block;margin-right:4px"></span>Grupo E</button>
+      </div>
+      <div id="lista-alumnos" class="alumno-list"><div class="empty">Cargando...</div></div>
+    </div>
+  </div>
+
+  <!-- INVITACIONES -->
+  <div id="panel-invitaciones" class="panel">
+    <div class="card">
+      <div class="card-title">Generar invitación</div>
+      <div class="grid2">
+        <div><label>Alumno</label>
+          <select id="sel-alumno" onchange="actualizarNumInv()"><option value="">— Seleccionar —</option></select>
+        </div>
+        <div><label>Pase</label>
+          <select id="sel-num-inv"><option value="0">Titular (el alumno)</option></select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="generarInv()">👁 Ver invitación</button>
+    </div>
+    <div id="inv-preview"></div>
+    <p class="inv-print-hint" id="inv-hint" style="display:none">💡 Toma captura de pantalla para compartir por WhatsApp, o usa Ctrl+P para imprimir</p>
+  </div>
+
+  <!-- PUERTA -->
+  <div id="panel-puerta" class="panel">
+    <div class="card">
+      <div class="card-title">Validar acceso en puerta</div>
+      <p style="font-size:12px;color:var(--gris-5);margin-bottom:12px">Escanea el QR con un lector o escribe el folio manualmente y presiona Enter</p>
+      <div class="scan-row">
+        <input type="text" id="inp-folio" placeholder="GRP-B-001-0" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')validarFolio()">
+        <button class="btn btn-primary" onclick="validarFolio()">✓ Validar</button>
+      </div>
+      <div id="resultado-scan"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Registro de entradas</div>
+      <div id="log-entradas" class="log-list"><div class="empty">Sin registros aún</div></div>
+    </div>
+  </div>
+
+  <!-- REPORTE -->
+  <div id="panel-reporte" class="panel">
+    <div class="grid4">
+      <div class="stat-card"><div class="stat-n" id="st-total" style="color:var(--azul)">0</div><div class="stat-l">Pases totales</div></div>
+      <div class="stat-card"><div class="stat-n" id="st-ing" style="color:var(--verde)">0</div><div class="stat-l">Ingresaron</div></div>
+      <div class="stat-card"><div class="stat-n" id="st-pend">0</div><div class="stat-l">Pendientes</div></div>
+      <div class="stat-card"><div class="stat-n" id="st-dup" style="color:var(--rojo)">0</div><div class="stat-l">Rechazados</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Avance por grupo</div>
+      <div id="rep-grupos"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Detalle por alumno</div>
+      <div id="rep-alumnos"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const GRUPO_COLORS = { B:'#1a56db', C:'#0f6e56', D:'#993c1d', E:'#5145cd' };
+const GRUPO_LABEL  = { B:'Grupo B — Matutino', C:'Grupo C — Matutino', D:'Grupo D — Matutino', E:'Grupo E — Vespertino' };
+
+const ALUMNOS_INICIALES = [
+  // GRUPO B
+  {nombre:'CORDOVA MATA AIDA LIBERTAD',grupo:'B'},
+  {nombre:'DE LA CRUZ MARTINEZ MARIA DE LOS ANGELES',grupo:'B'},
+  {nombre:'GODINEZ GODINEZ YAREDTZIN ERANDI',grupo:'B'},
+  {nombre:'IBARROLA MENDOZA LINDA XOCHITL',grupo:'B'},
+  {nombre:'JIMENEZ HERNANDEZ JEANETT',grupo:'B'},
+  {nombre:'GODINEZ JIMENEZ MARITZA ANAHI',grupo:'B'},
+  {nombre:'MARTINEZ VILLAMIL EVELYN',grupo:'B'},
+  {nombre:'MATA MARTINEZ ANGEL GABRIEL',grupo:'B'},
+  {nombre:'MOJICA ANAYA HILDA ELIZABETH',grupo:'B'},
+  {nombre:'MONTANO GODINEZ ALEX DAVID',grupo:'B'},
+  {nombre:'PEREZ MORELOS SOFIA',grupo:'B'},
+  {nombre:'RAMOS ROBLES PERLA ISABEL',grupo:'B'},
+  {nombre:'RESENDIZ GARCIA LLUVIA VANESSA',grupo:'B'},
+  {nombre:'VIQUEZ IRETA WENDY ODALY',grupo:'B'},
+  {nombre:'ZENTENO OLIVARES MARIA BELEN',grupo:'B'},
+  // GRUPO C
+  {nombre:'ALARCON GUERRA JOANNA PAULET',grupo:'C'},
+  {nombre:'AVILA CRUZ JOSEPHINE ELIZABETH',grupo:'C'},
+  {nombre:'COLIN MARTINEZ SOFIA MAGALI',grupo:'C'},
+  {nombre:'DUARTE MODESTO ANGELA ROBERTA',grupo:'C'},
+  {nombre:'LOZANO CASTRO WENDOLY',grupo:'C'},
+  {nombre:'MARTINEZ ALCANTARA ZAIRA JAQUELIN',grupo:'C'},
+  {nombre:'MIGUEL CERROS VERONICA NOEMI',grupo:'C'},
+  {nombre:'MONDRAGON ESCAMILLA DIANA VERONICA',grupo:'C'},
+  {nombre:'NARVAEZ PEREZ DULCE VALERIA',grupo:'C'},
+  {nombre:'OLGUIN CARRANZA EVELYN CAROLINA',grupo:'C'},
+  {nombre:'RODRIGUEZ OROZCO LUZ VANESSA',grupo:'C'},
+  {nombre:'ROJO FLORES SAUL',grupo:'C'},
+  {nombre:'SOTO RODRIGUEZ ALEXANDRA',grupo:'C'},
+  // GRUPO D
+  {nombre:'CARRASCO SANTIAGO INGRID STEFANI',grupo:'D'},
+  {nombre:'FLORES LEON MELANI FERNANDA',grupo:'D'},
+  {nombre:'GARCIA FIERRO ANDRES',grupo:'D'},
+  {nombre:'GARCIA ROBLES KAROL YUNUE',grupo:'D'},
+  {nombre:'GODINEZ MARTINEZ DANNA PAOLA',grupo:'D'},
+  {nombre:'GUTIERREZ SANTIAGO DANA VALERIA',grupo:'D'},
+  {nombre:'HERNANDEZ SALDIVAR NANCY ABIGAIL',grupo:'D'},
+  {nombre:'HERNANDEZ AVILA DIEGO ROBERTO',grupo:'D'},
+  {nombre:'LOPEZ CASAS MAURICIO ANGEL',grupo:'D'},
+  {nombre:'LOZANO AREVALO ZAIRA',grupo:'D'},
+  {nombre:'MARTINEZ SANTIAGO ARIADNA YAMILETH',grupo:'D'},
+  {nombre:'PEREZ MORALES MIGUEL ANGEL',grupo:'D'},
+  {nombre:'PEREZ ROJAS CARMEN',grupo:'D'},
+];
+
+const KEY_ALU  = 'enf2026-alumnos';
+const KEY_FOL  = 'enf2026-folios';
+const KEY_DUP  = 'enf2026-dup';
+const KEY_LOG  = 'enf2026-log';
+const KEY_INIT = 'enf2026-init';
+
+let alumnos = [], foliosUsados = {}, duplicados = 0, logEntradas = [], filtroGrupo = 'todos';
+
+function genFolio(g, idx, n) { return `GRP-${g}-${String(idx).padStart(3,'0')}-${n}`; }
+
+function cargar() {
+  try { const d = localStorage.getItem(KEY_ALU); if(d) alumnos = JSON.parse(d); } catch(e){}
+  try { const d = localStorage.getItem(KEY_FOL); if(d) foliosUsados = JSON.parse(d); } catch(e){}
+  try { const d = localStorage.getItem(KEY_DUP); if(d) duplicados = parseInt(d)||0; } catch(e){}
+  try { const d = localStorage.getItem(KEY_LOG); if(d) logEntradas = JSON.parse(d); } catch(e){}
+  if(!localStorage.getItem(KEY_INIT) && alumnos.length===0) {
+    const cnt = {};
+    ALUMNOS_INICIALES.forEach(a => {
+      if(!cnt[a.grupo]) cnt[a.grupo]=0;
+      cnt[a.grupo]++;
+      alumnos.push({id: Date.now()+Math.random(), nombre:a.nombre, grupo:a.grupo, acomp:3, idx:cnt[a.grupo]});
+    });
+    localStorage.setItem(KEY_INIT,'1');
+    guardar();
+  }
+  renderAlumnos(); renderSelects(); renderReporte(); renderLog(); actualizarBadge();
+}
+
+function guardar() {
+  localStorage.setItem(KEY_ALU, JSON.stringify(alumnos));
+  localStorage.setItem(KEY_FOL, JSON.stringify(foliosUsados));
+  localStorage.setItem(KEY_DUP, String(duplicados));
+  localStorage.setItem(KEY_LOG, JSON.stringify(logEntradas));
+}
+
+function showTab(t) {
+  const tabs = ['alumnos','invitaciones','puerta','reporte'];
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', tabs[i]===t));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+t).classList.add('active');
+  if(t==='reporte') renderReporte();
+}
+
+function setFiltro(g, btn) {
+  filtroGrupo=g;
+  document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAlumnos();
+}
+
+function agregarAlumno() {
+  const nombre = document.getElementById('inp-nombre').value.trim().toUpperCase();
+  const grupo  = document.getElementById('inp-grupo').value;
+  const acomp  = parseInt(document.getElementById('inp-acomp').value);
+  const err    = document.getElementById('err-admin');
+  if(!nombre||!grupo){ err.textContent='Completa nombre y grupo'; err.style.display='block'; return; }
+  err.style.display='none';
+  const idx = alumnos.filter(a=>a.grupo===grupo).length+1;
+  alumnos.push({id:Date.now(), nombre, grupo, acomp, idx});
+  document.getElementById('inp-nombre').value='';
+  guardar(); renderAlumnos(); renderSelects(); renderReporte(); actualizarBadge();
+}
+
+function eliminarAlumno(id) {
+  if(!confirm('¿Eliminar este alumno?')) return;
+  alumnos = alumnos.filter(a=>a.id!==id);
+  guardar(); renderAlumnos(); renderSelects(); renderReporte(); actualizarBadge();
+}
+
+function actualizarBadge() {
+  const total = alumnos.reduce((s,a)=>s+(a.acomp+1),0);
+  document.getElementById('badge-total').textContent = `${alumnos.length} alumnos · ${total} pases`;
+}
+
+function renderAlumnos() {
+  const el = document.getElementById('lista-alumnos');
+  const lista = filtroGrupo==='todos' ? alumnos : alumnos.filter(a=>a.grupo===filtroGrupo);
+  document.getElementById('count-alumnos').textContent = lista.length + ' alumnos';
+  if(!lista.length){ el.innerHTML='<div class="empty">Sin alumnos en este grupo</div>'; return; }
+  let html='';
+  ['B','C','D','E'].forEach(g=>{
+    const sub = lista.filter(a=>a.grupo===g);
+    if(!sub.length) return;
+    html+=`<div class="grupo-sep"><span class="dot" style="background:${GRUPO_COLORS[g]}"></span>${GRUPO_LABEL[g]} · ${sub.length} alumnos</div>`;
+    sub.forEach(a=>{
+      const pases = a.acomp+1;
+      html+=`<div class="alumno-row">
+        <div>
+          <div class="alumno-name">${a.nombre}</div>
+          <div class="alumno-meta">${pases} pases (titular + ${a.acomp} acomp.)</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="folio-tag">${genFolio(a.grupo,a.idx,0)}</span>
+          <button class="btn btn-danger" style="padding:4px 8px;font-size:12px" onclick="eliminarAlumno(${a.id})">🗑</button>
+        </div>
+      </div>`;
+    });
+  });
+  el.innerHTML=html;
+}
+
+function renderSelects() {
+  const sel = document.getElementById('sel-alumno');
+  const prev = sel.value;
+  let o='<option value="">— Seleccionar alumno —</option>';
+  ['B','C','D','E'].forEach(g=>{
+    const sub=alumnos.filter(a=>a.grupo===g);
+    if(!sub.length) return;
+    o+=`<optgroup label="${GRUPO_LABEL[g]}">`;
+    sub.forEach(a=>{ o+=`<option value="${a.id}">${a.nombre}</option>`; });
+    o+='</optgroup>';
+  });
+  sel.innerHTML=o;
+  if(prev) sel.value=prev;
+  actualizarNumInv();
+}
+
+function actualizarNumInv() {
+  const id=parseInt(document.getElementById('sel-alumno').value);
+  const a=alumnos.find(x=>x.id===id);
+  const sel=document.getElementById('sel-num-inv');
+  if(!a){ sel.innerHTML='<option value="0">Titular (el alumno)</option>'; return; }
+  let o='<option value="0">Titular (el alumno)</option>';
+  for(let i=1;i<=a.acomp;i++) o+=`<option value="${i}">Acompañante ${i}</option>`;
+  sel.innerHTML=o;
+}
+
+function generarInv() {
+  const id=parseInt(document.getElementById('sel-alumno').value);
+  const numInv=document.getElementById('sel-num-inv').value;
+  const a=alumnos.find(x=>x.id===id);
+  if(!a) return;
+  const folio=genFolio(a.grupo,a.idx,numInv);
+  const label=numInv==='0'?'Titular':'Acompañante '+numInv;
+  const paseNum=parseInt(numInv)+1;
+  document.getElementById('inv-preview').innerHTML=`
+    <div class="inv-bg"><div class="inv-card-inner">
+      <div class="inv-escuela">Licenciatura en Enfermería</div>
+      <div class="inv-titulo">🎓 Titulación</div>
+      <div class="inv-subtitulo">9° cuatrimestre · Turno matutino</div>
+      <div class="inv-sep"></div>
+      <div class="inv-nombre">${a.nombre}</div>
+      <div class="inv-grupo">${GRUPO_LABEL[a.grupo]}</div>
+      <div class="inv-pase">${label} · Pase ${paseNum} de ${a.acomp+1}</div>
+      <div id="qr-${folio}" style="margin:0 auto;display:inline-block"></div>
+      <div class="inv-folio">${folio}</div>
+      <div class="inv-nota">Pase personal e intransferible</div>
+    </div></div>`;
+  document.getElementById('inv-hint').style.display='block';
+  setTimeout(()=>{
+    try{ new QRCode(document.getElementById('qr-'+folio),{text:folio,width:120,height:120,colorDark:'#111827',colorLight:'#ffffff'}); }catch(e){}
+  },100);
+}
+
+function validarFolio() {
+  const folio=document.getElementById('inp-folio').value.trim().toUpperCase();
+  const el=document.getElementById('resultado-scan');
+  if(!folio){ el.innerHTML='<div class="result-box result-err"><div class="result-title">Folio vacío</div></div>'; return; }
+  const p=folio.split('-');
+  if(p.length!==4||p[0]!=='GRP'){ el.innerHTML='<div class="result-box result-err"><div class="result-title">Formato inválido</div><div class="result-sub">El folio debe tener el formato GRP-X-000-0</div></div>'; return; }
+  const g=p[1], idx=parseInt(p[2]), n=parseInt(p[3]);
+  const a=alumnos.find(x=>x.grupo===g&&x.idx===idx);
+  if(!a){ el.innerHTML='<div class="result-box result-err"><div class="result-title">❌ Folio no encontrado</div><div class="result-sub">No existe ningún alumno registrado con este folio</div></div>'; return; }
+  if(n>a.acomp){ el.innerHTML=`<div class="result-box result-err"><div class="result-title">❌ Pase no válido</div><div class="result-sub">${a.nombre} tiene ${a.acomp} acompañante(s). Este número no existe.</div></div>`; return; }
+  if(foliosUsados[folio]){
+    duplicados++;
+    logEntradas.unshift({folio,alumno:a.nombre,grupo:g,ok:false,hora:new Date().toLocaleTimeString()});
+    guardar(); renderLog(); renderReporte();
+    el.innerHTML=`<div class="result-box result-warn"><div class="result-title">⚠️ Pase ya utilizado</div><div class="result-sub">${a.nombre} · ${n===0?'Titular':'Acompañante '+n}<br>Ingresó a las ${foliosUsados[folio]}</div></div>`;
+    return;
+  }
+  const hora=new Date().toLocaleTimeString();
+  foliosUsados[folio]=hora;
+  logEntradas.unshift({folio,alumno:a.nombre,grupo:g,ok:true,hora});
+  guardar(); renderLog(); renderReporte();
+  document.getElementById('inp-folio').value='';
+  el.innerHTML=`<div class="result-box result-ok"><div class="result-title">✅ Acceso permitido</div><div class="result-sub"><strong>${a.nombre}</strong><br>${n===0?'Titular':'Acompañante '+n} · ${GRUPO_LABEL[g]}<br>Hora de entrada: ${hora}</div></div>`;
+}
+
+function renderLog() {
+  const el=document.getElementById('log-entradas');
+  if(!logEntradas.length){ el.innerHTML='<div class="empty">Sin registros aún</div>'; return; }
+  el.innerHTML=logEntradas.slice(0,50).map(l=>`<div class="log-row ${l.ok?'log-ok':'log-dup'}">
+    <span><strong>${l.alumno}</strong> <span style="font-size:11px;color:var(--gris-5)">${l.folio}</span></span>
+    <span style="color:var(--gris-5)">${l.hora} ${l.ok?'✓':'✗ duplicado'}</span>
+  </div>`).join('');
+}
+
+function renderReporte() {
+  const total=alumnos.reduce((s,a)=>s+(a.acomp+1),0);
+  const ing=Object.keys(foliosUsados).length;
+  document.getElementById('st-total').textContent=total;
+  document.getElementById('st-ing').textContent=ing;
+  document.getElementById('st-pend').textContent=Math.max(0,total-ing);
+  document.getElementById('st-dup').textContent=duplicados;
+  actualizarBadge();
+
+  document.getElementById('rep-grupos').innerHTML=['B','C','D','E'].map(g=>{
+    const sub=alumnos.filter(a=>a.grupo===g);
+    if(!sub.length) return '';
+    const tot=sub.reduce((s,a)=>s+(a.acomp+1),0);
+    const i=sub.reduce((s,a)=>{ let c=0; for(let n=0;n<=a.acomp;n++) if(foliosUsados[genFolio(a.grupo,a.idx,n)]) c++; return s+c; },0);
+    const pct=tot?Math.round(i/tot*100):0;
+    return `<div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px"><span class="dot" style="background:${GRUPO_COLORS[g]}"></span>${GRUPO_LABEL[g]}</span>
+        <span style="font-size:12px;color:var(--gris-5)">${i}/${tot} · ${pct}%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${GRUPO_COLORS[g]}"></div></div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('rep-alumnos').innerHTML=!alumnos.length?'<div class="empty">Sin alumnos</div>':
+    alumnos.map(a=>{
+      let i=0; for(let n=0;n<=a.acomp;n++) if(foliosUsados[genFolio(a.grupo,a.idx,n)]) i++;
+      const pases=Array.from({length:a.acomp+1},(_,n)=>`<span class="pase-dot${foliosUsados[genFolio(a.grupo,a.idx,n)]?' used':''}"></span>`).join('');
+      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gris-3)">
+        <div>
+          <span style="font-size:13px;font-weight:500">${a.nombre}</span>
+          <span style="font-size:11px;color:var(--gris-5);margin-left:6px">${GRUPO_LABEL[a.grupo].split(' — ')[0]}</span>
+          <div class="pase-row">${pases}</div>
+        </div>
+        <span style="font-size:13px;font-weight:600;color:${i===a.acomp+1?'var(--verde)':'var(--gris-5)'}">${i}/${a.acomp+1}</span>
+      </div>`;
+    }).join('');
+}
+
+cargar();
+</script>
+</body>
+</html>
