@@ -3,158 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Control de Invitaciones — Titulación Enfermería</title>
+<title>Control Titulacion Enfermeria</title>
 <style>
-:root{--az:#1a56db;--azc:#e8f0fe;--ve:#0f6e56;--vec:#e6f4f0;--ro:#c81e1e;--roc:#fde8e8;--na:#993c1d;--amc:#fef3c7;--mo:#5145cd;--g1:#f9fafb;--g2:#f3f4f6;--g3:#e5e7eb;--g4:#9ca3af;--g5:#6b7280;--g6:#374151;--ne:#111827;--sh:0 1px 3px rgba(0,0,0,.1);--r:8px;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--g2);color:var(--ne);min-height:100vh;}
-header{background:#fff;border-bottom:1px solid var(--g3);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--sh);}
-.h1{font-size:17px;font-weight:600;}.hp{font-size:12px;color:var(--g5);margin-top:1px;}
-.hb{font-size:11px;background:var(--azc);color:var(--az);padding:4px 10px;border-radius:20px;font-weight:500;}
-nav{display:flex;background:#fff;border-bottom:1px solid var(--g3);overflow-x:auto;}
-.tb{padding:12px 18px;font-size:13px;font-weight:500;border:none;background:none;cursor:pointer;color:var(--g5);border-bottom:2px solid transparent;white-space:nowrap;}
-.tb.active{color:var(--az);border-bottom-color:var(--az);}
-.main{max-width:860px;margin:0 auto;padding:1.5rem 1rem;}
-.panel{display:none;}.panel.active{display:block;}
-.card{background:#fff;border:1px solid var(--g3);border-radius:12px;padding:1.25rem;margin-bottom:1rem;box-shadow:var(--sh);}
-.ct{font-size:14px;font-weight:600;color:var(--ne);margin-bottom:1rem;}
-.g2c{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
-.g4c{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem;}
-@media(max-width:540px){.g2c{grid-template-columns:1fr;}.g4c{grid-template-columns:repeat(2,1fr);}}
-label{display:block;font-size:12px;font-weight:500;color:var(--g5);margin-bottom:4px;}
-input,select{width:100%;padding:8px 12px;border:1px solid var(--g3);border-radius:var(--r);font-size:13px;color:var(--ne);background:#fff;outline:none;transition:border-color .15s;}
-input:focus,select:focus{border-color:var(--az);box-shadow:0 0 0 3px rgba(26,86,219,.1);}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--g3);background:#fff;color:var(--g6);transition:all .15s;}
-.btn:hover{background:var(--g2);}.btn-p{background:var(--az);color:#fff;border-color:var(--az);}.btn-p:hover{background:#1648c0;}
-.btn-d{background:var(--roc);color:var(--ro);border-color:#fca5a5;}.btn-g{background:var(--vec);color:var(--ve);border-color:#86efac;}
-.btn-full{width:100%;justify-content:center;}
-.al{display:flex;flex-direction:column;gap:6px;max-height:420px;overflow-y:auto;}
-.ar{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--g1);border:1px solid var(--g3);border-radius:var(--r);}
-.an{font-size:13px;font-weight:500;}.am{font-size:11px;color:var(--g5);margin-top:2px;}
-.ft{font-size:10px;font-family:monospace;background:var(--azc);color:var(--az);padding:2px 7px;border-radius:4px;font-weight:600;white-space:nowrap;}
-.gs{font-size:11px;font-weight:600;color:var(--g5);padding:8px 0 4px;display:flex;align-items:center;gap:6px;}
-.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.fb{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
-.fp{padding:4px 12px;font-size:12px;border-radius:20px;border:1px solid var(--g3);background:#fff;cursor:pointer;color:var(--g5);font-weight:500;}
-.fp.active{background:var(--azc);color:var(--az);border-color:#a4cafe;}
-.sc{background:#fff;border:1px solid var(--g3);border-radius:12px;padding:1rem;text-align:center;box-shadow:var(--sh);}
-.sn{font-size:28px;font-weight:700;}.sl{font-size:11px;color:var(--g5);margin-top:2px;}
-.rb{border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;}
-.rok{background:var(--vec);border:1px solid #86efac;}.rer{background:var(--roc);border:1px solid #fca5a5;}.rwa{background:var(--amc);border:1px solid #fcd34d;}
-.rt{font-size:15px;font-weight:600;margin-bottom:3px;}
-.rok .rt{color:var(--ve);}.rer .rt{color:var(--ro);}.rwa .rt{color:#92400e;}.rs{font-size:13px;color:var(--g5);}
-.sr{display:flex;gap:8px;margin-bottom:1rem;}.sr input{flex:1;font-family:monospace;font-size:15px;}
-.ll{display:flex;flex-direction:column;gap:5px;max-height:280px;overflow-y:auto;}
-.lr{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:var(--r);font-size:12px;}
-.lok{background:var(--vec);}.ldup{background:var(--roc);}
-.pb{height:6px;background:var(--g3);border-radius:4px;overflow:hidden;margin-top:4px;}
-.pf{height:100%;border-radius:4px;transition:width .4s;}
-.empty{text-align:center;padding:2rem;color:var(--g4);font-size:13px;}
-.em{font-size:12px;color:var(--ro);margin-top:4px;display:none;}
-.pd{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-top:4px;}
-.pdot{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--g4);}.pdot.u{background:var(--ve);border-color:var(--ve);}
-.ibg{background:linear-gradient(135deg,#1a56db,#0f6e56);border-radius:12px;padding:1.5rem;display:flex;justify-content:center;min-height:500px;align-items:flex-start;}
-.ic{background:#fff;border-radius:14px;padding:1.5rem;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.2);}
-.ie{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--g4);text-transform:uppercase;margin-bottom:4px;}
-.it{font-size:22px;font-weight:700;color:var(--ne);margin-bottom:2px;}
-.is{font-size:12px;color:var(--g5);margin-bottom:1rem;}
-.isep{width:40px;height:2px;background:var(--az);border-radius:2px;margin:0 auto 1rem;}
-.inn{font-size:17px;font-weight:700;color:var(--az);margin-bottom:4px;word-break:break-word;}
-.ig{font-size:12px;color:var(--g5);margin-bottom:.75rem;}
-.ipa{font-size:13px;font-weight:500;color:var(--g6);background:var(--g2);padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:1rem;}
-.iqr{margin:0 auto .75rem;display:flex;justify-content:center;}
-.ifo{font-family:monospace;font-size:11px;color:var(--g4);margin-top:6px;}
-.ino{font-size:10px;color:var(--g4);margin-top:4px;}
-.ibtns{display:flex;gap:8px;margin-top:1rem;justify-content:center;flex-wrap:wrap;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f3f4f6;color:#111}
+header{background:#1a56db;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:16px;font-weight:600}
+header p{font-size:11px;opacity:.8;margin-top:2px}
+header span{font-size:12px;background:rgba(255,255,255,.2);padding:4px 10px;border-radius:20px}
+nav{display:flex;background:#fff;border-bottom:2px solid #e5e7eb;overflow-x:auto}
+nav button{padding:12px 20px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:500;color:#6b7280;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.on{color:#1a56db;border-bottom-color:#1a56db}
+.wrap{max-width:800px;margin:0 auto;padding:20px 16px}
+.tab{display:none}.tab.on{display:block}
+.box{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px}
+.box h2{font-size:14px;font-weight:600;margin-bottom:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:500px){.row{grid-template-columns:1fr}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:500px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;text-align:center}
+.stat b{display:block;font-size:26px;font-weight:700}
+.stat span{font-size:11px;color:#6b7280}
+label{display:block;font-size:12px;color:#6b7280;margin-bottom:4px;font-weight:500}
+input,select{width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;outline:none}
+input:focus,select:focus{border-color:#1a56db}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #d1d5db;background:#fff;color:#374151}
+.btn:hover{background:#f9fafb}
+.bp{background:#1a56db;color:#fff;border-color:#1a56db;width:100%}
+.bp:hover{background:#1648c0}
+.bd{background:#fde8e8;color:#c81e1e;border-color:#fca5a5}
+.bg{background:#e6f4f0;color:#0f6e56;border-color:#86efac}
+.list{display:flex;flex-direction:column;gap:6px;max-height:400px;overflow-y:auto}
+.arow{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px}
+.aname{font-size:13px;font-weight:500}
+.ameta{font-size:11px;color:#6b7280;margin-top:2px}
+.tag{font-size:10px;font-family:monospace;background:#e8f0fe;color:#1a56db;padding:2px 6px;border-radius:4px;white-space:nowrap}
+.gsep{font-size:11px;font-weight:600;color:#6b7280;padding:8px 0 4px;display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.pill{padding:4px 12px;font-size:12px;border-radius:20px;border:1px solid #d1d5db;background:#fff;cursor:pointer;color:#6b7280;font-weight:500}
+.pill.on{background:#e8f0fe;color:#1a56db;border-color:#93c5fd}
+.ok{background:#e6f4f0;border:1px solid #86efac;border-radius:10px;padding:14px;margin-bottom:12px}
+.ok strong{color:#0f6e56;font-size:15px}
+.err{background:#fde8e8;border:1px solid #fca5a5;border-radius:10px;padding:14px;margin-bottom:12px}
+.err strong{color:#c81e1e;font-size:15px}
+.warn{background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:14px;margin-bottom:12px}
+.warn strong{color:#92400e;font-size:15px}
+.sub{font-size:13px;color:#6b7280;margin-top:4px}
+.scanrow{display:flex;gap:8px;margin-bottom:12px}
+.scanrow input{flex:1;font-family:monospace;font-size:14px}
+.loglist{display:flex;flex-direction:column;gap:5px;max-height:260px;overflow-y:auto}
+.logrow{display:flex;justify-content:space-between;padding:7px 10px;border-radius:8px;font-size:12px;align-items:center}
+.logok{background:#e6f4f0}.logdup{background:#fde8e8}
+.pb{height:6px;background:#e5e7eb;border-radius:4px;overflow:hidden;margin-top:4px}
+.pf{height:100%;border-radius:4px}
+.empty{text-align:center;padding:30px;color:#9ca3af;font-size:13px}
+.errmsg{font-size:12px;color:#c81e1e;margin-top:6px;display:none}
+.invbg{background:linear-gradient(135deg,#1a56db,#0f6e56);border-radius:10px;padding:20px;display:flex;justify-content:center;min-height:460px;align-items:flex-start;margin-top:4px}
+.invcard{background:#fff;border-radius:12px;padding:20px;max-width:300px;width:100%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.invcard .esc{font-size:9px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;margin-bottom:4px}
+.invcard .tit{font-size:20px;font-weight:700;margin-bottom:2px}
+.invcard .sub2{font-size:11px;color:#6b7280;margin-bottom:12px}
+.invcard .sep{width:36px;height:2px;background:#1a56db;margin:0 auto 12px}
+.invcard .nom{font-size:15px;font-weight:700;color:#1a56db;margin-bottom:4px;word-break:break-word}
+.invcard .grp{font-size:11px;color:#6b7280;margin-bottom:8px}
+.invcard .pase{font-size:12px;font-weight:500;background:#f3f4f6;padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:12px}
+.invcard .qrbox{display:flex;justify-content:center;margin-bottom:8px}
+.invcard .folio{font-family:monospace;font-size:10px;color:#9ca3af;margin-bottom:4px}
+.invcard .nota{font-size:9px;color:#9ca3af;margin-bottom:12px}
+.invbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 </style>
 </head>
 <body>
+
 <header>
-  <div><div class="h1">&#127891; Control de Titulacion</div><div class="hp">Licenciatura en Enfermeria &middot; 9 cuatrimestre &middot; Matutino</div></div>
-  <span class="hb" id="badge-total">...</span>
+  <div>
+    <h1>🎓 Control de Titulacion</h1>
+    <p>Licenciatura en Enfermeria · 9° cuatrimestre · Matutino</p>
+  </div>
+  <span id="badge">...</span>
 </header>
+
 <nav>
-  <button class="tb active" onclick="showTab('alumnos')">Alumnos</button>
-  <button class="tb" onclick="showTab('invitaciones')">Invitaciones</button>
-  <button class="tb" onclick="showTab('puerta')">Validar acceso</button>
-  <button class="tb" onclick="showTab('reporte')">Reporte</button>
+  <button id="btn-tab-alumnos" class="on" onclick="tab('alumnos')">Alumnos</button>
+  <button id="btn-tab-inv" onclick="tab('inv')">Invitaciones</button>
+  <button id="btn-tab-puerta" onclick="tab('puerta')">Validar acceso</button>
+  <button id="btn-tab-rep" onclick="tab('rep')">Reporte</button>
 </nav>
-<div class="main">
-  <div id="panel-alumnos" class="panel active">
-    <div class="card">
-      <div class="ct">Agregar alumno</div>
-      <div class="g2c">
-        <div><label>Nombre completo</label><input type="text" id="inp-nombre" placeholder="APELLIDO APELLIDO NOMBRE"></div>
+
+<div class="wrap">
+
+  <!-- ALUMNOS -->
+  <div id="tab-alumnos" class="tab on">
+    <div class="box">
+      <h2>Agregar alumno</h2>
+      <div class="row">
+        <div><label>Nombre completo</label><input type="text" id="inp-nom" placeholder="APELLIDO APELLIDO NOMBRE"></div>
         <div><label>Grupo</label>
-          <select id="inp-grupo">
-            <option value="">Seleccionar</option>
-            <option value="B">Grupo B Matutino</option>
-            <option value="C">Grupo C Matutino</option>
-            <option value="D">Grupo D Matutino</option>
-            <option value="E">Grupo E Vespertino</option>
+          <select id="inp-grp">
+            <option value="">Seleccionar grupo</option>
+            <option value="B">Grupo B - Matutino</option>
+            <option value="C">Grupo C - Matutino</option>
+            <option value="D">Grupo D - Matutino</option>
+            <option value="E">Grupo E - Vespertino</option>
           </select>
         </div>
       </div>
-      <div class="g2c">
+      <div class="row">
         <div><label>Acompanantes (max 3)</label>
-          <select id="inp-acomp"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option></select>
+          <select id="inp-ac">
+            <option value="1">1 acompanante</option>
+            <option value="2">2 acompanantes</option>
+            <option value="3" selected>3 acompanantes</option>
+          </select>
         </div>
-        <div style="display:flex;align-items:flex-end"><button class="btn btn-p btn-full" onclick="agregarAlumno()">+ Agregar</button></div>
+        <div style="display:flex;align-items:flex-end">
+          <button class="btn bp" onclick="addAlumno()">+ Agregar alumno</button>
+        </div>
       </div>
-      <div class="em" id="err-admin"></div>
+      <div class="errmsg" id="err-add"></div>
     </div>
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <span class="ct" style="margin:0">Alumnos registrados</span>
-        <span style="font-size:12px;color:var(--g5)" id="count-al"></span>
+    <div class="box">
+      <h2>Alumnos registrados <span id="cnt" style="font-weight:400;color:#6b7280;font-size:12px"></span></h2>
+      <div class="pills">
+        <button class="pill on" onclick="filtrar('todos',this)">Todos</button>
+        <button class="pill" onclick="filtrar('B',this)">Grupo B</button>
+        <button class="pill" onclick="filtrar('C',this)">Grupo C</button>
+        <button class="pill" onclick="filtrar('D',this)">Grupo D</button>
+        <button class="pill" onclick="filtrar('E',this)">Grupo E</button>
       </div>
-      <div class="fb">
-        <button class="fp active" onclick="setF('todos',this)">Todos</button>
-        <button class="fp" onclick="setF('B',this)">Grupo B</button>
-        <button class="fp" onclick="setF('C',this)">Grupo C</button>
-        <button class="fp" onclick="setF('D',this)">Grupo D</button>
-        <button class="fp" onclick="setF('E',this)">Grupo E</button>
-      </div>
-      <div id="lista-al" class="al"><div class="empty">Sin alumnos registrados</div></div>
+      <div class="list" id="lista"></div>
     </div>
   </div>
-  <div id="panel-invitaciones" class="panel">
-    <div class="card">
-      <div class="ct">Generar invitacion</div>
-      <div class="g2c">
-        <div><label>Alumno</label><select id="sel-al" onchange="actualizarN()"><option value="">Seleccionar</option></select></div>
-        <div><label>Pase</label><select id="sel-n"><option value="0">Titular (el alumno)</option></select></div>
+
+  <!-- INVITACIONES -->
+  <div id="tab-inv" class="tab">
+    <div class="box">
+      <h2>Generar invitacion</h2>
+      <div class="row">
+        <div><label>Alumno</label>
+          <select id="sel-al" onchange="updPase()">
+            <option value="">Seleccionar alumno</option>
+          </select>
+        </div>
+        <div><label>Pase</label>
+          <select id="sel-pase">
+            <option value="0">Titular (el alumno)</option>
+          </select>
+        </div>
       </div>
-      <button class="btn btn-p btn-full" onclick="generarInv()">Ver invitacion</button>
+      <button class="btn bp" onclick="genInv()">Ver invitacion</button>
     </div>
-    <div id="inv-prev"></div>
+    <div id="inv-out"></div>
   </div>
-  <div id="panel-puerta" class="panel">
-    <div class="card">
-      <div class="ct">Validar acceso en puerta</div>
-      <p style="font-size:12px;color:var(--g5);margin-bottom:12px">Escribe el folio y presiona Enter, o usa un lector QR conectado al teclado</p>
-      <div class="sr">
-        <input type="text" id="inp-folio" placeholder="GRP-B-001-0" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')validarFolio()">
-        <button class="btn btn-p" onclick="validarFolio()">Validar</button>
+
+  <!-- PUERTA -->
+  <div id="tab-puerta" class="tab">
+    <div class="box">
+      <h2>Validar acceso</h2>
+      <p style="font-size:12px;color:#6b7280;margin-bottom:12px">Escribe el folio y presiona Enter, o conecta un lector QR USB</p>
+      <div class="scanrow">
+        <input type="text" id="inp-folio" placeholder="GRP-B-001-0" style="text-transform:uppercase" onkeydown="if(event.key=='Enter')validar()">
+        <button class="btn bp" style="width:auto" onclick="validar()">Validar</button>
       </div>
-      <div id="res-scan"></div>
+      <div id="res-validar"></div>
     </div>
-    <div class="card">
-      <div class="ct">Registro de entradas</div>
-      <div id="log-e" class="ll"><div class="empty">Sin registros aun</div></div>
+    <div class="box">
+      <h2>Registro de entradas</h2>
+      <div class="loglist" id="log-list"><div class="empty">Sin registros aun</div></div>
     </div>
   </div>
-  <div id="panel-reporte" class="panel">
-    <div class="g4c">
-      <div class="sc"><div class="sn" id="st-t" style="color:var(--az)">0</div><div class="sl">Pases totales</div></div>
-      <div class="sc"><div class="sn" id="st-i" style="color:var(--ve)">0</div><div class="sl">Ingresaron</div></div>
-      <div class="sc"><div class="sn" id="st-p">0</div><div class="sl">Pendientes</div></div>
-      <div class="sc"><div class="sn" id="st-d" style="color:var(--ro)">0</div><div class="sl">Rechazados</div></div>
+
+  <!-- REPORTE -->
+  <div id="tab-rep" class="tab">
+    <div class="stats">
+      <div class="stat"><b id="s-tot" style="color:#1a56db">0</b><span>Pases totales</span></div>
+      <div class="stat"><b id="s-ing" style="color:#0f6e56">0</b><span>Ingresaron</span></div>
+      <div class="stat"><b id="s-pen">0</b><span>Pendientes</span></div>
+      <div class="stat"><b id="s-dup" style="color:#c81e1e">0</b><span>Rechazados</span></div>
     </div>
-    <div class="card"><div class="ct">Avance por grupo</div><div id="rep-g"></div></div>
-    <div class="card"><div class="ct">Detalle por alumno</div><div id="rep-a"></div></div>
+    <div class="box"><h2>Por grupo</h2><div id="rep-grp"></div></div>
+    <div class="box"><h2>Por alumno</h2><div id="rep-al"></div></div>
   </div>
+
 </div>
+
 <script>
 // QR Code generator - minimal pure JS implementation
 // Based on qrcodejs, embedded inline to avoid CDN dependency
@@ -182,233 +216,329 @@ function createQRCanvas(text, size) {
 }
 
 
-const GC={B:'#1a56db',C:'#0f6e56',D:'#993c1d',E:'#5145cd'};
-const GL={B:'Grupo B Matutino',C:'Grupo C Matutino',D:'Grupo D Matutino',E:'Grupo E Vespertino'};
-const AI=[
-  {n:'CORDOVA MATA AIDA LIBERTAD',g:'B'},{n:'DE LA CRUZ MARTINEZ MARIA DE LOS ANGELES',g:'B'},
-  {n:'GODINEZ GODINEZ YAREDTZIN ERANDI',g:'B'},{n:'IBARROLA MENDOZA LINDA XOCHITL',g:'B'},
-  {n:'JIMENEZ HERNANDEZ JEANETT',g:'B'},{n:'GODINEZ JIMENEZ MARITZA ANAHI',g:'B'},
-  {n:'MARTINEZ VILLAMIL EVELYN',g:'B'},{n:'MATA MARTINEZ ANGEL GABRIEL',g:'B'},
-  {n:'MOJICA ANAYA HILDA ELIZABETH',g:'B'},{n:'MONTANO GODINEZ ALEX DAVID',g:'B'},
-  {n:'PEREZ MORELOS SOFIA',g:'B'},{n:'RAMOS ROBLES PERLA ISABEL',g:'B'},
-  {n:'RESENDIZ GARCIA LLUVIA VANESSA',g:'B'},{n:'VIQUEZ IRETA WENDY ODALY',g:'B'},
+var GC = {B:'#1a56db',C:'#0f6e56',D:'#993c1d',E:'#5145cd'};
+var GL = {B:'Grupo B Matutino',C:'Grupo C Matutino',D:'Grupo D Matutino',E:'Grupo E Vespertino'};
+
+var PRECARGADOS = [
+  {n:'CORDOVA MATA AIDA LIBERTAD',g:'B'},
+  {n:'DE LA CRUZ MARTINEZ MARIA DE LOS ANGELES',g:'B'},
+  {n:'GODINEZ GODINEZ YAREDTZIN ERANDI',g:'B'},
+  {n:'IBARROLA MENDOZA LINDA XOCHITL',g:'B'},
+  {n:'JIMENEZ HERNANDEZ JEANETT',g:'B'},
+  {n:'GODINEZ JIMENEZ MARITZA ANAHI',g:'B'},
+  {n:'MARTINEZ VILLAMIL EVELYN',g:'B'},
+  {n:'MATA MARTINEZ ANGEL GABRIEL',g:'B'},
+  {n:'MOJICA ANAYA HILDA ELIZABETH',g:'B'},
+  {n:'MONTANO GODINEZ ALEX DAVID',g:'B'},
+  {n:'PEREZ MORELOS SOFIA',g:'B'},
+  {n:'RAMOS ROBLES PERLA ISABEL',g:'B'},
+  {n:'RESENDIZ GARCIA LLUVIA VANESSA',g:'B'},
+  {n:'VIQUEZ IRETA WENDY ODALY',g:'B'},
   {n:'ZENTENO OLIVARES MARIA BELEN',g:'B'},
-  {n:'ALARCON GUERRA JOANNA PAULET',g:'C'},{n:'AVILA CRUZ JOSEPHINE ELIZABETH',g:'C'},
-  {n:'COLIN MARTINEZ SOFIA MAGALI',g:'C'},{n:'DUARTE MODESTO ANGELA ROBERTA',g:'C'},
-  {n:'LOZANO CASTRO WENDOLY',g:'C'},{n:'MARTINEZ ALCANTARA ZAIRA JAQUELIN',g:'C'},
-  {n:'MIGUEL CERROS VERONICA NOEMI',g:'C'},{n:'MONDRAGON ESCAMILLA DIANA VERONICA',g:'C'},
-  {n:'NARVAEZ PEREZ DULCE VALERIA',g:'C'},{n:'OLGUIN CARRANZA EVELYN CAROLINA',g:'C'},
-  {n:'RODRIGUEZ OROZCO LUZ VANESSA',g:'C'},{n:'ROJO FLORES SAUL',g:'C'},{n:'SOTO RODRIGUEZ ALEXANDRA',g:'C'},
-  {n:'CARRASCO SANTIAGO INGRID STEFANI',g:'D'},{n:'FLORES LEON MELANI FERNANDA',g:'D'},
-  {n:'GARCIA FIERRO ANDRES',g:'D'},{n:'GARCIA ROBLES KAROL YUNUE',g:'D'},
-  {n:'GODINEZ MARTINEZ DANNA PAOLA',g:'D'},{n:'GUTIERREZ SANTIAGO DANA VALERIA',g:'D'},
-  {n:'HERNANDEZ SALDIVAR NANCY ABIGAIL',g:'D'},{n:'HERNANDEZ AVILA DIEGO ROBERTO',g:'D'},
-  {n:'LOPEZ CASAS MAURICIO ANGEL',g:'D'},{n:'LOZANO AREVALO ZAIRA',g:'D'},
-  {n:'MARTINEZ SANTIAGO ARIADNA YAMILETH',g:'D'},{n:'PEREZ MORALES MIGUEL ANGEL',g:'D'},{n:'PEREZ ROJAS CARMEN',g:'D'}
+  {n:'ALARCON GUERRA JOANNA PAULET',g:'C'},
+  {n:'AVILA CRUZ JOSEPHINE ELIZABETH',g:'C'},
+  {n:'COLIN MARTINEZ SOFIA MAGALI',g:'C'},
+  {n:'DUARTE MODESTO ANGELA ROBERTA',g:'C'},
+  {n:'LOZANO CASTRO WENDOLY',g:'C'},
+  {n:'MARTINEZ ALCANTARA ZAIRA JAQUELIN',g:'C'},
+  {n:'MIGUEL CERROS VERONICA NOEMI',g:'C'},
+  {n:'MONDRAGON ESCAMILLA DIANA VERONICA',g:'C'},
+  {n:'NARVAEZ PEREZ DULCE VALERIA',g:'C'},
+  {n:'OLGUIN CARRANZA EVELYN CAROLINA',g:'C'},
+  {n:'RODRIGUEZ OROZCO LUZ VANESSA',g:'C'},
+  {n:'ROJO FLORES SAUL',g:'C'},
+  {n:'SOTO RODRIGUEZ ALEXANDRA',g:'C'},
+  {n:'CARRASCO SANTIAGO INGRID STEFANI',g:'D'},
+  {n:'FLORES LEON MELANI FERNANDA',g:'D'},
+  {n:'GARCIA FIERRO ANDRES',g:'D'},
+  {n:'GARCIA ROBLES KAROL YUNUE',g:'D'},
+  {n:'GODINEZ MARTINEZ DANNA PAOLA',g:'D'},
+  {n:'GUTIERREZ SANTIAGO DANA VALERIA',g:'D'},
+  {n:'HERNANDEZ SALDIVAR NANCY ABIGAIL',g:'D'},
+  {n:'HERNANDEZ AVILA DIEGO ROBERTO',g:'D'},
+  {n:'LOPEZ CASAS MAURICIO ANGEL',g:'D'},
+  {n:'LOZANO AREVALO ZAIRA',g:'D'},
+  {n:'MARTINEZ SANTIAGO ARIADNA YAMILETH',g:'D'},
+  {n:'PEREZ MORALES MIGUEL ANGEL',g:'D'},
+  {n:'PEREZ ROJAS CARMEN',g:'D'}
 ];
-const KA='gh-enf-al',KF='gh-enf-fol',KD='gh-enf-dup',KL='gh-enf-log',KI='gh-enf-init';
-let alumnos=[],folios={},dups=0,logs=[],filtro='todos';
-function gf(g,i,n){return 'GRP-'+g+'-'+String(i).padStart(3,'0')+'-'+n;}
-function cargar(){
-  try{const d=localStorage.getItem(KA);if(d){const p=JSON.parse(d);if(Array.isArray(p))alumnos=p;}}catch(e){}
-  try{const d=localStorage.getItem(KF);if(d)folios=JSON.parse(d);}catch(e){}
-  try{const d=localStorage.getItem(KD);if(d)dups=parseInt(d)||0;}catch(e){}
-  try{const d=localStorage.getItem(KL);if(d)logs=JSON.parse(d);}catch(e){}
-  if(alumnos.length===0){
-    var c={};
-    AI.forEach(function(a){if(!c[a.g])c[a.g]=0;c[a.g]++;alumnos.push({id:Date.now()+Math.random(),nombre:a.n,grupo:a.g,acomp:3,idx:c[a.g]});});
+
+var KEY = 'titulacion2026v3';
+var alumnos = [];
+var folios = {};
+var dups = 0;
+var logs = [];
+var filtroActivo = 'todos';
+
+function folio(g, idx, n) {
+  return 'GRP-' + g + '-' + ('00'+idx).slice(-3) + '-' + n;
+}
+
+function guardar() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify({alumnos:alumnos, folios:folios, dups:dups, logs:logs}));
+  } catch(e) { console.error('guardar:', e); }
+}
+
+function cargar() {
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) {
+      var data = JSON.parse(raw);
+      if (data.alumnos && data.alumnos.length > 0) {
+        alumnos = data.alumnos;
+        folios  = data.folios  || {};
+        dups    = data.dups    || 0;
+        logs    = data.logs    || [];
+      }
+    }
+  } catch(e) { console.error('cargar:', e); }
+
+  if (alumnos.length === 0) {
+    var cnt = {};
+    PRECARGADOS.forEach(function(p) {
+      if (!cnt[p.g]) cnt[p.g] = 0;
+      cnt[p.g]++;
+      alumnos.push({id: cnt[p.g] + p.g, nombre: p.n, grupo: p.g, acomp: 3, idx: cnt[p.g]});
+    });
     guardar();
   }
-  renderAl();renderSel();renderRep();renderLog();badge();
+
+  render();
 }
-function guardar(){
-  localStorage.setItem(KA,JSON.stringify(alumnos));
-  localStorage.setItem(KF,JSON.stringify(folios));
-  localStorage.setItem(KD,String(dups));
-  localStorage.setItem(KL,JSON.stringify(logs));
+
+function render() {
+  renderLista();
+  renderSelects();
+  renderReporte();
+  renderLog();
+  renderBadge();
 }
-function showTab(t){
-  const ts=['alumnos','invitaciones','puerta','reporte'];
-  document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('active',ts[i]===t));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+t).classList.add('active');
-  if(t==='reporte')renderRep();
+
+function tab(t) {
+  document.querySelectorAll('.tab').forEach(function(el){ el.classList.remove('on'); });
+  document.querySelectorAll('nav button').forEach(function(el){ el.classList.remove('on'); });
+  document.getElementById('tab-' + t).classList.add('on');
+  document.getElementById('btn-tab-' + t).classList.add('on');
+  if (t === 'rep') renderReporte();
 }
-function setF(g,btn){filtro=g;document.querySelectorAll('.fp').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderAl();}
-function agregarAlumno(){
-  const nombre=document.getElementById('inp-nombre').value.trim().toUpperCase();
-  const grupo=document.getElementById('inp-grupo').value;
-  const acomp=parseInt(document.getElementById('inp-acomp').value);
-  const er=document.getElementById('err-admin');
-  if(!nombre||!grupo){er.textContent='Completa nombre y grupo';er.style.display='block';return;}
-  er.style.display='none';
-  const idx=alumnos.filter(a=>a.grupo===grupo).length+1;
-  alumnos.push({id:Date.now(),nombre,grupo,acomp,idx});
-  document.getElementById('inp-nombre').value='';
-  guardar();renderAl();renderSel();renderRep();badge();
+
+function filtrar(g, btn) {
+  filtroActivo = g;
+  document.querySelectorAll('.pill').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  renderLista();
 }
-function eliminar(id){if(!confirm('Eliminar este alumno?'))return;alumnos=alumnos.filter(a=>a.id!==id);guardar();renderAl();renderSel();renderRep();badge();}
-function badge(){
-  const t=alumnos.reduce((s,a)=>s+(a.acomp+1),0);
-  document.getElementById('badge-total').textContent=alumnos.length+' alumnos - '+t+' pases';
+
+function addAlumno() {
+  var nom = document.getElementById('inp-nom').value.trim().toUpperCase();
+  var grp = document.getElementById('inp-grp').value;
+  var ac  = parseInt(document.getElementById('inp-ac').value);
+  var err = document.getElementById('err-add');
+  if (!nom || !grp) {
+    err.textContent = 'Completa el nombre y el grupo.';
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  var idx = alumnos.filter(function(a){ return a.grupo === grp; }).length + 1;
+  alumnos.push({id: Date.now().toString(), nombre: nom, grupo: grp, acomp: ac, idx: idx});
+  document.getElementById('inp-nom').value = '';
+  guardar();
+  render();
 }
-function renderAl(){
-  const el=document.getElementById('lista-al');
-  const lista=filtro==='todos'?alumnos:alumnos.filter(a=>a.grupo===filtro);
-  document.getElementById('count-al').textContent=lista.length+' alumnos';
-  if(!lista.length){el.innerHTML='<div class="empty">Sin alumnos</div>';return;}
-  let h='';
-  ['B','C','D','E'].forEach(g=>{
-    const s=lista.filter(a=>a.grupo===g);if(!s.length)return;
-    h+='<div class="gs"><span class="dot" style="background:'+GC[g]+';display:inline-block"></span>'+GL[g]+' - '+s.length+' alumnos</div>';
-    s.forEach(a=>{
-      h+='<div class="ar"><div><div class="an">'+a.nombre+'</div><div class="am">'+( a.acomp+1)+' pases (titular + '+a.acomp+' acomp.)</div></div>'+
-        '<div style="display:flex;align-items:center;gap:6px"><span class="ft">'+gf(a.grupo,a.idx,0)+'</span>'+
-        '<button class="btn btn-d" style="padding:4px 8px;font-size:12px" onclick="eliminar('+a.id+')">X</button></div></div>';
+
+function eliminar(id) {
+  if (!confirm('Eliminar este alumno?')) return;
+  alumnos = alumnos.filter(function(a){ return a.id !== id; });
+  guardar();
+  render();
+}
+
+function renderBadge() {
+  var tot = alumnos.reduce(function(s,a){ return s + a.acomp + 1; }, 0);
+  document.getElementById('badge').textContent = alumnos.length + ' alumnos · ' + tot + ' pases';
+}
+
+function renderLista() {
+  var el = document.getElementById('lista');
+  var lista = filtroActivo === 'todos' ? alumnos : alumnos.filter(function(a){ return a.grupo === filtroActivo; });
+  document.getElementById('cnt').textContent = '(' + lista.length + ')';
+  if (!lista.length) { el.innerHTML = '<div class="empty">Sin alumnos en este grupo</div>'; return; }
+  var h = '';
+  ['B','C','D','E'].forEach(function(g) {
+    var sub = lista.filter(function(a){ return a.grupo === g; });
+    if (!sub.length) return;
+    h += '<div class="gsep"><span class="dot" style="background:' + GC[g] + '"></span>' + GL[g] + ' (' + sub.length + ')</div>';
+    sub.forEach(function(a) {
+      h += '<div class="arow">' +
+        '<div><div class="aname">' + a.nombre + '</div>' +
+        '<div class="ameta">' + (a.acomp+1) + ' pases (titular + ' + a.acomp + ' acomp.)</div></div>' +
+        '<div style="display:flex;align-items:center;gap:8px">' +
+        '<span class="tag">' + folio(a.grupo,a.idx,0) + '</span>' +
+        '<button class="btn bd" style="padding:4px 8px;font-size:12px" onclick="eliminar('' + a.id + '')">&#128465;</button>' +
+        '</div></div>';
     });
   });
-  el.innerHTML=h;
+  el.innerHTML = h;
 }
-function renderSel(){
-  const sel=document.getElementById('sel-al');const pv=sel.value;
-  let o='<option value="">Seleccionar alumno</option>';
-  ['B','C','D','E'].forEach(g=>{
-    const s=alumnos.filter(a=>a.grupo===g);if(!s.length)return;
-    o+='<optgroup label="'+GL[g]+'">';s.forEach(a=>{o+='<option value="'+a.id+'">'+a.nombre+'</option>';});o+='</optgroup>';
+
+function renderSelects() {
+  var sel = document.getElementById('sel-al');
+  var prev = sel.value;
+  var h = '<option value="">Seleccionar alumno</option>';
+  ['B','C','D','E'].forEach(function(g) {
+    var sub = alumnos.filter(function(a){ return a.grupo === g; });
+    if (!sub.length) return;
+    h += '<optgroup label="' + GL[g] + '">';
+    sub.forEach(function(a){ h += '<option value="' + a.id + '">' + a.nombre + '</option>'; });
+    h += '</optgroup>';
   });
-  sel.innerHTML=o;if(pv)sel.value=pv;actualizarN();
+  sel.innerHTML = h;
+  if (prev) sel.value = prev;
+  updPase();
 }
-function actualizarN(){
-  const id=parseInt(document.getElementById('sel-al').value);
-  const a=alumnos.find(x=>x.id===id);
-  const sel=document.getElementById('sel-n');
-  if(!a){sel.innerHTML='<option value="0">Titular (el alumno)</option>';return;}
-  let o='<option value="0">Titular (el alumno)</option>';
-  for(let i=1;i<=a.acomp;i++)o+='<option value="'+i+'">Acompanante '+i+'</option>';
-  sel.innerHTML=o;
+
+function updPase() {
+  var id = document.getElementById('sel-al').value;
+  var a = alumnos.find(function(x){ return x.id === id; });
+  var sel = document.getElementById('sel-pase');
+  if (!a) { sel.innerHTML = '<option value="0">Titular (el alumno)</option>'; return; }
+  var h = '<option value="0">Titular (el alumno)</option>';
+  for (var i = 1; i <= a.acomp; i++) h += '<option value="' + i + '">Acompanante ' + i + '</option>';
+  sel.innerHTML = h;
 }
-function generarInv(){
-  const id=parseInt(document.getElementById('sel-al').value);
-  const ni=document.getElementById('sel-n').value;
-  const a=alumnos.find(x=>x.id===id);if(!a)return;
-  const folio=gf(a.grupo,a.idx,ni);
-  const label=ni==='0'?'Titular':'Acompanante '+ni;
-  const pn=parseInt(ni)+1;
-  const qid='qrb'+folio.replace(/-/g,'');
-  document.getElementById('inv-prev').innerHTML=
-    '<div class="ibg"><div class="ic" id="inv-card-'+qid+'">'+
-    '<div class="ie">Licenciatura en Enfermeria</div>'+
-    '<div class="it">Titulacion 2025</div>'+
-    '<div class="is">9 cuatrimestre - Turno matutino</div>'+
-    '<div class="isep"></div>'+
-    '<div class="inn">'+a.nombre+'</div>'+
-    '<div class="ig">'+GL[a.grupo]+'</div>'+
-    '<div class="ipa">'+label+' - Pase '+pn+' de '+(a.acomp+1)+'</div>'+
-    '<div class="iqr" id="'+qid+'"></div>'+
-    '<div class="ifo">'+folio+'</div>'+
-    '<div class="ino">Pase personal e intransferible</div>'+
-    '<div class="ibtns">'+
-    '<button class="btn btn-g" onclick="descargarInv(''+folio+'',''+qid+'')">Descargar imagen</button>'+
-    '</div>'+
-    '</div></div>';
-  setTimeout(function(){
-    try{
-      var el=document.getElementById(qid);
-      var canvas=createQRCanvas(folio,140);
-      el.appendChild(canvas);
-    }catch(e){console.error('QR:',e);}
-  },80);
+
+function genInv() {
+  var id = document.getElementById('sel-al').value;
+  var ni = document.getElementById('sel-pase').value;
+  var a = alumnos.find(function(x){ return x.id === id; });
+  if (!a) { alert('Selecciona un alumno'); return; }
+  var f = folio(a.grupo, a.idx, ni);
+  var label = ni === '0' ? 'Titular' : 'Acompanante ' + ni;
+  var pn = parseInt(ni) + 1;
+  var qid = 'qr' + f.replace(/-/g,'');
+  document.getElementById('inv-out').innerHTML =
+    '<div class="invbg"><div class="invcard">' +
+    '<div class="esc">Licenciatura en Enfermeria</div>' +
+    '<div class="tit">Titulacion 2025</div>' +
+    '<div class="sub2">9° cuatrimestre · Turno matutino</div>' +
+    '<div class="sep"></div>' +
+    '<div class="nom">' + a.nombre + '</div>' +
+    '<div class="grp">' + GL[a.grupo] + '</div>' +
+    '<div class="pase">' + label + ' · Pase ' + pn + ' de ' + (a.acomp+1) + '</div>' +
+    '<div class="qrbox" id="' + qid + '"></div>' +
+    '<div class="folio">' + f + '</div>' +
+    '<div class="nota">Pase personal e intransferible</div>' +
+    '<div class="invbtns">' +
+    '<button class="btn bg" onclick="descargar('' + f + '','' + qid + '','' + a.nombre.replace(/'/g,'') + '','' + label + '','' + GL[a.grupo] + '')">Descargar PNG</button>' +
+    '</div></div></div>';
+  setTimeout(function() {
+    try {
+      var canvas = createQRCanvas(f, 130);
+      document.getElementById(qid).appendChild(canvas);
+    } catch(e) { document.getElementById(qid).innerHTML = '<p style="color:red;font-size:11px">Error QR: ' + e.message + '</p>'; }
+  }, 100);
 }
-function descargarInv(folio,qid){
-  var qrEl=document.querySelector('#'+qid+' canvas');
-  if(!qrEl){alert('Espera a que cargue el QR');return;}
-  var c=document.createElement('canvas');
-  c.width=420;c.height=560;
-  var ctx=c.getContext('2d');
-  var grd=ctx.createLinearGradient(0,0,420,560);
-  grd.addColorStop(0,'#1a56db');grd.addColorStop(1,'#0f6e56');
-  ctx.fillStyle=grd;ctx.fillRect(0,0,420,560);
-  ctx.fillStyle='#ffffff';
-  ctx.beginPath();ctx.roundRect(25,20,370,520,14);ctx.fill();
-  ctx.textAlign='center';
-  ctx.fillStyle='#9ca3af';ctx.font='bold 10px sans-serif';
-  ctx.fillText('LICENCIATURA EN ENFERMERIA',210,58);
-  ctx.fillStyle='#111827';ctx.font='bold 20px sans-serif';
-  ctx.fillText('Titulacion 2025',210,86);
-  ctx.fillStyle='#6b7280';ctx.font='12px sans-serif';
-  ctx.fillText('9 cuatrimestre - Turno matutino',210,106);
-  ctx.fillStyle='#1a56db';ctx.fillRect(185,118,50,2);
-  ctx.fillStyle='#1a56db';ctx.font='bold 13px sans-serif';
-  var a=alumnos.find(x=>gf(x.grupo,x.idx,0).startsWith('GRP-'+folio.split('-')[1]+'-'+folio.split('-')[2]));
-  if(a){
-    var words=a.nombre.split(' ');var line='';var y=145;
-    words.forEach(function(w){var test=line+w+' ';if(ctx.measureText(test).width>320&&line!==''){ctx.fillText(line.trim(),210,y);line=w+' ';y+=18;}else{line=test;}});
-    ctx.fillText(line.trim(),210,y);
-  }
-  ctx.drawImage(qrEl,210-70,175,140,140);
-  ctx.fillStyle='#9ca3af';ctx.font='11px monospace';ctx.fillText(folio,210,330);
-  ctx.fillStyle='#6b7280';ctx.font='11px sans-serif';
-  var p=folio.split('-');var ni=parseInt(p[3]);
-  ctx.fillText((ni===0?'Titular':'Acompanante '+ni),210,350);
-  ctx.fillStyle='#9ca3af';ctx.font='10px sans-serif';
-  ctx.fillText('Pase personal e intransferible',210,370);
-  var link=document.createElement('a');
-  link.download='invitacion-'+folio+'.png';
-  link.href=c.toDataURL('image/png');
+
+function descargar(f, qid, nombre, label, grupo) {
+  var qrEl = document.querySelector('#' + qid + ' canvas');
+  if (!qrEl) { alert('Espera a que aparezca el QR'); return; }
+  var c = document.createElement('canvas');
+  c.width = 400; c.height = 540;
+  var ctx = c.getContext('2d');
+  var gr = ctx.createLinearGradient(0,0,400,540);
+  gr.addColorStop(0,'#1a56db'); gr.addColorStop(1,'#0f6e56');
+  ctx.fillStyle = gr; ctx.fillRect(0,0,400,540);
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  if (ctx.roundRect) { ctx.roundRect(24,18,352,504,12); } else { ctx.rect(24,18,352,504); }
+  ctx.fill();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#9ca3af'; ctx.font = 'bold 9px sans-serif';
+  ctx.fillText('LICENCIATURA EN ENFERMERIA', 200, 52);
+  ctx.fillStyle = '#111'; ctx.font = 'bold 19px sans-serif';
+  ctx.fillText('Titulacion 2025', 200, 78);
+  ctx.fillStyle = '#6b7280'; ctx.font = '11px sans-serif';
+  ctx.fillText('9° cuatrimestre · Turno matutino', 200, 96);
+  ctx.fillStyle = '#1a56db'; ctx.fillRect(176,108,48,2);
+  ctx.fillStyle = '#1a56db'; ctx.font = 'bold 12px sans-serif';
+  var words = nombre.split(' '); var line = ''; var y = 132;
+  words.forEach(function(w) {
+    var t = line + w + ' ';
+    if (ctx.measureText(t).width > 310 && line) { ctx.fillText(line.trim(),200,y); line=w+' '; y+=17; } else { line=t; }
+  });
+  ctx.fillText(line.trim(),200,y);
+  ctx.fillStyle='#6b7280'; ctx.font='11px sans-serif'; ctx.fillText(grupo,200,y+16);
+  ctx.fillStyle='#374151'; ctx.font='bold 11px sans-serif'; ctx.fillText(label,200,y+34);
+  ctx.drawImage(qrEl, 200-62, y+48, 124, 124);
+  ctx.fillStyle='#9ca3af'; ctx.font='10px monospace'; ctx.fillText(f,200,y+185);
+  ctx.fillStyle='#9ca3af'; ctx.font='9px sans-serif'; ctx.fillText('Pase personal e intransferible',200,y+200);
+  var link = document.createElement('a');
+  link.download = 'inv-' + f + '.png';
+  link.href = c.toDataURL('image/png');
   link.click();
 }
-function validarFolio(){
-  var folio=document.getElementById('inp-folio').value.trim().toUpperCase();
-  var el=document.getElementById('res-scan');
-  if(!folio){el.innerHTML='<div class="rb rer"><div class="rt">Folio vacio</div></div>';return;}
-  var p=folio.split('-');
-  if(p.length!==4||p[0]!=='GRP'){el.innerHTML='<div class="rb rer"><div class="rt">Formato invalido</div><div class="rs">Debe ser GRP-X-000-0</div></div>';return;}
-  var g=p[1],idx=parseInt(p[2]),n=parseInt(p[3]);
-  var a=alumnos.find(function(x){return x.grupo===g&&x.idx===idx;});
-  if(!a){el.innerHTML='<div class="rb rer"><div class="rt">Folio no encontrado</div><div class="rs">No existe ningun alumno con este folio</div></div>';return;}
-  if(n>a.acomp){el.innerHTML='<div class="rb rer"><div class="rt">Pase no valido</div><div class="rs">'+a.nombre+' tiene '+a.acomp+' acompanante(s)</div></div>';return;}
-  if(folios[folio]){
-    dups++;logs.unshift({folio:folio,alumno:a.nombre,grupo:g,ok:false,hora:new Date().toLocaleTimeString()});
-    guardar();renderLog();renderRep();
-    el.innerHTML='<div class="rb rwa"><div class="rt">Pase ya utilizado</div><div class="rs">'+a.nombre+' ingreso a las '+folios[folio]+'</div></div>';return;
+
+function validar() {
+  var f = document.getElementById('inp-folio').value.trim().toUpperCase();
+  var el = document.getElementById('res-validar');
+  if (!f) { el.innerHTML = '<div class="err"><strong>Folio vacio</strong></div>'; return; }
+  var p = f.split('-');
+  if (p.length !== 4 || p[0] !== 'GRP') {
+    el.innerHTML = '<div class="err"><strong>Formato invalido</strong><div class="sub">Debe ser GRP-X-000-0</div></div>'; return;
   }
-  var hora=new Date().toLocaleTimeString();
-  folios[folio]=hora;logs.unshift({folio:folio,alumno:a.nombre,grupo:g,ok:true,hora:hora});
-  guardar();renderLog();renderRep();
-  document.getElementById('inp-folio').value='';
-  el.innerHTML='<div class="rb rok"><div class="rt">Acceso permitido</div><div class="rs"><strong>'+a.nombre+'</strong><br>'+(n===0?'Titular':'Acompanante '+n)+' - '+GL[g]+'<br>Hora: '+hora+'</div></div>';
+  var g = p[1], idx = parseInt(p[2]), n = parseInt(p[3]);
+  var a = alumnos.find(function(x){ return x.grupo === g && x.idx === idx; });
+  if (!a) { el.innerHTML = '<div class="err"><strong>Folio no encontrado</strong><div class="sub">No existe ningun alumno con este folio</div></div>'; return; }
+  if (n > a.acomp) { el.innerHTML = '<div class="err"><strong>Pase no valido</strong><div class="sub">' + a.nombre + ' solo tiene ' + a.acomp + ' acompanante(s)</div></div>'; return; }
+  if (folios[f]) {
+    dups++;
+    logs.unshift({f:f, nom:a.nombre, ok:false, h:new Date().toLocaleTimeString()});
+    guardar(); renderLog(); renderReporte();
+    el.innerHTML = '<div class="warn"><strong>Pase ya utilizado</strong><div class="sub">' + a.nombre + ' ingreso a las ' + folios[f] + '</div></div>';
+    return;
+  }
+  var hora = new Date().toLocaleTimeString();
+  folios[f] = hora;
+  logs.unshift({f:f, nom:a.nombre, ok:true, h:hora});
+  guardar(); renderLog(); renderReporte();
+  document.getElementById('inp-folio').value = '';
+  el.innerHTML = '<div class="ok"><strong>Acceso permitido</strong><div class="sub">' + a.nombre + ' · ' + (n===0?'Titular':'Acompanante '+n) + ' · ' + GL[g] + '<br>Hora: ' + hora + '</div></div>';
 }
-function renderLog(){
-  var el=document.getElementById('log-e');
-  if(!logs.length){el.innerHTML='<div class="empty">Sin registros</div>';return;}
-  el.innerHTML=logs.slice(0,50).map(function(l){
-    return '<div class="lr '+(l.ok?'lok':'ldup')+'"><span><strong>'+l.alumno+'</strong> <span style="font-size:11px;color:var(--g5)">'+l.folio+'</span></span><span style="color:var(--g5)">'+l.hora+' '+(l.ok?'OK':'DUPLICADO')+'</span></div>';
+
+function renderLog() {
+  var el = document.getElementById('log-list');
+  if (!logs.length) { el.innerHTML = '<div class="empty">Sin registros</div>'; return; }
+  el.innerHTML = logs.slice(0,60).map(function(l) {
+    return '<div class="logrow ' + (l.ok?'logok':'logdup') + '"><span><b>' + l.nom + '</b> <span style="font-size:10px;color:#6b7280">' + l.f + '</span></span><span style="color:#6b7280">' + l.h + ' ' + (l.ok?'✓':'DUPLICADO') + '</span></div>';
   }).join('');
 }
-function renderRep(){
-  var tot=alumnos.reduce(function(s,a){return s+(a.acomp+1);},0);
-  var ing=Object.keys(folios).length;
-  document.getElementById('st-t').textContent=tot;
-  document.getElementById('st-i').textContent=ing;
-  document.getElementById('st-p').textContent=Math.max(0,tot-ing);
-  document.getElementById('st-d').textContent=dups;
-  badge();
-  document.getElementById('rep-g').innerHTML=['B','C','D','E'].map(function(g){
-    var s=alumnos.filter(function(a){return a.grupo===g;});if(!s.length)return '';
-    var t=s.reduce(function(x,a){return x+(a.acomp+1);},0);
-    var i=s.reduce(function(x,a){var c=0;for(var n=0;n<=a.acomp;n++)if(folios[gf(a.grupo,a.idx,n)])c++;return x+c;},0);
-    var pct=t?Math.round(i/t*100):0;
-    return '<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px"><span class="dot" style="background:'+GC[g]+'"></span>'+GL[g]+'</span><span style="font-size:12px;color:var(--g5)">'+i+'/'+t+' - '+pct+'%</span></div><div class="pb"><div class="pf" style="width:'+pct+'%;background:'+GC[g]+'"></div></div></div>';
+
+function renderReporte() {
+  var tot = alumnos.reduce(function(s,a){ return s+a.acomp+1; },0);
+  var ing = Object.keys(folios).length;
+  document.getElementById('s-tot').textContent = tot;
+  document.getElementById('s-ing').textContent = ing;
+  document.getElementById('s-pen').textContent = Math.max(0,tot-ing);
+  document.getElementById('s-dup').textContent = dups;
+  renderBadge();
+  document.getElementById('rep-grp').innerHTML = ['B','C','D','E'].map(function(g) {
+    var sub = alumnos.filter(function(a){ return a.grupo===g; });
+    if (!sub.length) return '';
+    var t = sub.reduce(function(s,a){ return s+a.acomp+1; },0);
+    var i = sub.reduce(function(s,a){ var c=0; for(var n=0;n<=a.acomp;n++) if(folios[folio(a.grupo,a.idx,n)]) c++; return s+c; },0);
+    var pct = t ? Math.round(i/t*100) : 0;
+    return '<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="display:flex;align-items:center;gap:6px;font-weight:600"><span class="dot" style="background:'+GC[g]+'"></span>'+GL[g]+'</span><span style="color:#6b7280">'+i+'/'+t+' ('+pct+'%)</span></div><div class="pb"><div class="pf" style="width:'+pct+'%;background:'+GC[g]+'"></div></div></div>';
   }).join('');
-  document.getElementById('rep-a').innerHTML=!alumnos.length?'<div class="empty">Sin alumnos</div>':
-    alumnos.map(function(a){
-      var i=0;for(var n=0;n<=a.acomp;n++)if(folios[gf(a.grupo,a.idx,n)])i++;
-      var pd=Array.from({length:a.acomp+1},function(_,n){return '<span class="pdot'+(folios[gf(a.grupo,a.idx,n)]?' u':'')+'"></span>';}).join('');
-      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--g3)"><div><span style="font-size:13px;font-weight:500">'+a.nombre+'</span><span style="font-size:11px;color:var(--g5);margin-left:6px">'+GL[a.grupo].split(' ')[1]+'</span><div class="pd">'+pd+'</div></div><span style="font-size:13px;font-weight:600;color:'+(i===a.acomp+1?'var(--ve)':'var(--g5)')+'">'+i+'/'+(a.acomp+1)+'</span></div>';
+  document.getElementById('rep-al').innerHTML = !alumnos.length ? '<div class="empty">Sin alumnos</div>' :
+    alumnos.map(function(a) {
+      var i=0; for(var n=0;n<=a.acomp;n++) if(folios[folio(a.grupo,a.idx,n)]) i++;
+      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #e5e7eb"><div><span style="font-size:13px;font-weight:500">'+a.nombre+'</span><span style="font-size:11px;color:#6b7280;margin-left:6px">'+GL[a.grupo].split(' ')[1]+'</span></div><span style="font-size:13px;font-weight:600;color:'+(i===a.acomp+1?'#0f6e56':'#6b7280')+'">'+i+'/'+(a.acomp+1)+'</span></div>';
     }).join('');
 }
-cargar();
 
+cargar();
 </script>
 </body>
 </html>
