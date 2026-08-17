@@ -71,7 +71,7 @@ input:focus,select:focus{border-color:var(--az);box-shadow:0 0 0 3px rgba(26,86,
 <body>
 <header>
   <div><div class="h1">&#127891; Control de Titulacion</div><div class="hp">Licenciatura en Enfermeria &middot; 9 cuatrimestre &middot; Matutino</div></div>
-  <span class="hb" id="badge-total">Cargando...</span>
+  <span class="hb" id="badge-total">...</span>
 </header>
 <nav>
   <button class="tb active" onclick="showTab('alumnos')">Alumnos</button>
@@ -115,7 +115,7 @@ input:focus,select:focus{border-color:var(--az);box-shadow:0 0 0 3px rgba(26,86,
         <button class="fp" onclick="setF('D',this)">Grupo D</button>
         <button class="fp" onclick="setF('E',this)">Grupo E</button>
       </div>
-      <div id="lista-al" class="al"><div class="empty">Cargando...</div></div>
+      <div id="lista-al" class="al"><div class="empty">Sin alumnos registrados</div></div>
     </div>
   </div>
   <div id="panel-invitaciones" class="panel">
@@ -206,18 +206,18 @@ const AI=[
   {n:'LOPEZ CASAS MAURICIO ANGEL',g:'D'},{n:'LOZANO AREVALO ZAIRA',g:'D'},
   {n:'MARTINEZ SANTIAGO ARIADNA YAMILETH',g:'D'},{n:'PEREZ MORALES MIGUEL ANGEL',g:'D'},{n:'PEREZ ROJAS CARMEN',g:'D'}
 ];
-const KA='enf2026-alumnos',KF='enf2026-folios',KD='enf2026-dup',KL='enf2026-log',KI='enf2026-init';
+const KA='gh-enf-al',KF='gh-enf-fol',KD='gh-enf-dup',KL='gh-enf-log',KI='gh-enf-init';
 let alumnos=[],folios={},dups=0,logs=[],filtro='todos';
 function gf(g,i,n){return 'GRP-'+g+'-'+String(i).padStart(3,'0')+'-'+n;}
 function cargar(){
-  try{const d=localStorage.getItem(KA);if(d)alumnos=JSON.parse(d);}catch(e){}
+  try{const d=localStorage.getItem(KA);if(d){const p=JSON.parse(d);if(Array.isArray(p))alumnos=p;}}catch(e){}
   try{const d=localStorage.getItem(KF);if(d)folios=JSON.parse(d);}catch(e){}
   try{const d=localStorage.getItem(KD);if(d)dups=parseInt(d)||0;}catch(e){}
   try{const d=localStorage.getItem(KL);if(d)logs=JSON.parse(d);}catch(e){}
-  if(!localStorage.getItem(KI)&&alumnos.length===0){
-    const c={};
-    AI.forEach(a=>{if(!c[a.g])c[a.g]=0;c[a.g]++;alumnos.push({id:Date.now()+Math.random(),nombre:a.n,grupo:a.g,acomp:3,idx:c[a.g]});});
-    localStorage.setItem(KI,'1');guardar();
+  if(alumnos.length===0){
+    var c={};
+    AI.forEach(function(a){if(!c[a.g])c[a.g]=0;c[a.g]++;alumnos.push({id:Date.now()+Math.random(),nombre:a.n,grupo:a.g,acomp:3,idx:c[a.g]});});
+    guardar();
   }
   renderAl();renderSel();renderRep();renderLog();badge();
 }
