@@ -5,102 +5,104 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Control Titulacion Enfermeria</title>
 <style>
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;background:#f3f4f6;color:#111}
-header{background:#1a56db;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
-header h1{font-size:16px;font-weight:600}
-header p{font-size:11px;opacity:.8;margin-top:2px}
-header span{font-size:12px;background:rgba(255,255,255,.2);padding:4px 10px;border-radius:20px}
+body{font-family:system-ui,sans-serif;background:#f3f4f6;color:#111827;min-height:100vh}
+header{background:#1a56db;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:99}
+.htxt h1{font-size:16px;font-weight:600}
+.htxt p{font-size:11px;opacity:.8;margin-top:2px}
+#badge{font-size:12px;background:rgba(255,255,255,.2);padding:4px 10px;border-radius:20px}
 nav{display:flex;background:#fff;border-bottom:2px solid #e5e7eb;overflow-x:auto}
-nav button{padding:12px 20px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:500;color:#6b7280;border-bottom:3px solid transparent;white-space:nowrap}
-nav button.on{color:#1a56db;border-bottom-color:#1a56db}
+nav button{padding:12px 18px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:500;color:#6b7280;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.active{color:#1a56db;border-bottom-color:#1a56db}
 .wrap{max-width:800px;margin:0 auto;padding:20px 16px}
-.tab{display:none}.tab.on{display:block}
+.tab{display:none}
+.tab.active{display:block}
 .box{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin-bottom:16px}
-.box h2{font-size:14px;font-weight:600;margin-bottom:14px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-@media(max-width:500px){.row{grid-template-columns:1fr}}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-@media(max-width:500px){.stats{grid-template-columns:repeat(2,1fr)}}
-.stat{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;text-align:center}
-.stat b{display:block;font-size:26px;font-weight:700}
-.stat span{font-size:11px;color:#6b7280}
+.box-title{font-size:14px;font-weight:600;margin-bottom:14px;color:#111827}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:500px){.grid2{grid-template-columns:1fr}.grid4{grid-template-columns:repeat(2,1fr)}}
 label{display:block;font-size:12px;color:#6b7280;margin-bottom:4px;font-weight:500}
-input,select{width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;outline:none}
+input,select{width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;outline:none;color:#111827;background:#fff}
 input:focus,select:focus{border-color:#1a56db}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #d1d5db;background:#fff;color:#374151}
-.btn:hover{background:#f9fafb}
-.bp{background:#1a56db;color:#fff;border-color:#1a56db;width:100%}
-.bp:hover{background:#1648c0}
-.bd{background:#fde8e8;color:#c81e1e;border-color:#fca5a5}
-.bg{background:#e6f4f0;color:#0f6e56;border-color:#86efac}
-.list{display:flex;flex-direction:column;gap:6px;max-height:400px;overflow-y:auto}
-.arow{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px}
-.aname{font-size:13px;font-weight:500}
-.ameta{font-size:11px;color:#6b7280;margin-top:2px}
-.tag{font-size:10px;font-family:monospace;background:#e8f0fe;color:#1a56db;padding:2px 6px;border-radius:4px;white-space:nowrap}
-.gsep{font-size:11px;font-weight:600;color:#6b7280;padding:8px 0 4px;display:flex;align-items:center;gap:6px}
+.btn:hover{opacity:.9}
+.btn-p{background:#1a56db;color:#fff;border-color:#1a56db;width:100%}
+.btn-d{background:#fde8e8;color:#c81e1e;border-color:#fca5a5;padding:5px 9px;font-size:12px}
+.btn-g{background:#e6f4f0;color:#0f6e56;border-color:#86efac}
+.al-list{display:flex;flex-direction:column;gap:6px;max-height:400px;overflow-y:auto}
+.al-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px}
+.al-name{font-size:13px;font-weight:500;color:#111827}
+.al-meta{font-size:11px;color:#6b7280;margin-top:2px}
+.folio-tag{font-size:10px;font-family:monospace;background:#e8f0fe;color:#1a56db;padding:2px 6px;border-radius:4px;white-space:nowrap;font-weight:600}
+.grp-sep{font-size:11px;font-weight:600;color:#6b7280;padding:8px 0 4px;display:flex;align-items:center;gap:6px}
 .dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
 .pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .pill{padding:4px 12px;font-size:12px;border-radius:20px;border:1px solid #d1d5db;background:#fff;cursor:pointer;color:#6b7280;font-weight:500}
-.pill.on{background:#e8f0fe;color:#1a56db;border-color:#93c5fd}
-.ok{background:#e6f4f0;border:1px solid #86efac;border-radius:10px;padding:14px;margin-bottom:12px}
-.ok strong{color:#0f6e56;font-size:15px}
-.err{background:#fde8e8;border:1px solid #fca5a5;border-radius:10px;padding:14px;margin-bottom:12px}
-.err strong{color:#c81e1e;font-size:15px}
-.warn{background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:14px;margin-bottom:12px}
-.warn strong{color:#92400e;font-size:15px}
-.sub{font-size:13px;color:#6b7280;margin-top:4px}
-.scanrow{display:flex;gap:8px;margin-bottom:12px}
-.scanrow input{flex:1;font-family:monospace;font-size:14px}
-.loglist{display:flex;flex-direction:column;gap:5px;max-height:260px;overflow-y:auto}
-.logrow{display:flex;justify-content:space-between;padding:7px 10px;border-radius:8px;font-size:12px;align-items:center}
-.logok{background:#e6f4f0}.logdup{background:#fde8e8}
-.pb{height:6px;background:#e5e7eb;border-radius:4px;overflow:hidden;margin-top:4px}
-.pf{height:100%;border-radius:4px}
+.pill.active{background:#e8f0fe;color:#1a56db;border-color:#93c5fd}
+.stat-box{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;text-align:center}
+.stat-n{display:block;font-size:26px;font-weight:700;margin-bottom:2px}
+.stat-l{font-size:11px;color:#6b7280}
+.res-ok{background:#e6f4f0;border:1px solid #86efac;border-radius:10px;padding:14px;margin-bottom:12px}
+.res-ok strong{color:#0f6e56;font-size:15px;display:block;margin-bottom:4px}
+.res-err{background:#fde8e8;border:1px solid #fca5a5;border-radius:10px;padding:14px;margin-bottom:12px}
+.res-err strong{color:#c81e1e;font-size:15px;display:block;margin-bottom:4px}
+.res-warn{background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:14px;margin-bottom:12px}
+.res-warn strong{color:#92400e;font-size:15px;display:block;margin-bottom:4px}
+.res-sub{font-size:13px;color:#6b7280}
+.scan-row{display:flex;gap:8px;margin-bottom:12px}
+.scan-row input{flex:1;font-family:monospace;font-size:14px;text-transform:uppercase}
+.log-list{display:flex;flex-direction:column;gap:5px;max-height:260px;overflow-y:auto}
+.log-row{display:flex;justify-content:space-between;padding:7px 10px;border-radius:8px;font-size:12px;align-items:center}
+.log-ok{background:#e6f4f0}
+.log-dup{background:#fde8e8}
+.prog-bar{height:6px;background:#e5e7eb;border-radius:4px;overflow:hidden;margin-top:4px}
+.prog-fill{height:100%;border-radius:4px}
 .empty{text-align:center;padding:30px;color:#9ca3af;font-size:13px}
-.errmsg{font-size:12px;color:#c81e1e;margin-top:6px;display:none}
-.invbg{background:linear-gradient(135deg,#1a56db,#0f6e56);border-radius:10px;padding:20px;display:flex;justify-content:center;min-height:460px;align-items:flex-start;margin-top:4px}
-.invcard{background:#fff;border-radius:12px;padding:20px;max-width:300px;width:100%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.2)}
-.invcard .esc{font-size:9px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;margin-bottom:4px}
-.invcard .tit{font-size:20px;font-weight:700;margin-bottom:2px}
-.invcard .sub2{font-size:11px;color:#6b7280;margin-bottom:12px}
-.invcard .sep{width:36px;height:2px;background:#1a56db;margin:0 auto 12px}
-.invcard .nom{font-size:15px;font-weight:700;color:#1a56db;margin-bottom:4px;word-break:break-word}
-.invcard .grp{font-size:11px;color:#6b7280;margin-bottom:8px}
-.invcard .pase{font-size:12px;font-weight:500;background:#f3f4f6;padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:12px}
-.invcard .qrbox{display:flex;justify-content:center;margin-bottom:8px}
-.invcard .folio{font-family:monospace;font-size:10px;color:#9ca3af;margin-bottom:4px}
-.invcard .nota{font-size:9px;color:#9ca3af;margin-bottom:12px}
-.invbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.err-msg{font-size:12px;color:#c81e1e;margin-top:6px;display:none}
+.inv-bg{background:linear-gradient(135deg,#1a56db,#0f6e56);border-radius:10px;padding:20px;display:flex;justify-content:center;min-height:460px;align-items:flex-start;margin-top:4px}
+.inv-card{background:#fff;border-radius:12px;padding:20px;max-width:300px;width:100%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.inv-esc{font-size:9px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;margin-bottom:4px}
+.inv-tit{font-size:20px;font-weight:700;margin-bottom:2px;color:#111827}
+.inv-sub{font-size:11px;color:#6b7280;margin-bottom:12px}
+.inv-sep{width:36px;height:2px;background:#1a56db;margin:0 auto 12px}
+.inv-nom{font-size:15px;font-weight:700;color:#1a56db;margin-bottom:4px;word-break:break-word}
+.inv-grp{font-size:11px;color:#6b7280;margin-bottom:8px}
+.inv-pase{font-size:12px;font-weight:500;background:#f3f4f6;padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:12px;color:#374151}
+.inv-qr{display:flex;justify-content:center;margin-bottom:8px}
+.inv-folio{font-family:monospace;font-size:10px;color:#9ca3af;margin-bottom:4px}
+.inv-nota{font-size:9px;color:#9ca3af;margin-bottom:12px}
+.inv-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+
 </style>
 </head>
 <body>
-
 <header>
-  <div>
-    <h1>🎓 Control de Titulacion</h1>
-    <p>Licenciatura en Enfermeria · 9° cuatrimestre · Matutino</p>
+  <div class="htxt">
+    <h1>Control de Titulacion</h1>
+    <p>Licenciatura en Enfermeria - 9 cuatrimestre - Matutino</p>
   </div>
   <span id="badge">...</span>
 </header>
-
 <nav>
-  <button id="btn-tab-alumnos" class="on" onclick="tab('alumnos')">Alumnos</button>
-  <button id="btn-tab-inv" onclick="tab('inv')">Invitaciones</button>
-  <button id="btn-tab-puerta" onclick="tab('puerta')">Validar acceso</button>
-  <button id="btn-tab-rep" onclick="tab('rep')">Reporte</button>
+  <button id="ntab-alumnos" class="active" onclick="goTab('alumnos')">Alumnos</button>
+  <button id="ntab-inv" onclick="goTab('inv')">Invitaciones</button>
+  <button id="ntab-puerta" onclick="goTab('puerta')">Validar acceso</button>
+  <button id="ntab-rep" onclick="goTab('rep')">Reporte</button>
 </nav>
-
 <div class="wrap">
 
-  <!-- ALUMNOS -->
-  <div id="tab-alumnos" class="tab on">
+  <div id="tab-alumnos" class="tab active">
     <div class="box">
-      <h2>Agregar alumno</h2>
-      <div class="row">
-        <div><label>Nombre completo</label><input type="text" id="inp-nom" placeholder="APELLIDO APELLIDO NOMBRE"></div>
-        <div><label>Grupo</label>
+      <div class="box-title">Agregar alumno</div>
+      <div class="grid2">
+        <div>
+          <label>Nombre completo</label>
+          <input type="text" id="inp-nom" placeholder="APELLIDO APELLIDO NOMBRE">
+        </div>
+        <div>
+          <label>Grupo</label>
           <select id="inp-grp">
             <option value="">Seleccionar grupo</option>
             <option value="B">Grupo B - Matutino</option>
@@ -110,8 +112,9 @@ input:focus,select:focus{border-color:#1a56db}
           </select>
         </div>
       </div>
-      <div class="row">
-        <div><label>Acompanantes (max 3)</label>
+      <div class="grid2">
+        <div>
+          <label>Acompanantes (max 3)</label>
           <select id="inp-ac">
             <option value="1">1 acompanante</option>
             <option value="2">2 acompanantes</option>
@@ -119,76 +122,85 @@ input:focus,select:focus{border-color:#1a56db}
           </select>
         </div>
         <div style="display:flex;align-items:flex-end">
-          <button class="btn bp" onclick="addAlumno()">+ Agregar alumno</button>
+          <button class="btn btn-p" onclick="addAlumno()">+ Agregar alumno</button>
         </div>
       </div>
-      <div class="errmsg" id="err-add"></div>
+      <div class="err-msg" id="err-add"></div>
     </div>
     <div class="box">
-      <h2>Alumnos registrados <span id="cnt" style="font-weight:400;color:#6b7280;font-size:12px"></span></h2>
-      <div class="pills">
-        <button class="pill on" onclick="filtrar('todos',this)">Todos</button>
-        <button class="pill" onclick="filtrar('B',this)">Grupo B</button>
-        <button class="pill" onclick="filtrar('C',this)">Grupo C</button>
-        <button class="pill" onclick="filtrar('D',this)">Grupo D</button>
-        <button class="pill" onclick="filtrar('E',this)">Grupo E</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <span class="box-title" style="margin:0">Alumnos registrados</span>
+        <span id="cnt" style="font-size:12px;color:#6b7280"></span>
       </div>
-      <div class="list" id="lista"></div>
+      <div class="pills">
+        <button class="pill active" onclick="setPill(this,'todos')">Todos</button>
+        <button class="pill" onclick="setPill(this,'B')">Grupo B</button>
+        <button class="pill" onclick="setPill(this,'C')">Grupo C</button>
+        <button class="pill" onclick="setPill(this,'D')">Grupo D</button>
+        <button class="pill" onclick="setPill(this,'E')">Grupo E</button>
+      </div>
+      <div class="al-list" id="al-list"></div>
     </div>
   </div>
 
-  <!-- INVITACIONES -->
   <div id="tab-inv" class="tab">
     <div class="box">
-      <h2>Generar invitacion</h2>
-      <div class="row">
-        <div><label>Alumno</label>
+      <div class="box-title">Generar invitacion</div>
+      <div class="grid2">
+        <div>
+          <label>Alumno</label>
           <select id="sel-al" onchange="updPase()">
             <option value="">Seleccionar alumno</option>
           </select>
         </div>
-        <div><label>Pase</label>
+        <div>
+          <label>Pase</label>
           <select id="sel-pase">
             <option value="0">Titular (el alumno)</option>
           </select>
         </div>
       </div>
-      <button class="btn bp" onclick="genInv()">Ver invitacion</button>
+      <button class="btn btn-p" onclick="genInv()">Ver invitacion</button>
     </div>
     <div id="inv-out"></div>
   </div>
 
-  <!-- PUERTA -->
   <div id="tab-puerta" class="tab">
     <div class="box">
-      <h2>Validar acceso</h2>
-      <p style="font-size:12px;color:#6b7280;margin-bottom:12px">Escribe el folio y presiona Enter, o conecta un lector QR USB</p>
-      <div class="scanrow">
-        <input type="text" id="inp-folio" placeholder="GRP-B-001-0" style="text-transform:uppercase" onkeydown="if(event.key=='Enter')validar()">
-        <button class="btn bp" style="width:auto" onclick="validar()">Validar</button>
+      <div class="box-title">Validar acceso en puerta</div>
+      <p style="font-size:12px;color:#6b7280;margin-bottom:12px">Escribe el folio y presiona Enter</p>
+      <div class="scan-row">
+        <input type="text" id="inp-folio" placeholder="GRP-B-001-0" onkeydown="if(event.key=='Enter')validar()">
+        <button class="btn btn-p" style="width:auto" onclick="validar()">Validar</button>
       </div>
-      <div id="res-validar"></div>
+      <div id="res-scan"></div>
     </div>
     <div class="box">
-      <h2>Registro de entradas</h2>
-      <div class="loglist" id="log-list"><div class="empty">Sin registros aun</div></div>
+      <div class="box-title">Registro de entradas</div>
+      <div class="log-list" id="log-list">
+        <div class="empty">Sin registros aun</div>
+      </div>
     </div>
   </div>
 
-  <!-- REPORTE -->
   <div id="tab-rep" class="tab">
-    <div class="stats">
-      <div class="stat"><b id="s-tot" style="color:#1a56db">0</b><span>Pases totales</span></div>
-      <div class="stat"><b id="s-ing" style="color:#0f6e56">0</b><span>Ingresaron</span></div>
-      <div class="stat"><b id="s-pen">0</b><span>Pendientes</span></div>
-      <div class="stat"><b id="s-dup" style="color:#c81e1e">0</b><span>Rechazados</span></div>
+    <div class="grid4">
+      <div class="stat-box"><span class="stat-n" id="s-tot" style="color:#1a56db">0</span><span class="stat-l">Pases totales</span></div>
+      <div class="stat-box"><span class="stat-n" id="s-ing" style="color:#0f6e56">0</span><span class="stat-l">Ingresaron</span></div>
+      <div class="stat-box"><span class="stat-n" id="s-pen">0</span><span class="stat-l">Pendientes</span></div>
+      <div class="stat-box"><span class="stat-n" id="s-dup" style="color:#c81e1e">0</span><span class="stat-l">Rechazados</span></div>
     </div>
-    <div class="box"><h2>Por grupo</h2><div id="rep-grp"></div></div>
-    <div class="box"><h2>Por alumno</h2><div id="rep-al"></div></div>
+    <div class="box">
+      <div class="box-title">Por grupo</div>
+      <div id="rep-grp"></div>
+    </div>
+    <div class="box">
+      <div class="box-title">Por alumno</div>
+      <div id="rep-al"></div>
+    </div>
   </div>
 
 </div>
-
 <script>
 // QR Code generator - minimal pure JS implementation
 // Based on qrcodejs, embedded inline to avoid CDN dependency
@@ -216,98 +228,99 @@ function createQRCanvas(text, size) {
 }
 
 
-var GC = {B:'#1a56db',C:'#0f6e56',D:'#993c1d',E:'#5145cd'};
-var GL = {B:'Grupo B Matutino',C:'Grupo C Matutino',D:'Grupo D Matutino',E:'Grupo E Vespertino'};
+var GC = {B:"#1a56db",C:"#0f6e56",D:"#993c1d",E:"#5145cd"};
+var GL = {B:"Grupo B Matutino",C:"Grupo C Matutino",D:"Grupo D Matutino",E:"Grupo E Vespertino"};
+var TABS = ["alumnos","inv","puerta","rep"];
+var KEY = "tit2026v5";
 
-var PRECARGADOS = [
-  {n:'CORDOVA MATA AIDA LIBERTAD',g:'B'},
-  {n:'DE LA CRUZ MARTINEZ MARIA DE LOS ANGELES',g:'B'},
-  {n:'GODINEZ GODINEZ YAREDTZIN ERANDI',g:'B'},
-  {n:'IBARROLA MENDOZA LINDA XOCHITL',g:'B'},
-  {n:'JIMENEZ HERNANDEZ JEANETT',g:'B'},
-  {n:'GODINEZ JIMENEZ MARITZA ANAHI',g:'B'},
-  {n:'MARTINEZ VILLAMIL EVELYN',g:'B'},
-  {n:'MATA MARTINEZ ANGEL GABRIEL',g:'B'},
-  {n:'MOJICA ANAYA HILDA ELIZABETH',g:'B'},
-  {n:'MONTANO GODINEZ ALEX DAVID',g:'B'},
-  {n:'PEREZ MORELOS SOFIA',g:'B'},
-  {n:'RAMOS ROBLES PERLA ISABEL',g:'B'},
-  {n:'RESENDIZ GARCIA LLUVIA VANESSA',g:'B'},
-  {n:'VIQUEZ IRETA WENDY ODALY',g:'B'},
-  {n:'ZENTENO OLIVARES MARIA BELEN',g:'B'},
-  {n:'ALARCON GUERRA JOANNA PAULET',g:'C'},
-  {n:'AVILA CRUZ JOSEPHINE ELIZABETH',g:'C'},
-  {n:'COLIN MARTINEZ SOFIA MAGALI',g:'C'},
-  {n:'DUARTE MODESTO ANGELA ROBERTA',g:'C'},
-  {n:'LOZANO CASTRO WENDOLY',g:'C'},
-  {n:'MARTINEZ ALCANTARA ZAIRA JAQUELIN',g:'C'},
-  {n:'MIGUEL CERROS VERONICA NOEMI',g:'C'},
-  {n:'MONDRAGON ESCAMILLA DIANA VERONICA',g:'C'},
-  {n:'NARVAEZ PEREZ DULCE VALERIA',g:'C'},
-  {n:'OLGUIN CARRANZA EVELYN CAROLINA',g:'C'},
-  {n:'RODRIGUEZ OROZCO LUZ VANESSA',g:'C'},
-  {n:'ROJO FLORES SAUL',g:'C'},
-  {n:'SOTO RODRIGUEZ ALEXANDRA',g:'C'},
-  {n:'CARRASCO SANTIAGO INGRID STEFANI',g:'D'},
-  {n:'FLORES LEON MELANI FERNANDA',g:'D'},
-  {n:'GARCIA FIERRO ANDRES',g:'D'},
-  {n:'GARCIA ROBLES KAROL YUNUE',g:'D'},
-  {n:'GODINEZ MARTINEZ DANNA PAOLA',g:'D'},
-  {n:'GUTIERREZ SANTIAGO DANA VALERIA',g:'D'},
-  {n:'HERNANDEZ SALDIVAR NANCY ABIGAIL',g:'D'},
-  {n:'HERNANDEZ AVILA DIEGO ROBERTO',g:'D'},
-  {n:'LOPEZ CASAS MAURICIO ANGEL',g:'D'},
-  {n:'LOZANO AREVALO ZAIRA',g:'D'},
-  {n:'MARTINEZ SANTIAGO ARIADNA YAMILETH',g:'D'},
-  {n:'PEREZ MORALES MIGUEL ANGEL',g:'D'},
-  {n:'PEREZ ROJAS CARMEN',g:'D'}
+var PRE = [
+  {n:"CORDOVA MATA AIDA LIBERTAD",g:"B"},
+  {n:"DE LA CRUZ MARTINEZ MARIA DE LOS ANGELES",g:"B"},
+  {n:"GODINEZ GODINEZ YAREDTZIN ERANDI",g:"B"},
+  {n:"IBARROLA MENDOZA LINDA XOCHITL",g:"B"},
+  {n:"JIMENEZ HERNANDEZ JEANETT",g:"B"},
+  {n:"GODINEZ JIMENEZ MARITZA ANAHI",g:"B"},
+  {n:"MARTINEZ VILLAMIL EVELYN",g:"B"},
+  {n:"MATA MARTINEZ ANGEL GABRIEL",g:"B"},
+  {n:"MOJICA ANAYA HILDA ELIZABETH",g:"B"},
+  {n:"MONTANO GODINEZ ALEX DAVID",g:"B"},
+  {n:"PEREZ MORELOS SOFIA",g:"B"},
+  {n:"RAMOS ROBLES PERLA ISABEL",g:"B"},
+  {n:"RESENDIZ GARCIA LLUVIA VANESSA",g:"B"},
+  {n:"VIQUEZ IRETA WENDY ODALY",g:"B"},
+  {n:"ZENTENO OLIVARES MARIA BELEN",g:"B"},
+  {n:"ALARCON GUERRA JOANNA PAULET",g:"C"},
+  {n:"AVILA CRUZ JOSEPHINE ELIZABETH",g:"C"},
+  {n:"COLIN MARTINEZ SOFIA MAGALI",g:"C"},
+  {n:"DUARTE MODESTO ANGELA ROBERTA",g:"C"},
+  {n:"LOZANO CASTRO WENDOLY",g:"C"},
+  {n:"MARTINEZ ALCANTARA ZAIRA JAQUELIN",g:"C"},
+  {n:"MIGUEL CERROS VERONICA NOEMI",g:"C"},
+  {n:"MONDRAGON ESCAMILLA DIANA VERONICA",g:"C"},
+  {n:"NARVAEZ PEREZ DULCE VALERIA",g:"C"},
+  {n:"OLGUIN CARRANZA EVELYN CAROLINA",g:"C"},
+  {n:"RODRIGUEZ OROZCO LUZ VANESSA",g:"C"},
+  {n:"ROJO FLORES SAUL",g:"C"},
+  {n:"SOTO RODRIGUEZ ALEXANDRA",g:"C"},
+  {n:"CARRASCO SANTIAGO INGRID STEFANI",g:"D"},
+  {n:"FLORES LEON MELANI FERNANDA",g:"D"},
+  {n:"GARCIA FIERRO ANDRES",g:"D"},
+  {n:"GARCIA ROBLES KAROL YUNUE",g:"D"},
+  {n:"GODINEZ MARTINEZ DANNA PAOLA",g:"D"},
+  {n:"GUTIERREZ SANTIAGO DANA VALERIA",g:"D"},
+  {n:"HERNANDEZ SALDIVAR NANCY ABIGAIL",g:"D"},
+  {n:"HERNANDEZ AVILA DIEGO ROBERTO",g:"D"},
+  {n:"LOPEZ CASAS MAURICIO ANGEL",g:"D"},
+  {n:"LOZANO AREVALO ZAIRA",g:"D"},
+  {n:"MARTINEZ SANTIAGO ARIADNA YAMILETH",g:"D"},
+  {n:"PEREZ MORALES MIGUEL ANGEL",g:"D"},
+  {n:"PEREZ ROJAS CARMEN",g:"D"}
 ];
 
-var KEY = 'titulacion2026v3';
 var alumnos = [];
-var folios = {};
-var dups = 0;
-var logs = [];
-var filtroActivo = 'todos';
+var folios  = {};
+var dups    = 0;
+var logs    = [];
+var filtro  = "todos";
 
-function folio(g, idx, n) {
-  return 'GRP-' + g + '-' + ('00'+idx).slice(-3) + '-' + n;
+function mkFolio(g, idx, n) {
+  var s = "00" + idx;
+  return "GRP-" + g + "-" + s.slice(-3) + "-" + n;
 }
 
 function guardar() {
   try {
-    localStorage.setItem(KEY, JSON.stringify({alumnos:alumnos, folios:folios, dups:dups, logs:logs}));
-  } catch(e) { console.error('guardar:', e); }
+    localStorage.setItem(KEY, JSON.stringify({a:alumnos,f:folios,d:dups,l:logs}));
+  } catch(e) { console.log("error guardando",e); }
 }
 
 function cargar() {
   try {
     var raw = localStorage.getItem(KEY);
     if (raw) {
-      var data = JSON.parse(raw);
-      if (data.alumnos && data.alumnos.length > 0) {
-        alumnos = data.alumnos;
-        folios  = data.folios  || {};
-        dups    = data.dups    || 0;
-        logs    = data.logs    || [];
+      var obj = JSON.parse(raw);
+      if (obj && obj.a && obj.a.length > 0) {
+        alumnos = obj.a;
+        folios  = obj.f || {};
+        dups    = obj.d || 0;
+        logs    = obj.l || [];
       }
     }
-  } catch(e) { console.error('cargar:', e); }
-
+  } catch(e) { console.log("error cargando",e); }
   if (alumnos.length === 0) {
     var cnt = {};
-    PRECARGADOS.forEach(function(p) {
+    for (var i = 0; i < PRE.length; i++) {
+      var p = PRE[i];
       if (!cnt[p.g]) cnt[p.g] = 0;
       cnt[p.g]++;
-      alumnos.push({id: cnt[p.g] + p.g, nombre: p.n, grupo: p.g, acomp: 3, idx: cnt[p.g]});
-    });
+      alumnos.push({id:"p"+i, nombre:p.n, grupo:p.g, acomp:3, idx:cnt[p.g]});
+    }
     guardar();
   }
-
-  render();
+  renderAll();
 }
 
-function render() {
+function renderAll() {
   renderLista();
   renderSelects();
   renderReporte();
@@ -315,230 +328,366 @@ function render() {
   renderBadge();
 }
 
-function tab(t) {
-  document.querySelectorAll('.tab').forEach(function(el){ el.classList.remove('on'); });
-  document.querySelectorAll('nav button').forEach(function(el){ el.classList.remove('on'); });
-  document.getElementById('tab-' + t).classList.add('on');
-  document.getElementById('btn-tab-' + t).classList.add('on');
-  if (t === 'rep') renderReporte();
+function goTab(t) {
+  for (var i = 0; i < TABS.length; i++) {
+    var tid = "tab-" + TABS[i];
+    var bid = "ntab-" + TABS[i];
+    var tel = document.getElementById(tid);
+    var bel = document.getElementById(bid);
+    if (TABS[i] === t) {
+      tel.className = "tab active";
+      bel.className = "active";
+    } else {
+      tel.className = "tab";
+      bel.className = "";
+    }
+  }
+  if (t === "rep") renderReporte();
 }
 
-function filtrar(g, btn) {
-  filtroActivo = g;
-  document.querySelectorAll('.pill').forEach(function(b){ b.classList.remove('on'); });
-  btn.classList.add('on');
+function setPill(btn, g) {
+  filtro = g;
+  var pills = document.querySelectorAll(".pill");
+  for (var i = 0; i < pills.length; i++) {
+    pills[i].className = "pill";
+  }
+  btn.className = "pill active";
   renderLista();
 }
 
 function addAlumno() {
-  var nom = document.getElementById('inp-nom').value.trim().toUpperCase();
-  var grp = document.getElementById('inp-grp').value;
-  var ac  = parseInt(document.getElementById('inp-ac').value);
-  var err = document.getElementById('err-add');
+  var nom = document.getElementById("inp-nom").value.trim().toUpperCase();
+  var grp = document.getElementById("inp-grp").value;
+  var ac  = parseInt(document.getElementById("inp-ac").value);
+  var err = document.getElementById("err-add");
   if (!nom || !grp) {
-    err.textContent = 'Completa el nombre y el grupo.';
-    err.style.display = 'block';
+    err.textContent = "Completa el nombre y el grupo.";
+    err.style.display = "block";
     return;
   }
-  err.style.display = 'none';
-  var idx = alumnos.filter(function(a){ return a.grupo === grp; }).length + 1;
-  alumnos.push({id: Date.now().toString(), nombre: nom, grupo: grp, acomp: ac, idx: idx});
-  document.getElementById('inp-nom').value = '';
+  err.style.display = "none";
+  var idx = 0;
+  for (var i = 0; i < alumnos.length; i++) {
+    if (alumnos[i].grupo === grp) idx++;
+  }
+  idx++;
+  alumnos.push({id:"u"+Date.now(), nombre:nom, grupo:grp, acomp:ac, idx:idx});
+  document.getElementById("inp-nom").value = "";
   guardar();
-  render();
+  renderAll();
 }
 
 function eliminar(id) {
-  if (!confirm('Eliminar este alumno?')) return;
-  alumnos = alumnos.filter(function(a){ return a.id !== id; });
+  if (!confirm("Eliminar este alumno?")) return;
+  var tmp = [];
+  for (var i = 0; i < alumnos.length; i++) {
+    if (alumnos[i].id !== id) tmp.push(alumnos[i]);
+  }
+  alumnos = tmp;
   guardar();
-  render();
+  renderAll();
 }
 
 function renderBadge() {
-  var tot = alumnos.reduce(function(s,a){ return s + a.acomp + 1; }, 0);
-  document.getElementById('badge').textContent = alumnos.length + ' alumnos · ' + tot + ' pases';
+  var tot = 0;
+  for (var i = 0; i < alumnos.length; i++) tot += alumnos[i].acomp + 1;
+  document.getElementById("badge").textContent = alumnos.length + " alumnos - " + tot + " pases";
 }
 
 function renderLista() {
-  var el = document.getElementById('lista');
-  var lista = filtroActivo === 'todos' ? alumnos : alumnos.filter(function(a){ return a.grupo === filtroActivo; });
-  document.getElementById('cnt').textContent = '(' + lista.length + ')';
-  if (!lista.length) { el.innerHTML = '<div class="empty">Sin alumnos en este grupo</div>'; return; }
-  var h = '';
-  ['B','C','D','E'].forEach(function(g) {
-    var sub = lista.filter(function(a){ return a.grupo === g; });
-    if (!sub.length) return;
-    h += '<div class="gsep"><span class="dot" style="background:' + GC[g] + '"></span>' + GL[g] + ' (' + sub.length + ')</div>';
-    sub.forEach(function(a) {
-      h += '<div class="arow">' +
-        '<div><div class="aname">' + a.nombre + '</div>' +
-        '<div class="ameta">' + (a.acomp+1) + ' pases (titular + ' + a.acomp + ' acomp.)</div></div>' +
-        '<div style="display:flex;align-items:center;gap:8px">' +
-        '<span class="tag">' + folio(a.grupo,a.idx,0) + '</span>' +
-        '<button class="btn bd" style="padding:4px 8px;font-size:12px" onclick="eliminar('' + a.id + '')">&#128465;</button>' +
-        '</div></div>';
-    });
-  });
+  var el = document.getElementById("al-list");
+  var lista = [];
+  for (var i = 0; i < alumnos.length; i++) {
+    if (filtro === "todos" || alumnos[i].grupo === filtro) lista.push(alumnos[i]);
+  }
+  document.getElementById("cnt").textContent = "(" + lista.length + ")";
+  if (!lista.length) {
+    el.innerHTML = "<div class='empty'>Sin alumnos en este grupo</div>";
+    return;
+  }
+  var h = "";
+  var gs = ["B","C","D","E"];
+  for (var gi = 0; gi < gs.length; gi++) {
+    var g = gs[gi];
+    var sub = [];
+    for (var i = 0; i < lista.length; i++) {
+      if (lista[i].grupo === g) sub.push(lista[i]);
+    }
+    if (!sub.length) continue;
+    h += "<div class='grp-sep'><span class='dot' style='background:" + GC[g] + "'></span>" + GL[g] + " (" + sub.length + ")</div>";
+    for (var i = 0; i < sub.length; i++) {
+      var a = sub[i];
+      h += "<div class='al-row'>";
+      h += "<div><div class='al-name'>" + a.nombre + "</div>";
+      h += "<div class='al-meta'>" + (a.acomp+1) + " pases (titular + " + a.acomp + " acomp.)</div></div>";
+      h += "<div style='display:flex;align-items:center;gap:8px'>";
+      h += "<span class='folio-tag'>" + mkFolio(a.grupo,a.idx,0) + "</span>";
+      h += "<button class='btn btn-d' onclick='eliminar(\"" + a.id + "\")'>X</button>";
+      h += "</div></div>";
+    }
+  }
   el.innerHTML = h;
 }
 
 function renderSelects() {
-  var sel = document.getElementById('sel-al');
+  var sel = document.getElementById("sel-al");
   var prev = sel.value;
-  var h = '<option value="">Seleccionar alumno</option>';
-  ['B','C','D','E'].forEach(function(g) {
-    var sub = alumnos.filter(function(a){ return a.grupo === g; });
-    if (!sub.length) return;
-    h += '<optgroup label="' + GL[g] + '">';
-    sub.forEach(function(a){ h += '<option value="' + a.id + '">' + a.nombre + '</option>'; });
-    h += '</optgroup>';
-  });
+  var h = "<option value=''>Seleccionar alumno</option>";
+  var gs = ["B","C","D","E"];
+  for (var gi = 0; gi < gs.length; gi++) {
+    var g = gs[gi];
+    var sub = [];
+    for (var i = 0; i < alumnos.length; i++) {
+      if (alumnos[i].grupo === g) sub.push(alumnos[i]);
+    }
+    if (!sub.length) continue;
+    h += "<optgroup label='" + GL[g] + "'>";
+    for (var i = 0; i < sub.length; i++) {
+      h += "<option value='" + sub[i].id + "'>" + sub[i].nombre + "</option>";
+    }
+    h += "</optgroup>";
+  }
   sel.innerHTML = h;
   if (prev) sel.value = prev;
   updPase();
 }
 
 function updPase() {
-  var id = document.getElementById('sel-al').value;
-  var a = alumnos.find(function(x){ return x.id === id; });
-  var sel = document.getElementById('sel-pase');
-  if (!a) { sel.innerHTML = '<option value="0">Titular (el alumno)</option>'; return; }
-  var h = '<option value="0">Titular (el alumno)</option>';
-  for (var i = 1; i <= a.acomp; i++) h += '<option value="' + i + '">Acompanante ' + i + '</option>';
+  var id = document.getElementById("sel-al").value;
+  var a = null;
+  for (var i = 0; i < alumnos.length; i++) {
+    if (alumnos[i].id === id) { a = alumnos[i]; break; }
+  }
+  var sel = document.getElementById("sel-pase");
+  if (!a) {
+    sel.innerHTML = "<option value='0'>Titular (el alumno)</option>";
+    return;
+  }
+  var h = "<option value='0'>Titular (el alumno)</option>";
+  for (var i = 1; i <= a.acomp; i++) {
+    h += "<option value='" + i + "'>Acompanante " + i + "</option>";
+  }
   sel.innerHTML = h;
 }
 
 function genInv() {
-  var id = document.getElementById('sel-al').value;
-  var ni = document.getElementById('sel-pase').value;
-  var a = alumnos.find(function(x){ return x.id === id; });
-  if (!a) { alert('Selecciona un alumno'); return; }
-  var f = folio(a.grupo, a.idx, ni);
-  var label = ni === '0' ? 'Titular' : 'Acompanante ' + ni;
+  var id = document.getElementById("sel-al").value;
+  var ni = document.getElementById("sel-pase").value;
+  var a = null;
+  for (var i = 0; i < alumnos.length; i++) {
+    if (alumnos[i].id === id) { a = alumnos[i]; break; }
+  }
+  if (!a) { alert("Selecciona un alumno primero"); return; }
+  var f = mkFolio(a.grupo, a.idx, ni);
+  var label = ni === "0" ? "Titular" : "Acompanante " + ni;
   var pn = parseInt(ni) + 1;
-  var qid = 'qr' + f.replace(/-/g,'');
-  document.getElementById('inv-out').innerHTML =
-    '<div class="invbg"><div class="invcard">' +
-    '<div class="esc">Licenciatura en Enfermeria</div>' +
-    '<div class="tit">Titulacion 2025</div>' +
-    '<div class="sub2">9° cuatrimestre · Turno matutino</div>' +
-    '<div class="sep"></div>' +
-    '<div class="nom">' + a.nombre + '</div>' +
-    '<div class="grp">' + GL[a.grupo] + '</div>' +
-    '<div class="pase">' + label + ' · Pase ' + pn + ' de ' + (a.acomp+1) + '</div>' +
-    '<div class="qrbox" id="' + qid + '"></div>' +
-    '<div class="folio">' + f + '</div>' +
-    '<div class="nota">Pase personal e intransferible</div>' +
-    '<div class="invbtns">' +
-    '<button class="btn bg" onclick="descargar('' + f + '','' + qid + '','' + a.nombre.replace(/'/g,'') + '','' + label + '','' + GL[a.grupo] + '')">Descargar PNG</button>' +
-    '</div></div></div>';
+  var qid = "QR" + a.grupo + a.idx + "N" + ni;
+  var out = document.getElementById("inv-out");
+  out.innerHTML =
+    "<div class='inv-bg'><div class='inv-card'>" +
+    "<div class='inv-esc'>Licenciatura en Enfermeria</div>" +
+    "<div class='inv-tit'>Titulacion 2025</div>" +
+    "<div class='inv-sub'>9 cuatrimestre - Turno matutino</div>" +
+    "<div class='inv-sep'></div>" +
+    "<div class='inv-nom'>" + a.nombre + "</div>" +
+    "<div class='inv-grp'>" + GL[a.grupo] + "</div>" +
+    "<div class='inv-pase'>" + label + " - Pase " + pn + " de " + (a.acomp+1) + "</div>" +
+    "<div class='inv-qr' id='" + qid + "'></div>" +
+    "<div class='inv-folio'>" + f + "</div>" +
+    "<div class='inv-nota'>Pase personal e intransferible</div>" +
+    "<div class='inv-btns'>" +
+    "<button class='btn btn-g' onclick='descargar(\"" + f + "\",\"" + qid + "\")'>Descargar PNG</button>" +
+    "</div></div></div>";
   setTimeout(function() {
     try {
       var canvas = createQRCanvas(f, 130);
-      document.getElementById(qid).appendChild(canvas);
-    } catch(e) { document.getElementById(qid).innerHTML = '<p style="color:red;font-size:11px">Error QR: ' + e.message + '</p>'; }
+      var box = document.getElementById(qid);
+      if (box) box.appendChild(canvas);
+    } catch(e) {
+      var box = document.getElementById(qid);
+      if (box) box.innerHTML = "<p style='color:red;font-size:11px'>Error QR: " + e.message + "</p>";
+    }
   }, 100);
 }
 
-function descargar(f, qid, nombre, label, grupo) {
-  var qrEl = document.querySelector('#' + qid + ' canvas');
-  if (!qrEl) { alert('Espera a que aparezca el QR'); return; }
-  var c = document.createElement('canvas');
+function descargar(f, qid) {
+  var qrEl = document.querySelector("#" + qid + " canvas");
+  if (!qrEl) { alert("Espera a que aparezca el QR y vuelve a intentar"); return; }
+  var pts = f.split("-");
+  var g = pts[1];
+  var idx = parseInt(pts[2]);
+  var ni  = parseInt(pts[3]);
+  var a = null;
+  for (var i = 0; i < alumnos.length; i++) {
+    if (alumnos[i].grupo === g && alumnos[i].idx === idx) { a = alumnos[i]; break; }
+  }
+  if (!a) return;
+  var label = ni === 0 ? "Titular" : "Acompanante " + ni;
+  var c = document.createElement("canvas");
   c.width = 400; c.height = 540;
-  var ctx = c.getContext('2d');
+  var ctx = c.getContext("2d");
   var gr = ctx.createLinearGradient(0,0,400,540);
-  gr.addColorStop(0,'#1a56db'); gr.addColorStop(1,'#0f6e56');
-  ctx.fillStyle = gr; ctx.fillRect(0,0,400,540);
-  ctx.fillStyle = '#fff';
+  gr.addColorStop(0,"#1a56db");
+  gr.addColorStop(1,"#0f6e56");
+  ctx.fillStyle = gr;
+  ctx.fillRect(0,0,400,540);
+  ctx.fillStyle = "#fff";
   ctx.beginPath();
-  if (ctx.roundRect) { ctx.roundRect(24,18,352,504,12); } else { ctx.rect(24,18,352,504); }
-  ctx.fill();
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#9ca3af'; ctx.font = 'bold 9px sans-serif';
-  ctx.fillText('LICENCIATURA EN ENFERMERIA', 200, 52);
-  ctx.fillStyle = '#111'; ctx.font = 'bold 19px sans-serif';
-  ctx.fillText('Titulacion 2025', 200, 78);
-  ctx.fillStyle = '#6b7280'; ctx.font = '11px sans-serif';
-  ctx.fillText('9° cuatrimestre · Turno matutino', 200, 96);
-  ctx.fillStyle = '#1a56db'; ctx.fillRect(176,108,48,2);
-  ctx.fillStyle = '#1a56db'; ctx.font = 'bold 12px sans-serif';
-  var words = nombre.split(' '); var line = ''; var y = 132;
-  words.forEach(function(w) {
-    var t = line + w + ' ';
-    if (ctx.measureText(t).width > 310 && line) { ctx.fillText(line.trim(),200,y); line=w+' '; y+=17; } else { line=t; }
-  });
-  ctx.fillText(line.trim(),200,y);
-  ctx.fillStyle='#6b7280'; ctx.font='11px sans-serif'; ctx.fillText(grupo,200,y+16);
-  ctx.fillStyle='#374151'; ctx.font='bold 11px sans-serif'; ctx.fillText(label,200,y+34);
-  ctx.drawImage(qrEl, 200-62, y+48, 124, 124);
-  ctx.fillStyle='#9ca3af'; ctx.font='10px monospace'; ctx.fillText(f,200,y+185);
-  ctx.fillStyle='#9ca3af'; ctx.font='9px sans-serif'; ctx.fillText('Pase personal e intransferible',200,y+200);
-  var link = document.createElement('a');
-  link.download = 'inv-' + f + '.png';
-  link.href = c.toDataURL('image/png');
+  ctx.moveTo(36,18); ctx.lineTo(364,18); ctx.quadraticCurveTo(376,18,376,30);
+  ctx.lineTo(376,510); ctx.quadraticCurveTo(376,522,364,522);
+  ctx.lineTo(36,522); ctx.quadraticCurveTo(24,522,24,510);
+  ctx.lineTo(24,30); ctx.quadraticCurveTo(24,18,36,18);
+  ctx.closePath(); ctx.fill();
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#9ca3af"; ctx.font = "bold 9px sans-serif";
+  ctx.fillText("LICENCIATURA EN ENFERMERIA", 200, 50);
+  ctx.fillStyle = "#111827"; ctx.font = "bold 19px sans-serif";
+  ctx.fillText("Titulacion 2025", 200, 76);
+  ctx.fillStyle = "#6b7280"; ctx.font = "11px sans-serif";
+  ctx.fillText("9 cuatrimestre - Turno matutino", 200, 94);
+  ctx.fillStyle = "#1a56db"; ctx.fillRect(176,106,48,2);
+  ctx.fillStyle = "#1a56db"; ctx.font = "bold 12px sans-serif";
+  var words = a.nombre.split(" ");
+  var line = ""; var y = 130;
+  for (var wi = 0; wi < words.length; wi++) {
+    var test = line + words[wi] + " ";
+    if (ctx.measureText(test).width > 310 && line !== "") {
+      ctx.fillText(line.trim(), 200, y);
+      line = words[wi] + " ";
+      y += 17;
+    } else {
+      line = test;
+    }
+  }
+  ctx.fillText(line.trim(), 200, y);
+  ctx.fillStyle = "#6b7280"; ctx.font = "11px sans-serif";
+  ctx.fillText(GL[g], 200, y+16);
+  ctx.fillStyle = "#374151"; ctx.font = "bold 11px sans-serif";
+  ctx.fillText(label, 200, y+32);
+  ctx.drawImage(qrEl, 200-62, y+46, 124, 124);
+  ctx.fillStyle = "#9ca3af"; ctx.font = "10px monospace";
+  ctx.fillText(f, 200, y+183);
+  ctx.fillStyle = "#9ca3af"; ctx.font = "9px sans-serif";
+  ctx.fillText("Pase personal e intransferible", 200, y+198);
+  var link = document.createElement("a");
+  link.download = "inv-" + f + ".png";
+  link.href = c.toDataURL("image/png");
   link.click();
 }
 
 function validar() {
-  var f = document.getElementById('inp-folio').value.trim().toUpperCase();
-  var el = document.getElementById('res-validar');
-  if (!f) { el.innerHTML = '<div class="err"><strong>Folio vacio</strong></div>'; return; }
-  var p = f.split('-');
-  if (p.length !== 4 || p[0] !== 'GRP') {
-    el.innerHTML = '<div class="err"><strong>Formato invalido</strong><div class="sub">Debe ser GRP-X-000-0</div></div>'; return;
+  var raw = document.getElementById("inp-folio").value.trim().toUpperCase();
+  var el = document.getElementById("res-scan");
+  if (!raw) {
+    el.innerHTML = "<div class='res-err'><strong>Folio vacio</strong></div>";
+    return;
   }
-  var g = p[1], idx = parseInt(p[2]), n = parseInt(p[3]);
-  var a = alumnos.find(function(x){ return x.grupo === g && x.idx === idx; });
-  if (!a) { el.innerHTML = '<div class="err"><strong>Folio no encontrado</strong><div class="sub">No existe ningun alumno con este folio</div></div>'; return; }
-  if (n > a.acomp) { el.innerHTML = '<div class="err"><strong>Pase no valido</strong><div class="sub">' + a.nombre + ' solo tiene ' + a.acomp + ' acompanante(s)</div></div>'; return; }
-  if (folios[f]) {
+  var p = raw.split("-");
+  if (p.length !== 4 || p[0] !== "GRP") {
+    el.innerHTML = "<div class='res-err'><strong>Formato invalido</strong><div class='res-sub'>Debe ser GRP-X-000-0</div></div>";
+    return;
+  }
+  var g = p[1];
+  var idx = parseInt(p[2]);
+  var n   = parseInt(p[3]);
+  var a = null;
+  for (var i = 0; i < alumnos.length; i++) {
+    if (alumnos[i].grupo === g && alumnos[i].idx === idx) { a = alumnos[i]; break; }
+  }
+  if (!a) {
+    el.innerHTML = "<div class='res-err'><strong>Folio no encontrado</strong><div class='res-sub'>No existe ningun alumno con este folio</div></div>";
+    return;
+  }
+  if (n > a.acomp) {
+    el.innerHTML = "<div class='res-err'><strong>Pase no valido</strong><div class='res-sub'>" + a.nombre + " tiene " + a.acomp + " acompanante(s)</div></div>";
+    return;
+  }
+  if (folios[raw]) {
     dups++;
-    logs.unshift({f:f, nom:a.nombre, ok:false, h:new Date().toLocaleTimeString()});
+    logs.unshift({f:raw, nom:a.nombre, ok:false, h:new Date().toLocaleTimeString()});
     guardar(); renderLog(); renderReporte();
-    el.innerHTML = '<div class="warn"><strong>Pase ya utilizado</strong><div class="sub">' + a.nombre + ' ingreso a las ' + folios[f] + '</div></div>';
+    el.innerHTML = "<div class='res-warn'><strong>Pase ya utilizado</strong><div class='res-sub'>" + a.nombre + " - ingreso a las " + folios[raw] + "</div></div>";
     return;
   }
   var hora = new Date().toLocaleTimeString();
-  folios[f] = hora;
-  logs.unshift({f:f, nom:a.nombre, ok:true, h:hora});
+  folios[raw] = hora;
+  logs.unshift({f:raw, nom:a.nombre, ok:true, h:hora});
   guardar(); renderLog(); renderReporte();
-  document.getElementById('inp-folio').value = '';
-  el.innerHTML = '<div class="ok"><strong>Acceso permitido</strong><div class="sub">' + a.nombre + ' · ' + (n===0?'Titular':'Acompanante '+n) + ' · ' + GL[g] + '<br>Hora: ' + hora + '</div></div>';
+  document.getElementById("inp-folio").value = "";
+  el.innerHTML = "<div class='res-ok'><strong>Acceso permitido</strong><div class='res-sub'>" + a.nombre + " - " + (n===0 ? "Titular" : "Acompanante "+n) + " - " + GL[g] + "<br>Hora: " + hora + "</div></div>";
 }
 
 function renderLog() {
-  var el = document.getElementById('log-list');
-  if (!logs.length) { el.innerHTML = '<div class="empty">Sin registros</div>'; return; }
-  el.innerHTML = logs.slice(0,60).map(function(l) {
-    return '<div class="logrow ' + (l.ok?'logok':'logdup') + '"><span><b>' + l.nom + '</b> <span style="font-size:10px;color:#6b7280">' + l.f + '</span></span><span style="color:#6b7280">' + l.h + ' ' + (l.ok?'✓':'DUPLICADO') + '</span></div>';
-  }).join('');
+  var el = document.getElementById("log-list");
+  if (!logs.length) {
+    el.innerHTML = "<div class='empty'>Sin registros aun</div>";
+    return;
+  }
+  var h = "";
+  var lim = logs.length < 60 ? logs.length : 60;
+  for (var i = 0; i < lim; i++) {
+    var l = logs[i];
+    h += "<div class='log-row " + (l.ok ? "log-ok" : "log-dup") + "'>";
+    h += "<span><b>" + l.nom + "</b> <span style='font-size:10px;color:#6b7280'>" + l.f + "</span></span>";
+    h += "<span style='color:#6b7280'>" + l.h + " " + (l.ok ? "OK" : "DUPLICADO") + "</span>";
+    h += "</div>";
+  }
+  el.innerHTML = h;
 }
 
 function renderReporte() {
-  var tot = alumnos.reduce(function(s,a){ return s+a.acomp+1; },0);
+  var tot = 0;
+  for (var i = 0; i < alumnos.length; i++) tot += alumnos[i].acomp + 1;
   var ing = Object.keys(folios).length;
-  document.getElementById('s-tot').textContent = tot;
-  document.getElementById('s-ing').textContent = ing;
-  document.getElementById('s-pen').textContent = Math.max(0,tot-ing);
-  document.getElementById('s-dup').textContent = dups;
+  document.getElementById("s-tot").textContent = tot;
+  document.getElementById("s-ing").textContent = ing;
+  document.getElementById("s-pen").textContent = (tot - ing) > 0 ? (tot - ing) : 0;
+  document.getElementById("s-dup").textContent = dups;
   renderBadge();
-  document.getElementById('rep-grp').innerHTML = ['B','C','D','E'].map(function(g) {
-    var sub = alumnos.filter(function(a){ return a.grupo===g; });
-    if (!sub.length) return '';
-    var t = sub.reduce(function(s,a){ return s+a.acomp+1; },0);
-    var i = sub.reduce(function(s,a){ var c=0; for(var n=0;n<=a.acomp;n++) if(folios[folio(a.grupo,a.idx,n)]) c++; return s+c; },0);
-    var pct = t ? Math.round(i/t*100) : 0;
-    return '<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span style="display:flex;align-items:center;gap:6px;font-weight:600"><span class="dot" style="background:'+GC[g]+'"></span>'+GL[g]+'</span><span style="color:#6b7280">'+i+'/'+t+' ('+pct+'%)</span></div><div class="pb"><div class="pf" style="width:'+pct+'%;background:'+GC[g]+'"></div></div></div>';
-  }).join('');
-  document.getElementById('rep-al').innerHTML = !alumnos.length ? '<div class="empty">Sin alumnos</div>' :
-    alumnos.map(function(a) {
-      var i=0; for(var n=0;n<=a.acomp;n++) if(folios[folio(a.grupo,a.idx,n)]) i++;
-      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #e5e7eb"><div><span style="font-size:13px;font-weight:500">'+a.nombre+'</span><span style="font-size:11px;color:#6b7280;margin-left:6px">'+GL[a.grupo].split(' ')[1]+'</span></div><span style="font-size:13px;font-weight:600;color:'+(i===a.acomp+1?'#0f6e56':'#6b7280')+'">'+i+'/'+(a.acomp+1)+'</span></div>';
-    }).join('');
+  var gs = ["B","C","D","E"];
+  var hg = "";
+  for (var gi = 0; gi < gs.length; gi++) {
+    var g = gs[gi];
+    var sub = [];
+    for (var i = 0; i < alumnos.length; i++) {
+      if (alumnos[i].grupo === g) sub.push(alumnos[i]);
+    }
+    if (!sub.length) continue;
+    var t = 0;
+    for (var i = 0; i < sub.length; i++) t += sub[i].acomp + 1;
+    var ingG = 0;
+    for (var i = 0; i < sub.length; i++) {
+      for (var n = 0; n <= sub[i].acomp; n++) {
+        if (folios[mkFolio(sub[i].grupo, sub[i].idx, n)]) ingG++;
+      }
+    }
+    var pct = t > 0 ? Math.round(ingG/t*100) : 0;
+    hg += "<div style='margin-bottom:14px'>";
+    hg += "<div style='display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px'>";
+    hg += "<span style='display:flex;align-items:center;gap:6px;font-weight:600'><span class='dot' style='background:" + GC[g] + "'></span>" + GL[g] + "</span>";
+    hg += "<span style='color:#6b7280'>" + ingG + "/" + t + " (" + pct + "%)</span></div>";
+    hg += "<div class='prog-bar'><div class='prog-fill' style='width:" + pct + "%;background:" + GC[g] + "'></div></div>";
+    hg += "</div>";
+  }
+  document.getElementById("rep-grp").innerHTML = hg || "<div class='empty'>Sin datos</div>";
+  var ha = "";
+  for (var i = 0; i < alumnos.length; i++) {
+    var a = alumnos[i];
+    var ingA = 0;
+    for (var n = 0; n <= a.acomp; n++) {
+      if (folios[mkFolio(a.grupo, a.idx, n)]) ingA++;
+    }
+    ha += "<div style='display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #e5e7eb'>";
+    ha += "<div><span style='font-size:13px;font-weight:500'>" + a.nombre + "</span> ";
+    ha += "<span style='font-size:11px;color:#6b7280'>" + a.grupo + "</span></div>";
+    ha += "<span style='font-size:13px;font-weight:600;color:" + (ingA === a.acomp+1 ? "#0f6e56" : "#6b7280") + "'>" + ingA + "/" + (a.acomp+1) + "</span>";
+    ha += "</div>";
+  }
+  document.getElementById("rep-al").innerHTML = ha || "<div class='empty'>Sin alumnos</div>";
 }
 
 cargar();
+
 </script>
 </body>
 </html>
