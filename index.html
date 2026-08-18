@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pases de titulación · Enfermería</title>
+<style>
+  :root{
+    --ink:#0B1E24;
+    --jade:#14685A;
+    --jade-deep:#0C4438;
+    --jade-soft:#E4EFEB;
+    --gold:#C08F3C;
+    --gold-soft:#F6EDDC;
+    --porcelain:#F3F6F5;
+    --paper:#FFFFFF;
+    --line:#D6E0DC;
+    --muted:#5F7570;
+    --brick:#A33A2B;
+    --brick-soft:#FBEAE6;
+    --amber:#9A6B12;
+    --amber-soft:#FBF1DC;
+    --serif:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--porcelain);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.5;
+    -webkit-text-size-adjust:100%;
+  }
+  button{font-family:inherit;font-size:inherit;cursor:pointer}
+  input,select,textarea{font-family:inherit;font-size:inherit}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  /* ---------- cabecera ---------- */
+  .topbar{
+    background:var(--jade-deep);
+    color:#fff;
+    padding:18px 20px 16px;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    border-bottom:3px solid var(--gold);
+  }
+  .lamp{flex:0 0 auto}
+  .topbar h1{
+    font-family:var(--serif);
+    font-size:20px;font-weight:400;margin:0;letter-spacing:.01em;
+  }
+  .topbar .eyebrow{
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 3px;
+  }
+  .topbar .grow{flex:1 1 auto;min-width:180px}
+  .chip{
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    border:1px solid rgba(255,255,255,.28);border-radius:999px;
+    padding:5px 11px;color:#D9E7E2;white-space:nowrap;
+  }
+  .chip.warn{border-color:var(--gold);color:#F3DFB8}
+
+  /* ---------- pestañas ---------- */
+  .tabs{
+    display:flex;gap:2px;background:var(--jade);
+    overflow-x:auto;-webkit-overflow-scrolling:touch;
+    position:sticky;top:0;z-index:30;
+  }
+  .tabs button{
+    background:transparent;border:0;color:#C8DDD6;
+    padding:13px 18px;white-space:nowrap;
+    font-size:13px;letter-spacing:.1em;text-transform:uppercase;
+    border-bottom:3px solid transparent;
+  }
+  .tabs button[aria-selected="true"]{color:#fff;border-bottom-color:var(--gold);background:rgba(0,0,0,.14)}
+
+  main{max-width:1040px;margin:0 auto;padding:22px 16px 80px}
+  .panel{display:none}
+  .panel.on{display:block}
+
+  h2{
+    font-family:var(--serif);font-weight:400;font-size:24px;
+    margin:0 0 4px;
+  }
+  .sub{color:var(--muted);font-size:14px;margin:0 0 20px}
+
+  .card{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:10px;padding:18px;margin-bottom:18px;
+  }
+  .card h3{
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 14px;font-weight:600;
+  }
+
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+  .field{display:flex;flex-direction:column;gap:5px;flex:1 1 180px;min-width:0}
+  .field label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  input[type=text],input[type=date],input[type=time],select,textarea{
+    border:1px solid var(--line);border-radius:7px;padding:10px 11px;
+    background:var(--paper);color:var(--ink);width:100%;
+  }
+  textarea{resize:vertical;min-height:64px}
+
+  .btn{
+    border:1px solid var(--jade);background:var(--jade);color:#fff;
+    border-radius:7px;padding:10px 16px;font-size:14px;
+  }
+  .btn:hover{background:var(--jade-deep)}
+  .btn.ghost{background:transparent;color:var(--jade);border-color:var(--line)}
+  .btn.ghost:hover{background:var(--jade-soft)}
+  .btn.gold{background:var(--gold);border-color:var(--gold);color:#2A1E05}
+  .btn.gold:hover{filter:brightness(.94)}
+  .btn.danger{background:transparent;color:var(--brick);border-color:#E3C4BD}
+  .btn.danger:hover{background:var(--brick-soft)}
+  .btn.sm{padding:6px 11px;font-size:13px}
+
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{
+    text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;padding:0 10px 8px;border-bottom:1px solid var(--line);
+  }
+  td{padding:11px 10px;border-bottom:1px solid #EDF1EF;vertical-align:middle}
+  tr:last-child td{border-bottom:0}
+  .nm{font-weight:600}
+  .folio{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--muted)}
+  .cellwrap{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+  .tag{
+    display:inline-block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border-radius:999px;background:var(--jade-soft);color:var(--jade-deep);
+  }
+  .tag.gold{background:var(--gold-soft);color:#6B4B0C}
+  .tag.off{background:#EFF2F1;color:var(--muted)}
+
+  .empty{
+    border:1px dashed var(--line);border-radius:10px;padding:28px;
+    text-align:center;color:var(--muted);background:var(--paper);
+  }
+
+  /* ---------- barra de progreso ---------- */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+  .stat{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .stat .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .stat .v{font-family:var(--serif);font-size:32px;line-height:1.1;margin-top:4px}
+  .stat.hi .v{color:var(--jade)}
+  .bar{height:7px;background:#E7ECEA;border-radius:99px;overflow:hidden;margin-top:9px}
+  .bar span{display:block;height:100%;background:var(--jade);border-radius:99px}
+
+  /* ---------- acceso ---------- */
+  .scan{background:var(--jade-deep);color:#fff;border-radius:12px;padding:22px;margin-bottom:18px}
+  .scan label{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:9px}
+  .scan input{
+    font-family:var(--mono);font-size:24px;letter-spacing:.14em;text-transform:uppercase;
+    padding:14px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.07);color:#fff;
+    border-radius:8px;width:100%;
+  }
+  .scan input::placeholder{color:rgba(255,255,255,.35);letter-spacing:.1em}
+  .scan .hint{font-size:13px;color:#A9C6BE;margin-top:10px}
+  .verdict{border-radius:12px;padding:20px;margin-bottom:18px;border:1px solid}
+  .verdict .st{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+  .verdict .who{font-family:var(--serif);font-size:26px;margin:6px 0 2px}
+  .verdict.ok{background:var(--jade-soft);border-color:#B9D6CD;color:var(--jade-deep)}
+  .verdict.dup{background:var(--amber-soft);border-color:#E8D3A6;color:var(--amber)}
+  .verdict.bad{background:var(--brick-soft);border-color:#E9C7C0;color:var(--brick)}
+  #camwrap{display:none;margin-top:14px}
+  #camwrap video{width:100%;max-width:360px;border-radius:10px;background:#000;display:block}
+
+  /* ---------- pases ---------- */
+  .pases{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+  .pase{border:1px solid var(--line);border-radius:10px;background:var(--paper);padding:12px;text-align:center}
+  .pase canvas{width:100%;height:auto;border-radius:6px;display:block;background:var(--jade-deep)}
+  .pase .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:10px 0 2px}
+  .pase .fol{font-family:var(--mono);font-size:12px;letter-spacing:.08em;margin-bottom:10px}
+  .pase .acts{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+
+  /* ---------- avisos ---------- */
+  .note{
+    background:var(--gold-soft);border:1px solid #EBD9B4;border-left:4px solid var(--gold);
+    border-radius:8px;padding:13px 15px;font-size:14px;color:#5C4310;margin-bottom:18px;
+  }
+  .note strong{color:#40300A}
+
+  #toast{
+    position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);
+    background:var(--ink);color:#fff;padding:12px 18px;border-radius:8px;
+    font-size:14px;opacity:0;pointer-events:none;transition:.22s;z-index:100;max-width:90vw;
+  }
+  #toast.on{opacity:1;transform:translate(-50%,0)}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  @media (max-width:560px){
+    .topbar h1{font-size:17px}
+    main{padding:16px 12px 70px}
+    th:nth-child(2),td:nth-child(2){display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <svg class="lamp" width="34" height="34" viewBox="0 0 120 120" aria-hidden="true">
+    <g fill="none" stroke="#C08F3C" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M28 58c0 18 14 28 32 28s32-10 32-28z"/>
+      <path d="M28 58 L8 53 L28 48"/>
+      <path d="M92 62c12 2 12 20 0 22"/>
+    </g>
+    <path d="M14 46c-6-12 4-16 2-27 10 8 10 20 4 27z" fill="#C08F3C"/>
+  </svg>
+  <div class="grow">
+    <p class="eyebrow">Licenciatura en Enfermería · 9° cuatrimestre</p>
+    <h1 id="brandTitle">Ceremonia de titulación</h1>
+  </div>
+  <span class="chip" id="storeChip">Guardado local</span>
+</header>
+
+<nav class="tabs" id="tabs" role="tablist">
+  <button role="tab" data-tab="alumnos" aria-selected="true">Alumnos</button>
+  <button role="tab" data-tab="pases" aria-selected="false">Invitaciones</button>
+  <button role="tab" data-tab="acceso" aria-selected="false">Acceso</button>
+  <button role="tab" data-tab="reporte" aria-selected="false">Reporte</button>
+  <button role="tab" data-tab="ajustes" aria-selected="false">Ajustes</button>
+</nav>
+
+<main>
+
+  <section class="panel on" id="panel-alumnos">
+    <h2>Lista de alumnos</h2>
+    <p class="sub">Cada alumno recibe 4 pases: el suyo y tres para acompañantes.</p>
+
+    <div class="card">
+      <h3>Agregar alumno</h3>
+      <div class="row">
+        <div class="field" style="flex:0 0 120px">
+          <label for="nvGrupo">Grupo</label>
+          <select id="nvGrupo">
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+          </select>
+        </div>
+        <div class="field" style="flex:3 1 320px">
+          <label for="nvNombre">Nombre completo</label>
+          <input type="text" id="nvNombre" placeholder="APELLIDO APELLIDO NOMBRE">
+        </div>
+        <button class="btn" data-act="addAlumno">Agregar</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="margin-bottom:14px">
+        <div class="field" style="flex:0 0 150px">
+          <label for="fGrupo">Ver grupo</label>
+          <select id="fGrupo">
+            <option value="">Todos</option>
+            <option value="B">Grupo B</option>
+            <option value="C">Grupo C</option>
+            <option value="D">Grupo D</option>
+            <option value="E">Grupo E</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fBuscar">Buscar por nombre</label>
+          <input type="text" id="fBuscar" placeholder="Escribe para filtrar">
+        </div>
+      </div>
+      <div id="tablaAlumnos"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-pases">
+    <h2>Invitaciones</h2>
+    <p class="sub">Elige un alumno, descarga cada pase como imagen y envíalo por WhatsApp.</p>
+    <div class="card">
+      <div class="row">
+        <div class="field" style="flex:0 0 150px">
+          <label for="pGrupo">Grupo</label>
+          <select id="pGrupo">
+            <option value="B">Grupo B</option>
+            <option value="C">Grupo C</option>
+            <option value="D">Grupo D</option>
+            <option value="E">Grupo E</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="pAlumno">Alumno</label>
+          <select id="pAlumno"></select>
+        </div>
+        <button class="btn gold" data-act="descargarTodos">Descargar los 4</button>
+      </div>
+    </div>
+    <div id="pasesWrap"></div>
+  </section>
+
+  <section class="panel" id="panel-acceso">
+    <h2>Control de acceso</h2>
+    <p class="sub">Escribe el folio o escanéalo con lector; el registro se guarda en este dispositivo.</p>
+
+    <div class="scan">
+      <label for="folioIn">Folio del pase</label>
+      <input type="text" id="folioIn" placeholder="GRP-B-001-0" autocomplete="off" autocapitalize="characters" spellcheck="false">
+      <p class="hint">Presiona Enter para registrar. Un lector de códigos USB o Bluetooth escribe aquí solo.</p>
+      <div class="row" style="margin-top:12px">
+        <button class="btn gold sm" data-act="registrar">Registrar entrada</button>
+        <button class="btn ghost sm" data-act="camara" id="btnCam" style="color:#EADFC4;border-color:rgba(255,255,255,.3)">Usar cámara</button>
+        <label style="color:#A9C6BE;font-size:13px;display:flex;align-items:center;gap:7px">
+          <input type="checkbox" id="beepOn" style="width:auto"> Sonido
+        </label>
+      </div>
+      <div id="camwrap"><video id="cam" playsinline muted></video></div>
+    </div>
+
+    <div id="verdict"></div>
+
+    <div class="card">
+      <h3>Últimos registros</h3>
+      <div id="ultimos"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-reporte">
+    <h2>Reporte de ingreso</h2>
+    <p class="sub">Actualizado al momento con lo registrado en este dispositivo.</p>
+    <div class="stats" id="stats"></div>
+    <div class="card">
+      <h3>Avance por grupo</h3>
+      <div id="porGrupo"></div>
+    </div>
+    <div class="card">
+      <div class="row" style="margin-bottom:14px">
+        <div class="field">
+          <label for="rBuscar">Buscar alumno o folio</label>
+          <input type="text" id="rBuscar" placeholder="Nombre o folio">
+        </div>
+        <div class="field" style="flex:0 0 170px">
+          <label for="rFiltro">Mostrar</label>
+          <select id="rFiltro">
+            <option value="todos">Todos los pases</option>
+            <option value="dentro">Solo ingresados</option>
+            <option value="fuera">Solo pendientes</option>
+          </select>
+        </div>
+        <button class="btn ghost" data-act="csv">Descargar CSV</button>
+      </div>
+      <div id="tablaReporte"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-ajustes">
+    <h2>Ajustes</h2>
+    <p class="sub">Los datos del evento aparecen impresos en cada invitación.</p>
+
+    <div class="note">
+      <strong>Importante:</strong> la información se guarda en el navegador de este dispositivo.
+      Registra las entradas desde un solo equipo en la puerta, o respalda y comparte el archivo
+      de datos desde esta pantalla.
+    </div>
+
+    <div class="card">
+      <h3>Datos del evento</h3>
+      <div class="row">
+        <div class="field"><label for="cInst">Institución</label><input type="text" id="cInst"></div>
+        <div class="field"><label for="cCarrera">Carrera</label><input type="text" id="cCarrera"></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div class="field"><label for="cEvento">Nombre del evento</label><input type="text" id="cEvento"></div>
+        <div class="field" style="flex:0 0 200px"><label for="cGrado">Grupo y turno</label><input type="text" id="cGrado"></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div class="field" style="flex:0 0 200px"><label for="cFecha">Fecha</label><input type="text" id="cFecha" placeholder="Viernes 11 de diciembre de 2026"></div>
+        <div class="field" style="flex:0 0 140px"><label for="cHora">Hora</label><input type="text" id="cHora" placeholder="17:00 h"></div>
+        <div class="field"><label for="cLugar">Lugar</label><input type="text" id="cLugar"></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div class="field"><label for="cNota">Nota al pie de la invitación</label><input type="text" id="cNota"></div>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn" data-act="guardarCfg">Guardar datos</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Respaldo</h3>
+      <div class="row">
+        <button class="btn ghost" data-act="exportar">Descargar respaldo</button>
+        <button class="btn ghost" data-act="importar">Cargar respaldo</button>
+        <input type="file" id="fileIn" accept="application/json,.json" style="display:none">
+      </div>
+      <p class="sub" style="margin:12px 0 0">El respaldo incluye alumnos, datos del evento y entradas registradas.</p>
+    </div>
+
+    <div class="card">
+      <h3>Zona de riesgo</h3>
+      <div class="row">
+        <button class="btn danger" data-act="borrarAccesos">Borrar entradas registradas</button>
+        <button class="btn danger" data-act="restaurar">Restaurar lista original</button>
+      </div>
+      <p class="sub" style="margin:12px 0 0">Restaurar deja los grupos B, C y D como venían de fábrica y elimina lo agregado a mano.</p>
+    </div>
+  </section>
+
+</main>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   1. Generador de códigos QR (versiones 1 a 10, niveles M y H)
+   ============================================================ */
+var QR = (function () {
+  var ALNUM = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:";
+  var EXP = new Array(512), LOG = new Array(256);
+  (function () {
+    var x = 1, i;
+    for (i = 0; i < 255; i++) { EXP[i] = x; LOG[x] = i; x <<= 1; if (x & 0x100) x ^= 0x11D; }
+    for (i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+  })();
+  function mul(a, b) { if (a === 0 || b === 0) return 0; return EXP[LOG[a] + LOG[b]]; }
+  function rsGen(deg) {
+    var poly = [1], i, j, next;
+    for (i = 0; i < deg; i++) {
+      next = [];
+      for (j = 0; j <= poly.length; j++) next.push(0);
+      for (j = 0; j < poly.length; j++) {
+        next[j] ^= poly[j];
+        next[j + 1] ^= mul(poly[j], EXP[i]);
+      }
+      poly = next;
+    }
+    return poly;
+  }
+  function rsEncode(data, ecLen) {
+    var gen = rsGen(ecLen), res = [], i, j, factor;
+    for (i = 0; i < ecLen; i++) res.push(0);
+    for (i = 0; i < data.length; i++) {
+      factor = data[i] ^ res[0];
+      res.shift();
+      res.push(0);
+      for (j = 0; j < ecLen; j++) res[j] ^= mul(gen[j + 1], factor);
+    }
+    return res;
+  }
+  var TBL = {
+    M: [
+      [10, 1, 16, 0, 0], [16, 1, 28, 0, 0], [26, 1, 44, 0, 0], [18, 2, 32, 0, 0], [24, 2, 43, 0, 0],
+      [16, 4, 27, 0, 0], [18, 4, 31, 0, 0], [22, 2, 38, 2, 39], [22, 3, 36, 2, 37], [26, 4, 43, 1, 44]
+    ],
+    H: [
+      [17, 1, 9, 0, 0], [28, 1, 16, 0, 0], [22, 2, 13, 0, 0], [16, 4, 9, 0, 0], [22, 2, 11, 2, 12],
+      [28, 4, 15, 0, 0], [26, 4, 13, 1, 14], [26, 4, 14, 2, 15], [24, 4, 12, 4, 13], [28, 6, 15, 2, 16]
+    ]
+  };
+  var ALIGN = [[], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34], [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50]];
+  var ECBITS = { L: 1, M: 0, Q: 3, H: 2 };
+
+  function isAlnum(s) {
+    for (var i = 0; i < s.length; i++) if (ALNUM.indexOf(s.charAt(i)) < 0) return false;
+    return true;
+  }
+  function utf8Bytes(s) {
+    var out = [], i, c;
+    for (i = 0; i < s.length; i++) {
+      c = s.charCodeAt(i);
+      if (c < 128) out.push(c);
+      else if (c < 2048) { out.push(192 | (c >> 6)); out.push(128 | (c & 63)); }
+      else { out.push(224 | (c >> 12)); out.push(128 | ((c >> 6) & 63)); out.push(128 | (c & 63)); }
+    }
+    return out;
+  }
+  function Bits() { this.arr = []; }
+  Bits.prototype.put = function (val, len) {
+    for (var i = len - 1; i >= 0; i--) this.arr.push((val >> i) & 1);
+  };
+  function dataCapacity(version, level) {
+    var t = TBL[level][version - 1];
+    return t[1] * t[2] + t[3] * t[4];
+  }
+  function encodeSegment(text, version, level) {
+    var bits = new Bits(), i, j, n, chunk, b;
+    if (isAlnum(text)) {
+      bits.put(2, 4);
+      bits.put(text.length, version < 10 ? 9 : 11);
+      for (i = 0; i + 1 < text.length; i += 2) {
+        chunk = ALNUM.indexOf(text.charAt(i)) * 45 + ALNUM.indexOf(text.charAt(i + 1));
+        bits.put(chunk, 11);
+      }
+      if (text.length % 2 === 1) bits.put(ALNUM.indexOf(text.charAt(text.length - 1)), 6);
+    } else {
+      var by = utf8Bytes(text);
+      bits.put(4, 4);
+      bits.put(by.length, version < 10 ? 8 : 16);
+      for (i = 0; i < by.length; i++) bits.put(by[i], 8);
+    }
+    var capBits = dataCapacity(version, level) * 8;
+    if (bits.arr.length > capBits) return null;
+    n = Math.min(4, capBits - bits.arr.length);
+    bits.put(0, n);
+    while (bits.arr.length % 8 !== 0) bits.arr.push(0);
+    var cw = [];
+    for (i = 0; i < bits.arr.length; i += 8) {
+      b = 0;
+      for (j = 0; j < 8; j++) b = (b << 1) | bits.arr[i + j];
+      cw.push(b);
+    }
+    var pad = [236, 17], k = 0;
+    while (cw.length < dataCapacity(version, level)) { cw.push(pad[k % 2]); k++; }
+    return cw;
+  }
+  function buildCodewords(text, level) {
+    var version, cw = null, i, j;
+    for (version = 1; version <= 10; version++) {
+      cw = encodeSegment(text, version, level);
+      if (cw) break;
+    }
+    if (!cw) throw new Error("Texto demasiado largo para el codigo QR");
+    var t = TBL[level][version - 1], ecLen = t[0];
+    var blocks = [], ecBlocks = [], pos = 0, len, blk;
+    for (i = 0; i < t[1] + t[3]; i++) {
+      len = i < t[1] ? t[2] : t[4];
+      blk = cw.slice(pos, pos + len);
+      pos += len;
+      blocks.push(blk);
+      ecBlocks.push(rsEncode(blk, ecLen));
+    }
+    var out = [], maxLen = Math.max(t[2], t[4]);
+    for (i = 0; i < maxLen; i++) {
+      for (j = 0; j < blocks.length; j++) if (i < blocks[j].length) out.push(blocks[j][i]);
+    }
+    for (i = 0; i < ecLen; i++) {
+      for (j = 0; j < ecBlocks.length; j++) out.push(ecBlocks[j][i]);
+    }
+    return { version: version, codewords: out };
+  }
+  function newMatrix(size) {
+    var m = [], i, j, row;
+    for (i = 0; i < size; i++) {
+      row = [];
+      for (j = 0; j < size; j++) row.push(null);
+      m.push(row);
+    }
+    return m;
+  }
+  function setFinder(m, r, c) {
+    var i, j, rr, cc, size = m.length, v;
+    for (i = -1; i <= 7; i++) {
+      for (j = -1; j <= 7; j++) {
+        rr = r + i; cc = c + j;
+        if (rr < 0 || cc < 0 || rr >= size || cc >= size) continue;
+        v = (i >= 0 && i <= 6 && (j === 0 || j === 6)) ||
+            (j >= 0 && j <= 6 && (i === 0 || i === 6)) ||
+            (i >= 2 && i <= 4 && j >= 2 && j <= 4);
+        m[rr][cc] = v ? 1 : 0;
+      }
+    }
+  }
+  function setAlign(m, r, c) {
+    var i, j;
+    for (i = -2; i <= 2; i++) {
+      for (j = -2; j <= 2; j++) {
+        m[r + i][c + j] = (Math.max(Math.abs(i), Math.abs(j)) !== 1) ? 1 : 0;
+      }
+    }
+  }
+  function versionBits(v) {
+    var rem = v, i;
+    for (i = 0; i < 12; i++) rem = (rem << 1) ^ ((rem >> 11) * 0x1F25);
+    return ((v << 12) | rem) >>> 0;
+  }
+  function formatBits(level, mask) {
+    var data = (ECBITS[level] << 3) | mask, rem = data, i;
+    for (i = 0; i < 10; i++) rem = (rem << 1) ^ ((rem >> 9) * 0x537);
+    return (((data << 10) | rem) ^ 0x5412) >>> 0;
+  }
+  function maskFn(k, r, c) {
+    if (k === 0) return (r + c) % 2 === 0;
+    if (k === 1) return r % 2 === 0;
+    if (k === 2) return c % 3 === 0;
+    if (k === 3) return (r + c) % 3 === 0;
+    if (k === 4) return (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0;
+    if (k === 5) return ((r * c) % 2 + (r * c) % 3) === 0;
+    if (k === 6) return (((r * c) % 2 + (r * c) % 3) % 2) === 0;
+    return (((r + c) % 2 + (r * c) % 3) % 2) === 0;
+  }
+  function applyFormat(m, level, mask, size) {
+    var fb = formatBits(level, mask), i, bit;
+    for (i = 0; i < 15; i++) {
+      bit = (fb >> i) & 1;
+      if (i < 6) m[i][8] = bit;
+      else if (i === 6) m[7][8] = bit;
+      else if (i === 7) m[8][8] = bit;
+      else if (i === 8) m[8][7] = bit;
+      else m[8][14 - i] = bit;
+      if (i < 8) m[8][size - 1 - i] = bit;
+      else m[size - 15 + i][8] = bit;
+    }
+    m[size - 8][8] = 1;
+  }
+  function penalty(m) {
+    var size = m.length, score = 0, i, j, run, last, dark = 0, k;
+    var pat1 = [1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0];
+    var pat2 = [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1];
+    function checkPat(line, at) {
+      for (k = 0; k < 11; k++) if (line[at + k] !== pat1[k]) break;
+      if (k === 11) return true;
+      for (k = 0; k < 11; k++) if (line[at + k] !== pat2[k]) break;
+      return k === 11;
+    }
+    var rows = [], cols = [];
+    for (i = 0; i < size; i++) { rows.push([]); cols.push([]); }
+    for (i = 0; i < size; i++) {
+      for (j = 0; j < size; j++) {
+        rows[i].push(m[i][j]);
+        cols[j].push(m[i][j]);
+        if (m[i][j]) dark++;
+      }
+    }
+    var lines = rows.concat(cols);
+    for (i = 0; i < lines.length; i++) {
+      run = 1; last = lines[i][0];
+      for (j = 1; j < size; j++) {
+        if (lines[i][j] === last) { run++; }
+        else { if (run >= 5) score += 3 + (run - 5); run = 1; last = lines[i][j]; }
+      }
+      if (run >= 5) score += 3 + (run - 5);
+      for (j = 0; j + 11 <= size; j++) if (checkPat(lines[i], j)) score += 40;
+    }
+    var v;
+    for (i = 0; i + 1 < size; i++) {
+      for (j = 0; j + 1 < size; j++) {
+        v = m[i][j];
+        if (v === m[i][j + 1] && v === m[i + 1][j] && v === m[i + 1][j + 1]) score += 3;
+      }
+    }
+    score += Math.floor(Math.abs(dark * 100 / (size * size) - 50) / 5) * 10;
+    return score;
+  }
+  function generate(text, level) {
+    level = level || "M";
+    var enc = buildCodewords(text, level);
+    var version = enc.version, size = version * 4 + 17;
+    var m = newMatrix(size), reserved = newMatrix(size), i, j, r, c, k, d, bit;
+    setFinder(m, 0, 0); setFinder(m, 0, size - 7); setFinder(m, size - 7, 0);
+    for (i = 8; i < size - 8; i++) {
+      m[6][i] = (i % 2 === 0) ? 1 : 0;
+      m[i][6] = (i % 2 === 0) ? 1 : 0;
+    }
+    var ap = ALIGN[version - 1];
+    for (i = 0; i < ap.length; i++) {
+      for (j = 0; j < ap.length; j++) {
+        r = ap[i]; c = ap[j];
+        if ((r <= 8 && c <= 8) || (r <= 8 && c >= size - 9) || (r >= size - 9 && c <= 8)) continue;
+        setAlign(m, r, c);
+      }
+    }
+    for (i = 0; i < 9; i++) {
+      if (m[8][i] === null) m[8][i] = 0;
+      if (m[i][8] === null) m[i][8] = 0;
+    }
+    for (i = 0; i < 8; i++) {
+      if (m[8][size - 1 - i] === null) m[8][size - 1 - i] = 0;
+      if (m[size - 1 - i][8] === null) m[size - 1 - i][8] = 0;
+    }
+    m[size - 8][8] = 1;
+    if (version >= 7) {
+      var vb = versionBits(version);
+      for (i = 0; i < 18; i++) {
+        bit = (vb >> i) & 1;
+        m[Math.floor(i / 3)][size - 11 + (i % 3)] = bit;
+        m[size - 11 + (i % 3)][Math.floor(i / 3)] = bit;
+      }
+    }
+    for (i = 0; i < size; i++) for (j = 0; j < size; j++) reserved[i][j] = (m[i][j] !== null) ? 1 : 0;
+
+    var bitIdx = 0, cwArr = enc.codewords, total = cwArr.length * 8;
+    var col = size - 1, upward = true;
+    while (col > 0) {
+      if (col === 6) col--;
+      for (k = 0; k < size; k++) {
+        r = upward ? size - 1 - k : k;
+        for (d = 0; d < 2; d++) {
+          c = col - d;
+          if (reserved[r][c]) continue;
+          bit = 0;
+          if (bitIdx < total) bit = (cwArr[bitIdx >> 3] >> (7 - (bitIdx & 7))) & 1;
+          bitIdx++;
+          m[r][c] = bit;
+        }
+      }
+      upward = !upward;
+      col -= 2;
+    }
+    var best = null, bestScore = Infinity, mk, cand, sc;
+    for (mk = 0; mk < 8; mk++) {
+      cand = [];
+      for (i = 0; i < size; i++) {
+        cand.push(m[i].slice());
+        for (j = 0; j < size; j++) if (!reserved[i][j] && maskFn(mk, i, j)) cand[i][j] ^= 1;
+      }
+      applyFormat(cand, level, mk, size);
+      sc = penalty(cand);
+      if (sc < bestScore) { bestScore = sc; best = cand; }
+    }
+    return { size: size, modules: best, version: version };
+  }
+  return { generate: generate };
+})();
+
+/* ============================================================
+   2. Almacenamiento
+   ============================================================ */
+var Store = (function () {
+  var KEY = "titulacion2026final";
+  var usable = (function () {
+    try {
+      window.localStorage.setItem("__probe", "1");
+      window.localStorage.removeItem("__probe");
+      return true;
+    } catch (e) { return false; }
+  })();
+  var memory = null;
+  return {
+    persistent: usable,
+    read: function () {
+      if (!usable) return memory;
+      try {
+        var raw = window.localStorage.getItem(KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) { return null; }
+    },
+    write: function (obj) {
+      memory = obj;
+      if (!usable) return false;
+      try {
+        window.localStorage.setItem(KEY, JSON.stringify(obj));
+        return true;
+      } catch (e) { return false; }
+    },
+    key: KEY
+  };
+})();
+
+/* ============================================================
+   3. Datos de fábrica
+   ============================================================ */
+var LISTA_B = [
+  "CORDOVA MATA AIDA LIBERTAD",
+  "DE LA CRUZ MARTINEZ MARIA DE LOS ANGELES",
+  "GODINEZ GODINEZ YAREDTZIN ERANDI",
+  "IBARROLA MENDOZA LINDA XOCHITL",
+  "JIMENEZ HERNANDEZ JEANETT",
+  "GODINEZ JIMENEZ MARITZA ANAHI",
+  "MARTINEZ VILLAMIL EVELYN",
+  "MATA MARTINEZ ANGEL GABRIEL",
+  "MOJICA ANAYA HILDA ELIZABETH",
+  "MONTANO GODINEZ ALEX DAVID",
+  "PEREZ MORELOS SOFIA",
+  "RAMOS ROBLES PERLA ISABEL",
+  "RESENDIZ GARCIA LLUVIA VANESSA",
+  "VIQUEZ IRETA WENDY ODALY",
+  "ZENTENO OLIVARES MARIA BELEN"
+];
+var LISTA_C = [
+  "ALARCON GUERRA JOANNA PAULET",
+  "AVILA CRUZ JOSEPHINE ELIZABETH",
+  "COLIN MARTINEZ SOFIA MAGALI",
+  "DUARTE MODESTO ANGELA ROBERTA",
+  "LOZANO CASTRO WENDOLY",
+  "MARTINEZ ALCANTARA ZAIRA JAQUELIN",
+  "MIGUEL CERROS VERONICA NOEMI",
+  "MONDRAGON ESCAMILLA DIANA VERONICA",
+  "NARVAEZ PEREZ DULCE VALERIA",
+  "OLGUIN CARRANZA EVELYN CAROLINA",
+  "RODRIGUEZ OROZCO LUZ VANESSA",
+  "ROJO FLORES SAUL",
+  "SOTO RODRIGUEZ ALEXANDRA"
+];
+var LISTA_D = [
+  "CARRASCO SANTIAGO INGRID STEFANI",
+  "FLORES LEON MELANI FERNANDA",
+  "GARCIA FIERRO ANDRES",
+  "GARCIA ROBLES KAROL YUNUE",
+  "GODINEZ MARTINEZ DANNA PAOLA",
+  "GUTIERREZ SANTIAGO DANA VALERIA",
+  "HERNANDEZ SALDIVAR NANCY ABIGAIL",
+  "HERNANDEZ AVILA DIEGO ROBERTO",
+  "LOPEZ CASAS MAURICIO ANGEL",
+  "LOZANO AREVALO ZAIRA",
+  "MARTINEZ SANTIAGO ARIADNA YAMILETH",
+  "PEREZ MORALES MIGUEL ANGEL",
+  "PEREZ ROJAS CARMEN"
+];
+
+function datosIniciales() {
+  var alumnos = [];
+  function cargar(grupo, lista) {
+    for (var i = 0; i < lista.length; i++) {
+      alumnos.push({ grupo: grupo, num: i + 1, nombre: lista[i] });
+    }
+  }
+  cargar("B", LISTA_B);
+  cargar("C", LISTA_C);
+  cargar("D", LISTA_D);
+  return {
+    cfg: {
+      inst: "Escuela de Enfermería",
+      carrera: "Licenciatura en Enfermería",
+      evento: "Ceremonia de titulación",
+      grado: "9° cuatrimestre · Turno matutino",
+      fecha: "Por confirmar",
+      hora: "Por confirmar",
+      lugar: "Por confirmar",
+      nota: "Válido para una persona. Presenta este pase en la entrada.",
+      beep: false
+    },
+    alumnos: alumnos,
+    ingresos: {}
+  };
+}
+
+/* ============================================================
+   4. Estado y utilidades
+   ============================================================ */
+var DATA = null;
+var GRUPOS = ["B", "C", "D", "E"];
+var PASES = 4;
+
+function cargarEstado() {
+  var guardado = Store.read();
+  if (guardado && guardado.alumnos && guardado.alumnos.length) {
+    DATA = guardado;
+    if (!DATA.cfg) DATA.cfg = datosIniciales().cfg;
+    if (!DATA.ingresos) DATA.ingresos = {};
+  } else {
+    DATA = datosIniciales();
+    Store.write(DATA);
+  }
+}
+function guardar() { Store.write(DATA); }
+
+function pad3(n) {
+  var s = String(n);
+  while (s.length < 3) s = "0" + s;
+  return s;
+}
+function folioDe(al, pase) { return "GRP-" + al.grupo + "-" + pad3(al.num) + "-" + pase; }
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function etiquetaPase(p) { return p === 0 ? "Pase del titular" : "Acompañante " + p + " de 3"; }
+function etiquetaPaseCorta(p) { return p === 0 ? "TITULAR" : "ACOMPAÑANTE " + p; }
+function buscarPorFolio(folio) {
+  var partes = String(folio).toUpperCase().trim().split("-");
+  if (partes.length !== 4 || partes[0] !== "GRP") return null;
+  var grupo = partes[1], num = parseInt(partes[2], 10), pase = parseInt(partes[3], 10);
+  if (isNaN(num) || isNaN(pase) || pase < 0 || pase > 3) return null;
+  for (var i = 0; i < DATA.alumnos.length; i++) {
+    if (DATA.alumnos[i].grupo === grupo && DATA.alumnos[i].num === num) {
+      return { alumno: DATA.alumnos[i], pase: pase, folio: folioDe(DATA.alumnos[i], pase) };
+    }
+  }
+  return null;
+}
+function ordenados(lista) {
+  return lista.slice().sort(function (a, b) {
+    if (a.grupo !== b.grupo) return a.grupo < b.grupo ? -1 : 1;
+    return a.num - b.num;
+  });
+}
+function porGrupo(g) {
+  return ordenados(DATA.alumnos.filter(function (a) { return a.grupo === g; }));
+}
+function id(x) { return document.getElementById(x); }
+function hora(ts) {
+  var d = new Date(ts);
+  var hh = d.getHours(), mm = d.getMinutes();
+  return (hh < 10 ? "0" : "") + hh + ":" + (mm < 10 ? "0" : "") + mm;
+}
+function fechaHora(ts) {
+  var d = new Date(ts);
+  return d.getDate() + "/" + (d.getMonth() + 1) + " " + hora(ts);
+}
+var toastTimer = null;
+function toast(msg) {
+  var t = id("toast");
+  t.textContent = msg;
+  t.classList.add("on");
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { t.classList.remove("on"); }, 2600);
+}
+
+/* ============================================================
+   5. Dibujo de la invitación
+   ============================================================ */
+var COL = { jade: "#0C4438", jadeAlt: "#08302A", gold: "#C08F3C", cream: "#F3EBDA", white: "#FFFFFF" };
+
+function textoEspaciado(ctx, txt, cx, y, sp) {
+  var i, w = 0, chars = String(txt).split("");
+  for (i = 0; i < chars.length; i++) w += ctx.measureText(chars[i]).width + sp;
+  w -= sp;
+  var x = cx - w / 2;
+  for (i = 0; i < chars.length; i++) {
+    ctx.fillText(chars[i], x, y);
+    x += ctx.measureText(chars[i]).width + sp;
+  }
+  return w;
+}
+function envolver(ctx, txt, maxW) {
+  var palabras = String(txt).split(" "), lineas = [], actual = "";
+  for (var i = 0; i < palabras.length; i++) {
+    var prueba = actual ? actual + " " + palabras[i] : palabras[i];
+    if (ctx.measureText(prueba).width > maxW && actual) {
+      lineas.push(actual);
+      actual = palabras[i];
+    } else actual = prueba;
+  }
+  if (actual) lineas.push(actual);
+  return lineas;
+}
+function dibujarLampara(ctx, cx, cy, escala) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(escala, escala);
+  ctx.strokeStyle = COL.gold;
+  ctx.lineWidth = 5;
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(-46, 0);
+  ctx.bezierCurveTo(-46, 30, -22, 42, 0, 42);
+  ctx.bezierCurveTo(22, 42, 46, 30, 46, 0);
+  ctx.closePath();
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(-44, -2);
+  ctx.lineTo(-74, -10);
+  ctx.lineTo(-44, -18);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(52, 8, 20, -Math.PI * 0.55, Math.PI * 0.55);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(-63, -22);
+  ctx.bezierCurveTo(-74, -40, -60, -46, -64, -64);
+  ctx.bezierCurveTo(-46, -48, -50, -30, -59, -22);
+  ctx.closePath();
+  ctx.fillStyle = COL.gold;
+  ctx.fill();
+  ctx.restore();
+}
+function dibujarQR(ctx, texto, x, y, lado) {
+  var qr = QR.generate(texto, "M");
+  var quiet = 4, total = qr.size + quiet * 2;
+  var m = lado / total;
+  ctx.fillStyle = COL.white;
+  ctx.fillRect(x, y, lado, lado);
+  ctx.fillStyle = "#0B1E24";
+  for (var r = 0; r < qr.size; r++) {
+    for (var c = 0; c < qr.size; c++) {
+      if (qr.modules[r][c]) {
+        ctx.fillRect(
+          Math.floor(x + (c + quiet) * m),
+          Math.floor(y + (r + quiet) * m),
+          Math.ceil(m), Math.ceil(m)
+        );
+      }
+    }
+  }
+}
+function dibujarInvitacion(canvas, al, pase) {
+  var W = 1000, H = 1500;
+  canvas.width = W;
+  canvas.height = H;
+  var ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  var cfg = DATA.cfg, cx = W / 2;
+
+  var g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, COL.jade);
+  g.addColorStop(1, COL.jadeAlt);
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = COL.gold;
+  ctx.lineWidth = 3;
+  ctx.strokeRect(38, 38, W - 76, H - 76);
+  ctx.lineWidth = 1;
+  ctx.globalAlpha = 0.55;
+  ctx.strokeRect(52, 52, W - 104, H - 104);
+  ctx.globalAlpha = 1;
+
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+
+  ctx.fillStyle = COL.gold;
+  ctx.font = "600 21px system-ui,Arial,sans-serif";
+  textoEspaciado(ctx, String(cfg.inst).toUpperCase(), cx, 118, 5);
+
+  dibujarLampara(ctx, cx, 212, 0.86);
+
+  ctx.fillStyle = COL.cream;
+  ctx.font = "300 54px Georgia,serif";
+  ctx.textAlign = "center";
+  var tit = envolver(ctx, String(cfg.evento), W - 160);
+  ctx.fillText(tit[0], cx, 352);
+
+  ctx.font = "22px Georgia,serif";
+  ctx.fillStyle = "#B9D3C9";
+  ctx.fillText(String(cfg.carrera), cx, 396);
+  ctx.font = "19px system-ui,Arial,sans-serif";
+  ctx.fillText(String(cfg.grado), cx, 428);
+
+  ctx.strokeStyle = COL.gold;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(cx - 90, 466);
+  ctx.lineTo(cx + 90, 466);
+  ctx.stroke();
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#9FBDB2";
+  ctx.font = "italic 20px Georgia,serif";
+  ctx.fillText(pase === 0 ? "Pase de acceso de" : "Acompañante de", cx, 518);
+
+  var tam = 50;
+  ctx.font = "600 " + tam + "px Georgia,serif";
+  var lineas = envolver(ctx, al.nombre, W - 200);
+  while (lineas.length > 2 && tam > 28) {
+    tam -= 4;
+    ctx.font = "600 " + tam + "px Georgia,serif";
+    lineas = envolver(ctx, al.nombre, W - 200);
+  }
+  ctx.fillStyle = COL.white;
+  var y = 582;
+  for (var i = 0; i < lineas.length && i < 3; i++) {
+    ctx.fillText(lineas[i], cx, y);
+    y += tam + 8;
+  }
+
+  var by = y + 10, bw = 340, bh = 50;
+  ctx.fillStyle = "rgba(192,143,60,.16)";
+  ctx.strokeStyle = COL.gold;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(cx - bw / 2, by, bw, bh, 26);
+  else ctx.rect(cx - bw / 2, by, bw, bh);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = COL.gold;
+  ctx.font = "600 16px system-ui,Arial,sans-serif";
+  ctx.textAlign = "left";
+  textoEspaciado(ctx, etiquetaPaseCorta(pase) + " · GRUPO " + al.grupo, cx, by + 33, 3);
+
+  var iy = by + bh + 50;
+  var datos = [["Fecha", cfg.fecha], ["Hora", cfg.hora], ["Lugar", cfg.lugar]];
+  for (i = 0; i < datos.length; i++) {
+    ctx.fillStyle = "#8FB0A5";
+    ctx.font = "600 13px system-ui,Arial,sans-serif";
+    ctx.textAlign = "left";
+    textoEspaciado(ctx, String(datos[i][0]).toUpperCase(), cx, iy, 4);
+    ctx.textAlign = "center";
+    ctx.fillStyle = COL.cream;
+    ctx.font = "24px Georgia,serif";
+    var lin = envolver(ctx, datos[i][1], W - 240);
+    ctx.fillText(lin[0], cx, iy + 32);
+    iy += 74;
+  }
+
+  var qs = 260, qx = cx - qs / 2, qy = 1046;
+  ctx.fillStyle = COL.white;
+  ctx.fillRect(qx - 14, qy - 14, qs + 28, qs + 28);
+  dibujarQR(ctx, folioDe(al, pase), qx, qy, qs);
+
+  ctx.fillStyle = COL.gold;
+  ctx.font = "600 22px ui-monospace,Menlo,Consolas,monospace";
+  ctx.textAlign = "left";
+  textoEspaciado(ctx, folioDe(al, pase), cx, qy + qs + 48, 4);
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#87A79C";
+  ctx.font = "16px system-ui,Arial,sans-serif";
+  var nota = envolver(ctx, cfg.nota, W - 260);
+  var ny = 1402;
+  for (i = 0; i < nota.length && i < 2; i++) {
+    ctx.fillText(nota[i], cx, ny);
+    ny += 23;
+  }
+}
+
+/* ============================================================
+   6. Descarga y compartir
+   ============================================================ */
+function nombreArchivo(al, pase) {
+  var limpio = al.nombre.replace(/[^A-Za-z0-9]+/g, "_").replace(/^_|_$/g, "");
+  return folioDe(al, pase) + "_" + limpio + ".png";
+}
+function descargarCanvas(canvas, nombre) {
+  try {
+    var url = canvas.toDataURL("image/png");
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = nombre;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch (e) {
+    toast("El navegador bloqueó la descarga");
+  }
+}
+function generarPNG(al, pase, callback) {
+  var canvas = document.createElement("canvas");
+  dibujarInvitacion(canvas, al, pase);
+  callback(canvas);
+}
+function compartirPase(al, pase) {
+  var canvas = document.createElement("canvas");
+  dibujarInvitacion(canvas, al, pase);
+  if (!canvas.toBlob || !navigator.share) {
+    descargarCanvas(canvas, nombreArchivo(al, pase));
+    return;
+  }
+  canvas.toBlob(function (blob) {
+    var archivo = new File([blob], nombreArchivo(al, pase), { type: "image/png" });
+    var payload = { files: [archivo], title: "Pase de titulación", text: al.nombre + " · " + etiquetaPase(pase) };
+    if (navigator.canShare && navigator.canShare(payload)) {
+      navigator.share(payload)["catch"](function () {});
+    } else {
+      descargarCanvas(canvas, nombreArchivo(al, pase));
+    }
+  }, "image/png");
+}
+
+/* ============================================================
+   7. Pantalla: alumnos
+   ============================================================ */
+function pintarAlumnos() {
+  var g = id("fGrupo").value;
+  var q = id("fBuscar").value.trim().toUpperCase();
+  var lista = ordenados(DATA.alumnos).filter(function (a) {
+    if (g && a.grupo !== g) return false;
+    if (q && a.nombre.toUpperCase().indexOf(q) < 0) return false;
+    return true;
+  });
+  var cont = id("tablaAlumnos");
+  if (!lista.length) {
+    cont.innerHTML = "<div class='empty'>No hay alumnos que coincidan. Agrega uno con el formulario de arriba.</div>";
+    return;
+  }
+  var h = "<table><thead><tr><th>Alumno</th><th>Folios</th><th>Entradas</th><th></th></tr></thead><tbody>";
+  for (var i = 0; i < lista.length; i++) {
+    var a = lista[i], dentro = 0;
+    for (var p = 0; p < PASES; p++) if (DATA.ingresos[folioDe(a, p)]) dentro++;
+    var clase = dentro === 0 ? "off" : (dentro === PASES ? "gold" : "");
+    h += "<tr>" +
+      "<td><div class='nm'>" + esc(a.nombre) + "</div>" +
+      "<div class='folio'>Grupo " + a.grupo + " · N.º " + pad3(a.num) + "</div></td>" +
+      "<td class='folio'>" + folioDe(a, 0) + " … " + folioDe(a, 3) + "</td>" +
+      "<td><span class='tag " + clase + "'>" + dentro + " de 4</span></td>" +
+      "<td><div class='cellwrap'>" +
+      "<button class='btn ghost sm' data-act='verPases' data-g='" + a.grupo + "' data-n='" + a.num + "'>Ver pases</button>" +
+      "<button class='btn ghost sm' data-act='editar' data-g='" + a.grupo + "' data-n='" + a.num + "'>Editar</button>" +
+      "<button class='btn danger sm' data-act='borrar' data-g='" + a.grupo + "' data-n='" + a.num + "'>Quitar</button>" +
+      "</div></td></tr>";
+  }
+  h += "</tbody></table>";
+  cont.innerHTML = h;
+}
+
+function agregarAlumno() {
+  var grupo = id("nvGrupo").value;
+  var nombre = id("nvNombre").value.trim().toUpperCase();
+  if (nombre.length < 3) {
+    toast("Escribe el nombre completo del alumno");
+    id("nvNombre").focus();
+    return;
+  }
+  var max = 0;
+  for (var i = 0; i < DATA.alumnos.length; i++) {
+    if (DATA.alumnos[i].grupo === grupo && DATA.alumnos[i].num > max) max = DATA.alumnos[i].num;
+  }
+  DATA.alumnos.push({ grupo: grupo, num: max + 1, nombre: nombre });
+  guardar();
+  id("nvNombre").value = "";
+  pintarTodo();
+  toast(nombre + " agregado al grupo " + grupo);
+}
+function editarAlumno(grupo, num) {
+  var a = null;
+  for (var i = 0; i < DATA.alumnos.length; i++) {
+    if (DATA.alumnos[i].grupo === grupo && DATA.alumnos[i].num === num) a = DATA.alumnos[i];
+  }
+  if (!a) return;
+  var nuevo = window.prompt("Nombre del alumno", a.nombre);
+  if (nuevo === null) return;
+  nuevo = nuevo.trim().toUpperCase();
+  if (nuevo.length < 3) { toast("El nombre es muy corto"); return; }
+  a.nombre = nuevo;
+  guardar();
+  pintarTodo();
+  toast("Nombre actualizado");
+}
+function borrarAlumno(grupo, num) {
+  var a = null, i;
+  for (i = 0; i < DATA.alumnos.length; i++) {
+    if (DATA.alumnos[i].grupo === grupo && DATA.alumnos[i].num === num) a = DATA.alumnos[i];
+  }
+  if (!a) return;
+  if (!window.confirm("Quitar a " + a.nombre + " de la lista. Sus 4 pases dejan de ser válidos.")) return;
+  DATA.alumnos = DATA.alumnos.filter(function (x) { return !(x.grupo === grupo && x.num === num); });
+  for (var p = 0; p < PASES; p++) delete DATA.ingresos[folioDe(a, p)];
+  guardar();
+  pintarTodo();
+  toast(a.nombre + " ya no está en la lista");
+}
+
+/* ============================================================
+   8. Pantalla: invitaciones
+   ============================================================ */
+function llenarSelectorAlumnos(preGrupo, preNum) {
+  if (preGrupo) id("pGrupo").value = preGrupo;
+  var lista = porGrupo(id("pGrupo").value);
+  var sel = id("pAlumno"), h = "";
+  for (var i = 0; i < lista.length; i++) {
+    h += "<option value='" + lista[i].num + "'>" + pad3(lista[i].num) + " · " + esc(lista[i].nombre) + "</option>";
+  }
+  sel.innerHTML = h;
+  if (preNum) sel.value = String(preNum);
+}
+function alumnoSeleccionado() {
+  var grupo = id("pGrupo").value, num = parseInt(id("pAlumno").value, 10);
+  if (isNaN(num)) return null;
+  var lista = porGrupo(grupo);
+  for (var i = 0; i < lista.length; i++) if (lista[i].num === num) return lista[i];
+  return null;
+}
+function pintarPases() {
+  var al = alumnoSeleccionado(), cont = id("pasesWrap");
+  if (!al) {
+    cont.innerHTML = "<div class='empty'>Este grupo todavía no tiene alumnos. Agrégalos en la pestaña Alumnos.</div>";
+    return;
+  }
+  var h = "<div class='card'><h3>" + esc(al.nombre) + " · Grupo " + al.grupo + "</h3><div class='pases'>";
+  for (var p = 0; p < PASES; p++) {
+    h += "<div class='pase'>" +
+      "<canvas id='cv" + p + "'></canvas>" +
+      "<div class='lbl'>" + etiquetaPase(p) + "</div>" +
+      "<div class='fol'>" + folioDe(al, p) + "</div>" +
+      "<div class='acts'>" +
+      "<button class='btn sm' data-act='descargar' data-p='" + p + "'>Descargar</button>" +
+      "<button class='btn ghost sm' data-act='compartir' data-p='" + p + "'>Compartir</button>" +
+      "</div></div>";
+  }
+  h += "</div></div>";
+  cont.innerHTML = h;
+  for (p = 0; p < PASES; p++) {
+    var cv = id("cv" + p);
+    if (cv) dibujarInvitacion(cv, al, p);
+  }
+}
+function descargarTodos() {
+  var al = alumnoSeleccionado();
+  if (!al) return;
+  var p = 0;
+  function siguiente() {
+    if (p >= PASES) { toast("Se descargaron los 4 pases"); return; }
+    generarPNG(al, p, function (cv) { descargarCanvas(cv, nombreArchivo(al, p)); });
+    p++;
+    setTimeout(siguiente, 420);
+  }
+  siguiente();
+}
+
+/* ============================================================
+   9. Pantalla: acceso
+   ============================================================ */
+var audioCtx = null;
+function beep(ok) {
+  if (!DATA.cfg.beep) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.frequency.value = ok ? 880 : 220;
+    o.type = "sine";
+    g.gain.setValueAtTime(0.001, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.18, audioCtx.currentTime + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (ok ? 0.18 : 0.4));
+    o.start();
+    o.stop(audioCtx.currentTime + (ok ? 0.2 : 0.42));
+  } catch (e) { /* sin sonido */ }
+}
+function registrarFolio(txt) {
+  var v = id("verdict");
+  var encontrado = buscarPorFolio(txt);
+  if (!encontrado) {
+    v.innerHTML = "<div class='verdict bad'><div class='st'>Folio no encontrado</div>" +
+      "<div class='who'>" + esc(String(txt).toUpperCase()) + "</div>" +
+      "<div>Revisa el folio impreso en la invitación.</div></div>";
+    beep(false);
+    return;
+  }
+  var previo = DATA.ingresos[encontrado.folio];
+  if (previo) {
+    v.innerHTML = "<div class='verdict dup'><div class='st'>Este pase ya se usó</div>" +
+      "<div class='who'>" + esc(encontrado.alumno.nombre) + "</div>" +
+      "<div>" + etiquetaPase(encontrado.pase) + " · entró a las " + hora(previo.ts) + "</div></div>";
+    beep(false);
+    return;
+  }
+  DATA.ingresos[encontrado.folio] = { ts: Date.now() };
+  guardar();
+  v.innerHTML = "<div class='verdict ok'><div class='st'>Acceso registrado</div>" +
+    "<div class='who'>" + esc(encontrado.alumno.nombre) + "</div>" +
+    "<div>" + etiquetaPase(encontrado.pase) + " · Grupo " + encontrado.alumno.grupo + " · " + hora(Date.now()) + "</div></div>";
+  beep(true);
+  pintarUltimos();
+  pintarReporte();
+  pintarAlumnos();
+}
+function accionRegistrar() {
+  var campo = id("folioIn"), txt = campo.value.trim();
+  if (!txt) return;
+  registrarFolio(txt);
+  campo.value = "";
+  campo.focus();
+}
+function listaIngresos() {
+  var out = [], k;
+  for (k in DATA.ingresos) {
+    if (Object.prototype.hasOwnProperty.call(DATA.ingresos, k)) {
+      var e = buscarPorFolio(k);
+      if (e) out.push({ folio: k, ts: DATA.ingresos[k].ts, alumno: e.alumno, pase: e.pase });
+    }
+  }
+  out.sort(function (a, b) { return b.ts - a.ts; });
+  return out;
+}
+function pintarUltimos() {
+  var lista = listaIngresos().slice(0, 12), cont = id("ultimos");
+  if (!lista.length) {
+    cont.innerHTML = "<div class='empty'>Aún no hay entradas registradas. El primer folio validado aparece aquí.</div>";
+    return;
+  }
+  var h = "<table><tbody>";
+  for (var i = 0; i < lista.length; i++) {
+    h += "<tr><td><div class='nm'>" + esc(lista[i].alumno.nombre) + "</div>" +
+      "<div class='folio'>" + lista[i].folio + " · " + etiquetaPase(lista[i].pase) + "</div></td>" +
+      "<td style='text-align:right'><span class='tag'>" + hora(lista[i].ts) + "</span></td>" +
+      "<td style='text-align:right'><button class='btn danger sm' data-act='deshacer' data-f='" + lista[i].folio + "'>Deshacer</button></td></tr>";
+  }
+  h += "</tbody></table>";
+  cont.innerHTML = h;
+}
+function deshacer(folio) {
+  if (!DATA.ingresos[folio]) return;
+  delete DATA.ingresos[folio];
+  guardar();
+  pintarUltimos();
+  pintarReporte();
+  pintarAlumnos();
+  toast("Entrada cancelada: " + folio);
+}
+
+/* --------- cámara opcional --------- */
+var camStream = null, camTimer = null, detector = null;
+function alternarCamara() {
+  if (camStream) { detenerCamara(); return; }
+  if (!("BarcodeDetector" in window)) {
+    toast("Este navegador no lee QR con la cámara. Escribe el folio o usa un lector.");
+    return;
+  }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    toast("No hay acceso a la cámara en este navegador");
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function (stream) {
+    camStream = stream;
+    var video = id("cam");
+    video.srcObject = stream;
+    video.play();
+    id("camwrap").style.display = "block";
+    id("btnCam").textContent = "Cerrar cámara";
+    detector = new window.BarcodeDetector({ formats: ["qr_code"] });
+    camTimer = setInterval(function () {
+      detector.detect(video).then(function (codigos) {
+        if (codigos && codigos.length) {
+          var val = codigos[0].rawValue;
+          if (val) {
+            registrarFolio(val);
+            detenerCamara();
+          }
+        }
+      })["catch"](function () {});
+    }, 500);
+  })["catch"](function () {
+    toast("No se pudo abrir la cámara");
+  });
+}
+function detenerCamara() {
+  if (camTimer) { clearInterval(camTimer); camTimer = null; }
+  if (camStream) {
+    var t = camStream.getTracks();
+    for (var i = 0; i < t.length; i++) t[i].stop();
+    camStream = null;
+  }
+  id("camwrap").style.display = "none";
+  id("btnCam").textContent = "Usar cámara";
+}
+
+/* ============================================================
+   10. Pantalla: reporte
+   ============================================================ */
+function pintarReporte() {
+  var totalPases = DATA.alumnos.length * PASES;
+  var dentro = 0, k;
+  for (k in DATA.ingresos) if (Object.prototype.hasOwnProperty.call(DATA.ingresos, k)) {
+    if (buscarPorFolio(k)) dentro++;
+  }
+  var pct = totalPases ? Math.round(dentro * 100 / totalPases) : 0;
+  id("stats").innerHTML =
+    "<div class='stat'><div class='k'>Alumnos</div><div class='v'>" + DATA.alumnos.length + "</div></div>" +
+    "<div class='stat'><div class='k'>Pases emitidos</div><div class='v'>" + totalPases + "</div></div>" +
+    "<div class='stat hi'><div class='k'>Ya entraron</div><div class='v'>" + dentro + "</div></div>" +
+    "<div class='stat'><div class='k'>Faltan</div><div class='v'>" + (totalPases - dentro) + "</div>" +
+    "<div class='bar'><span style='width:" + pct + "%'></span></div></div>";
+
+  var h = "";
+  for (var i = 0; i < GRUPOS.length; i++) {
+    var g = GRUPOS[i], lista = porGrupo(g);
+    if (!lista.length) continue;
+    var tot = lista.length * PASES, den = 0;
+    for (var j = 0; j < lista.length; j++) {
+      for (var p = 0; p < PASES; p++) if (DATA.ingresos[folioDe(lista[j], p)]) den++;
+    }
+    var w = tot ? Math.round(den * 100 / tot) : 0;
+    h += "<div style='margin-bottom:14px'>" +
+      "<div style='display:flex;justify-content:space-between;font-size:14px'>" +
+      "<strong>Grupo " + g + "</strong><span class='folio'>" + den + " de " + tot + " pases</span></div>" +
+      "<div class='bar'><span style='width:" + w + "%'></span></div></div>";
+  }
+  id("porGrupo").innerHTML = h || "<div class='empty'>Sin grupos cargados.</div>";
+
+  var q = id("rBuscar").value.trim().toUpperCase();
+  var filtro = id("rFiltro").value;
+  var filas = [], lista2 = ordenados(DATA.alumnos);
+  for (i = 0; i < lista2.length; i++) {
+    for (var pp = 0; pp < PASES; pp++) {
+      var fol = folioDe(lista2[i], pp);
+      var reg = DATA.ingresos[fol];
+      if (filtro === "dentro" && !reg) continue;
+      if (filtro === "fuera" && reg) continue;
+      if (q && lista2[i].nombre.toUpperCase().indexOf(q) < 0 && fol.indexOf(q) < 0) continue;
+      filas.push({ al: lista2[i], pase: pp, folio: fol, reg: reg });
+    }
+  }
+  if (!filas.length) {
+    id("tablaReporte").innerHTML = "<div class='empty'>Ningún pase coincide con lo que buscas.</div>";
+    return;
+  }
+  var t = "<table><thead><tr><th>Pase</th><th>Folio</th><th>Estado</th><th></th></tr></thead><tbody>";
+  for (i = 0; i < filas.length; i++) {
+    var f = filas[i];
+    t += "<tr><td><div class='nm'>" + esc(f.al.nombre) + "</div>" +
+      "<div class='folio'>Grupo " + f.al.grupo + " · " + etiquetaPase(f.pase) + "</div></td>" +
+      "<td class='folio'>" + f.folio + "</td>" +
+      "<td>" + (f.reg
+        ? "<span class='tag'>Entró " + fechaHora(f.reg.ts) + "</span>"
+        : "<span class='tag off'>Pendiente</span>") + "</td>" +
+      "<td><div class='cellwrap'>" + (f.reg
+        ? "<button class='btn danger sm' data-act='deshacer' data-f='" + f.folio + "'>Deshacer</button>"
+        : "<button class='btn ghost sm' data-act='marcar' data-f='" + f.folio + "'>Marcar entrada</button>") +
+      "</div></td></tr>";
+  }
+  t += "</tbody></table>";
+  id("tablaReporte").innerHTML = t;
+}
+function exportarCSV() {
+  var filas = [["Grupo", "Numero", "Alumno", "Pase", "Folio", "Estado", "Hora"]];
+  var lista = ordenados(DATA.alumnos);
+  for (var i = 0; i < lista.length; i++) {
+    for (var p = 0; p < PASES; p++) {
+      var fol = folioDe(lista[i], p), reg = DATA.ingresos[fol];
+      filas.push([
+        lista[i].grupo, pad3(lista[i].num), lista[i].nombre, etiquetaPase(p), fol,
+        reg ? "Ingreso" : "Pendiente", reg ? new Date(reg.ts).toLocaleString("es-MX") : ""
+      ]);
+    }
+  }
+  var txt = "\ufeff";
+  for (i = 0; i < filas.length; i++) {
+    var celdas = [];
+    for (var j = 0; j < filas[i].length; j++) {
+      celdas.push("\"" + String(filas[i][j]).replace(/"/g, "\"\"") + "\"");
+    }
+    txt += celdas.join(",") + "\r\n";
+  }
+  descargarTexto(txt, "reporte-ingresos.csv", "text/csv");
+}
+function descargarTexto(texto, nombre, tipo) {
+  var blob = new Blob([texto], { type: tipo + ";charset=utf-8" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = nombre;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+}
+
+/* ============================================================
+   11. Pantalla: ajustes
+   ============================================================ */
+function pintarCfg() {
+  var c = DATA.cfg;
+  id("cInst").value = c.inst;
+  id("cCarrera").value = c.carrera;
+  id("cEvento").value = c.evento;
+  id("cGrado").value = c.grado;
+  id("cFecha").value = c.fecha;
+  id("cHora").value = c.hora;
+  id("cLugar").value = c.lugar;
+  id("cNota").value = c.nota;
+  id("beepOn").checked = !!c.beep;
+  id("brandTitle").textContent = c.evento;
+  id("storeChip").textContent = Store.persistent ? "Guardado en este dispositivo" : "Sin guardar (modo vista previa)";
+  id("storeChip").className = Store.persistent ? "chip" : "chip warn";
+}
+function guardarCfg() {
+  var c = DATA.cfg;
+  c.inst = id("cInst").value.trim() || c.inst;
+  c.carrera = id("cCarrera").value.trim() || c.carrera;
+  c.evento = id("cEvento").value.trim() || c.evento;
+  c.grado = id("cGrado").value.trim();
+  c.fecha = id("cFecha").value.trim();
+  c.hora = id("cHora").value.trim();
+  c.lugar = id("cLugar").value.trim();
+  c.nota = id("cNota").value.trim();
+  guardar();
+  pintarCfg();
+  pintarPases();
+  toast("Datos del evento guardados");
+}
+function exportarRespaldo() {
+  descargarTexto(JSON.stringify(DATA, null, 2), "respaldo-titulacion.json", "application/json");
+}
+function importarRespaldo(archivo) {
+  var lector = new FileReader();
+  lector.onload = function () {
+    try {
+      var obj = JSON.parse(String(lector.result));
+      if (!obj || !obj.alumnos || !obj.alumnos.length) throw new Error("formato");
+      DATA = obj;
+      if (!DATA.cfg) DATA.cfg = datosIniciales().cfg;
+      if (!DATA.ingresos) DATA.ingresos = {};
+      guardar();
+      pintarTodo();
+      toast("Respaldo cargado: " + DATA.alumnos.length + " alumnos");
+    } catch (e) {
+      toast("Ese archivo no es un respaldo válido");
+    }
+  };
+  lector.readAsText(archivo);
+}
+
+/* ============================================================
+   12. Navegación y eventos
+   ============================================================ */
+function abrirTab(nombre) {
+  var botones = document.querySelectorAll(".tabs button");
+  for (var i = 0; i < botones.length; i++) {
+    botones[i].setAttribute("aria-selected", botones[i].getAttribute("data-tab") === nombre ? "true" : "false");
+  }
+  var paneles = document.querySelectorAll(".panel");
+  for (i = 0; i < paneles.length; i++) {
+    paneles[i].className = paneles[i].id === "panel-" + nombre ? "panel on" : "panel";
+  }
+  if (nombre !== "acceso" && camStream) detenerCamara();
+  if (nombre === "acceso") setTimeout(function () { id("folioIn").focus(); }, 60);
+  if (nombre === "reporte") pintarReporte();
+  if (nombre === "pases") pintarPases();
+  window.scrollTo(0, 0);
+}
+
+function pintarTodo() {
+  pintarCfg();
+  pintarAlumnos();
+  llenarSelectorAlumnos();
+  pintarPases();
+  pintarUltimos();
+  pintarReporte();
+}
+
+document.addEventListener("click", function (ev) {
+  var destino = ev.target.closest ? ev.target.closest("[data-act],[data-tab]") : null;
+  if (!destino) return;
+  var tab = destino.getAttribute("data-tab");
+  if (tab) { abrirTab(tab); return; }
+  var act = destino.getAttribute("data-act");
+  var al;
+  if (act === "addAlumno") agregarAlumno();
+  else if (act === "editar") editarAlumno(destino.getAttribute("data-g"), parseInt(destino.getAttribute("data-n"), 10));
+  else if (act === "borrar") borrarAlumno(destino.getAttribute("data-g"), parseInt(destino.getAttribute("data-n"), 10));
+  else if (act === "verPases") {
+    llenarSelectorAlumnos(destino.getAttribute("data-g"), parseInt(destino.getAttribute("data-n"), 10));
+    abrirTab("pases");
+    pintarPases();
+  }
+  else if (act === "descargar") {
+    al = alumnoSeleccionado();
+    if (al) generarPNG(al, parseInt(destino.getAttribute("data-p"), 10), function (cv) {
+      descargarCanvas(cv, nombreArchivo(al, parseInt(destino.getAttribute("data-p"), 10)));
+    });
+  }
+  else if (act === "compartir") {
+    al = alumnoSeleccionado();
+    if (al) compartirPase(al, parseInt(destino.getAttribute("data-p"), 10));
+  }
+  else if (act === "descargarTodos") descargarTodos();
+  else if (act === "registrar") accionRegistrar();
+  else if (act === "camara") alternarCamara();
+  else if (act === "deshacer") deshacer(destino.getAttribute("data-f"));
+  else if (act === "marcar") registrarFolio(destino.getAttribute("data-f"));
+  else if (act === "csv") exportarCSV();
+  else if (act === "guardarCfg") guardarCfg();
+  else if (act === "exportar") exportarRespaldo();
+  else if (act === "importar") id("fileIn").click();
+  else if (act === "borrarAccesos") {
+    if (window.confirm("Borrar todas las entradas registradas. Los pases vuelven a quedar disponibles.")) {
+      DATA.ingresos = {};
+      guardar();
+      pintarTodo();
+      toast("Entradas borradas");
+    }
+  }
+  else if (act === "restaurar") {
+    if (window.confirm("Restaurar la lista original de los grupos B, C y D. Se pierde lo agregado a mano.")) {
+      DATA = datosIniciales();
+      guardar();
+      pintarTodo();
+      toast("Lista restaurada");
+    }
+  }
+});
+
+document.addEventListener("keydown", function (ev) {
+  if (ev.key === "Enter" && ev.target && ev.target.id === "folioIn") {
+    ev.preventDefault();
+    accionRegistrar();
+  }
+});
+
+function conectarControles() {
+  id("fGrupo").addEventListener("change", pintarAlumnos);
+  id("fBuscar").addEventListener("input", pintarAlumnos);
+  id("pGrupo").addEventListener("change", function () { llenarSelectorAlumnos(); pintarPases(); });
+  id("pAlumno").addEventListener("change", pintarPases);
+  id("rBuscar").addEventListener("input", pintarReporte);
+  id("rFiltro").addEventListener("change", pintarReporte);
+  id("beepOn").addEventListener("change", function () {
+    DATA.cfg.beep = id("beepOn").checked;
+    guardar();
+  });
+  id("fileIn").addEventListener("change", function () {
+    if (this.files && this.files[0]) importarRespaldo(this.files[0]);
+    this.value = "";
+  });
+  window.addEventListener("storage", function (ev) {
+    if (ev.key === Store.key) { cargarEstado(); pintarTodo(); }
+  });
+}
+
+cargarEstado();
+conectarControles();
+pintarTodo();
+</script>
+</body>
+</html>
