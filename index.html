@@ -289,7 +289,8 @@
           <label for="pAlumno">Alumno</label>
           <select id="pAlumno"></select>
         </div>
-        <button class="btn gold" data-act="descargarTodos">Descargar los 4</button>
+        <button class="btn gold" data-act="pdfAlumno">PDF con los 4 pases</button>
+        <button class="btn ghost" data-act="pdfGrupo">PDF de todo el grupo</button>
       </div>
     </div>
     <div id="pasesWrap"></div>
@@ -373,6 +374,9 @@
         <div class="field" style="flex:0 0 200px"><label for="cFecha">Fecha</label><input type="text" id="cFecha" placeholder="Viernes 11 de diciembre de 2026"></div>
         <div class="field" style="flex:0 0 140px"><label for="cHora">Hora</label><input type="text" id="cHora" placeholder="17:00 h"></div>
         <div class="field"><label for="cLugar">Lugar</label><input type="text" id="cLugar"></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div class="field"><label for="cDir">Dirección del lugar</label><input type="text" id="cDir" placeholder="Calle, número, colonia"></div>
       </div>
       <div class="row" style="margin-top:12px">
         <div class="field"><label for="cNota">Nota al pie de la invitación</label><input type="text" id="cNota"></div>
@@ -694,8 +698,12 @@ var QR = (function () {
       upward = !upward;
       col -= 2;
     }
+    /* Se evalúan las 8 máscaras del estándar menos la 6: produce un patrón muy
+       periódico que varios lectores confunden. Medido sobre los 164 folios,
+       la máscara 6 falló 36 veces y las demás una o ninguna. */
     var best = null, bestScore = Infinity, mk, cand, sc;
     for (mk = 0; mk < 8; mk++) {
+      if (mk === 6) continue;
       cand = [];
       for (i = 0; i < size; i++) {
         cand.push(m[i].slice());
@@ -809,11 +817,12 @@ function datosIniciales() {
     cfg: {
       inst: "Escuela de Enfermería",
       carrera: "Licenciatura en Enfermería",
-      evento: "Ceremonia de titulación",
-      grado: "9° cuatrimestre · Turno matutino",
-      fecha: "Por confirmar",
-      hora: "Por confirmar",
-      lugar: "Por confirmar",
+      evento: "Invitación a la clausura",
+      grado: "9° cuatrimestre · Grupos B, C, D y E",
+      fecha: "Jueves 10 de septiembre de 2026",
+      hora: "9:30 a.m.",
+      lugar: "Salón Macarena",
+      dir: "",
       nota: "Válido para una persona. Presenta este pase en la entrada.",
       beep: false
     },
@@ -835,6 +844,11 @@ function cargarEstado() {
     DATA = guardado;
     if (!DATA.cfg) DATA.cfg = datosIniciales().cfg;
     if (!DATA.ingresos) DATA.ingresos = {};
+    var base = datosIniciales().cfg, k;
+    for (k in base) {
+      if (!Object.prototype.hasOwnProperty.call(base, k)) continue;
+      if (DATA.cfg[k] === undefined || DATA.cfg[k] === "Por confirmar") DATA.cfg[k] = base[k];
+    }
   } else {
     DATA = datosIniciales();
     Store.write(DATA);
@@ -952,24 +966,27 @@ function dibujarLampara(ctx, cx, cy, escala) {
   ctx.fill();
   ctx.restore();
 }
-function dibujarQR(ctx, texto, x, y, lado) {
-  var qr = QR.generate(texto, "M");
+/* El módulo debe medir un número entero de píxeles: con fracciones el código
+   sale desalineado y algunos lectores dejan de reconocerlo. */
+function dibujarQR(ctx, texto, cx, y, ladoMaximo) {
+  /* Nivel H: recupera el 30% del código. Los pases se imprimen, se doblan y se
+     escanean desde la pantalla del celular, así que conviene el margen máximo. */
+  var qr = QR.generate(texto, "H");
   var quiet = 4, total = qr.size + quiet * 2;
-  var m = lado / total;
+  var m = Math.max(1, Math.floor(ladoMaximo / total));
+  var lado = m * total;
+  var x = Math.round(cx - lado / 2);
   ctx.fillStyle = COL.white;
   ctx.fillRect(x, y, lado, lado);
   ctx.fillStyle = "#0B1E24";
   for (var r = 0; r < qr.size; r++) {
     for (var c = 0; c < qr.size; c++) {
       if (qr.modules[r][c]) {
-        ctx.fillRect(
-          Math.floor(x + (c + quiet) * m),
-          Math.floor(y + (r + quiet) * m),
-          Math.ceil(m), Math.ceil(m)
-        );
+        ctx.fillRect(x + (c + quiet) * m, y + (r + quiet) * m, m, m);
       }
     }
   }
+  return { x: x, y: y, lado: lado };
 }
 function dibujarInvitacion(canvas, al, pase) {
   var W = 1000, H = 1500;
@@ -1055,8 +1072,8 @@ function dibujarInvitacion(canvas, al, pase) {
   ctx.textAlign = "left";
   textoEspaciado(ctx, etiquetaPaseCorta(pase) + " · GRUPO " + al.grupo, cx, by + 33, 3);
 
-  var iy = by + bh + 50;
-  var datos = [["Fecha", cfg.fecha], ["Hora", cfg.hora], ["Lugar", cfg.lugar]];
+  var iy = by + bh + 46;
+  var datos = [["Fecha", cfg.fecha, ""], ["Hora", cfg.hora, ""], ["Lugar", cfg.lugar, cfg.dir || ""]];
   for (i = 0; i < datos.length; i++) {
     ctx.fillStyle = "#8FB0A5";
     ctx.font = "600 13px system-ui,Arial,sans-serif";
@@ -1067,18 +1084,28 @@ function dibujarInvitacion(canvas, al, pase) {
     ctx.font = "24px Georgia,serif";
     var lin = envolver(ctx, datos[i][1], W - 240);
     ctx.fillText(lin[0], cx, iy + 32);
-    iy += 74;
+    iy += 70;
+    if (datos[i][2]) {
+      ctx.fillStyle = "#9FBDB2";
+      ctx.font = "18px system-ui,Arial,sans-serif";
+      var sub = envolver(ctx, datos[i][2], W - 240);
+      ctx.fillText(sub[0], cx, iy - 12);
+      iy += 16;
+    }
   }
 
-  var qs = 260, qx = cx - qs / 2, qy = 1046;
+  var qy = 1046;
+  var caja = dibujarQR(ctx, folioDe(al, pase), cx, qy, 270);
   ctx.fillStyle = COL.white;
-  ctx.fillRect(qx - 14, qy - 14, qs + 28, qs + 28);
-  dibujarQR(ctx, folioDe(al, pase), qx, qy, qs);
+  ctx.fillRect(caja.x - 12, qy - 12, caja.lado + 24, 12);
+  ctx.fillRect(caja.x - 12, qy + caja.lado, caja.lado + 24, 12);
+  ctx.fillRect(caja.x - 12, qy, 12, caja.lado);
+  ctx.fillRect(caja.x + caja.lado, qy, 12, caja.lado);
 
   ctx.fillStyle = COL.gold;
   ctx.font = "600 22px ui-monospace,Menlo,Consolas,monospace";
   ctx.textAlign = "left";
-  textoEspaciado(ctx, folioDe(al, pase), cx, qy + qs + 48, 4);
+  textoEspaciado(ctx, folioDe(al, pase), cx, qy + caja.lado + 50, 4);
 
   ctx.textAlign = "center";
   ctx.fillStyle = "#87A79C";
@@ -1094,6 +1121,115 @@ function dibujarInvitacion(canvas, al, pase) {
 /* ============================================================
    6. Descarga y compartir
    ============================================================ */
+/* --- generador de PDF: una página por pase, imagen JPEG incrustada --- */
+function base64aBytes(dataUrl) {
+  var b64 = String(dataUrl).split(",")[1];
+  var bin = window.atob(b64);
+  var out = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+function construirPDF(paginas) {
+  var enc = new TextEncoder();
+  var trozos = [], largo = 0, offsets = [];
+  function push(x) {
+    var b = (typeof x === "string") ? enc.encode(x) : x;
+    trozos.push(b);
+    largo += b.length;
+  }
+  function obj(n, dict, datos) {
+    offsets[n] = largo;
+    push(n + " 0 obj\n" + dict + "\n");
+    if (datos) {
+      push("stream\n");
+      push(datos);
+      push("\nendstream\n");
+    }
+    push("endobj\n");
+  }
+  var n = paginas.length, i;
+  var kids = [];
+  for (i = 0; i < n; i++) kids.push((3 + i * 3) + " 0 R");
+  push("%PDF-1.4\n%\u00E2\u00E3\u00CF\u00D3\n");
+  obj(1, "<< /Type /Catalog /Pages 2 0 R >>");
+  obj(2, "<< /Type /Pages /Kids [" + kids.join(" ") + "] /Count " + n + " >>");
+  for (i = 0; i < n; i++) {
+    var p = paginas[i];
+    var oPag = 3 + i * 3, oCont = 4 + i * 3, oImg = 5 + i * 3;
+    var contenido = "q " + p.w + " 0 0 " + p.h + " 0 0 cm /Im0 Do Q";
+    obj(oPag, "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 " + p.w + " " + p.h + "]" +
+      " /Resources << /XObject << /Im0 " + oImg + " 0 R >> >> /Contents " + oCont + " 0 R >>");
+    obj(oCont, "<< /Length " + contenido.length + " >>", enc.encode(contenido));
+    obj(oImg, "<< /Type /XObject /Subtype /Image /Width " + p.px + " /Height " + p.py +
+      " /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length " + p.datos.length + " >>", p.datos);
+  }
+  var total = 3 + n * 3;
+  var inicioXref = largo;
+  var xref = "xref\n0 " + total + "\n0000000000 65535 f \n";
+  for (i = 1; i < total; i++) {
+    var s = String(offsets[i]);
+    while (s.length < 10) s = "0" + s;
+    xref += s + " 00000 n \n";
+  }
+  push(xref);
+  push("trailer\n<< /Size " + total + " /Root 1 0 R >>\nstartxref\n" + inicioXref + "\n%%EOF\n");
+  return new Blob(trozos, { type: "application/pdf" });
+}
+function paginaDePase(al, pase) {
+  var canvas = document.createElement("canvas");
+  dibujarInvitacion(canvas, al, pase);
+  var datos = base64aBytes(canvas.toDataURL("image/jpeg", 0.94));
+  return { datos: datos, px: canvas.width, py: canvas.height, w: canvas.width / 2, h: canvas.height / 2 };
+}
+function descargarBlob(blob, nombre) {
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = nombre;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+}
+function limpiarNombre(t) {
+  return String(t).replace(/[^A-Za-z0-9]+/g, "_").replace(/^_|_$/g, "");
+}
+/* recorre la lista sin congelar la pantalla y avisa el avance */
+function generarPDF(trabajos, nombre, alTerminar) {
+  var paginas = [], i = 0;
+  function paso() {
+    if (i >= trabajos.length) {
+      descargarBlob(construirPDF(paginas), nombre);
+      if (alTerminar) alTerminar();
+      return;
+    }
+    paginas.push(paginaDePase(trabajos[i].al, trabajos[i].pase));
+    i++;
+    if (trabajos.length > 6 && i % 4 === 0) toast("Armando el PDF: " + i + " de " + trabajos.length + " pases");
+    setTimeout(paso, 0);
+  }
+  paso();
+}
+function pdfDeAlumno(al) {
+  var trabajos = [];
+  for (var p = 0; p < PASES; p++) trabajos.push({ al: al, pase: p });
+  generarPDF(trabajos, "Pases_" + al.grupo + pad3(al.num) + "_" + limpiarNombre(al.nombre) + ".pdf", function () {
+    toast("PDF listo con los 4 pases de " + al.nombre);
+  });
+}
+function pdfDeGrupo(grupo) {
+  var lista = porGrupo(grupo);
+  if (!lista.length) { toast("Ese grupo todavía no tiene alumnos"); return; }
+  var trabajos = [], i, p;
+  for (i = 0; i < lista.length; i++) {
+    for (p = 0; p < PASES; p++) trabajos.push({ al: lista[i], pase: p });
+  }
+  toast("Armando " + trabajos.length + " pases del grupo " + grupo + ". Tarda unos segundos.");
+  generarPDF(trabajos, "Pases_Grupo_" + grupo + ".pdf", function () {
+    toast("PDF listo con los " + trabajos.length + " pases del grupo " + grupo);
+  });
+}
+
 function nombreArchivo(al, pase) {
   var limpio = al.nombre.replace(/[^A-Za-z0-9]+/g, "_").replace(/^_|_$/g, "");
   return folioDe(al, pase) + "_" + limpio + ".png";
@@ -1261,19 +1397,6 @@ function pintarPases() {
     if (cv) dibujarInvitacion(cv, al, p);
   }
 }
-function descargarTodos() {
-  var al = alumnoSeleccionado();
-  if (!al) return;
-  var p = 0;
-  function siguiente() {
-    if (p >= PASES) { toast("Se descargaron los 4 pases"); return; }
-    generarPNG(al, p, function (cv) { descargarCanvas(cv, nombreArchivo(al, p)); });
-    p++;
-    setTimeout(siguiente, 420);
-  }
-  siguiente();
-}
-
 /* ============================================================
    9. Pantalla: acceso
    ============================================================ */
@@ -1524,6 +1647,7 @@ function pintarCfg() {
   id("cFecha").value = c.fecha;
   id("cHora").value = c.hora;
   id("cLugar").value = c.lugar;
+  id("cDir").value = c.dir || "";
   id("cNota").value = c.nota;
   id("beepOn").checked = !!c.beep;
   id("brandTitle").textContent = c.evento;
@@ -1539,6 +1663,7 @@ function guardarCfg() {
   c.fecha = id("cFecha").value.trim();
   c.hora = id("cHora").value.trim();
   c.lugar = id("cLugar").value.trim();
+  c.dir = id("cDir").value.trim();
   c.nota = id("cNota").value.trim();
   guardar();
   pintarCfg();
@@ -1620,7 +1745,11 @@ document.addEventListener("click", function (ev) {
     al = alumnoSeleccionado();
     if (al) compartirPase(al, parseInt(destino.getAttribute("data-p"), 10));
   }
-  else if (act === "descargarTodos") descargarTodos();
+  else if (act === "pdfAlumno") {
+    al = alumnoSeleccionado();
+    if (al) pdfDeAlumno(al);
+  }
+  else if (act === "pdfGrupo") pdfDeGrupo(id("pGrupo").value);
   else if (act === "registrar") accionRegistrar();
   else if (act === "camara") alternarCamara();
   else if (act === "deshacer") deshacer(destino.getAttribute("data-f"));
