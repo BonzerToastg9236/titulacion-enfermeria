@@ -803,6 +803,13 @@ var LISTA_D = [
   "PEREZ MORALES MIGUEL ANGEL",
   "PEREZ ROJAS CARMEN"
 ];
+/* Grupo E vespertino */
+var LISTA_E = [
+  "CALIXTO REYES ELEAN",
+  "RAMOS CORREA EDUARDO SEBASTIAN",
+  "REYES ORDUÑA MARIANA",
+  "CORTES JIMENEZ MARIA DE LOURDES"
+];
 
 function datosIniciales() {
   var alumnos = [];
@@ -814,10 +821,11 @@ function datosIniciales() {
   cargar("B", LISTA_B);
   cargar("C", LISTA_C);
   cargar("D", LISTA_D);
+  cargar("E", LISTA_E);
   return {
     cfg: {
       inst: "Universidad de Enfermería Cuautitlán",
-      v: 4,
+      v: 5,
       carrera: "Licenciatura en Enfermería",
       evento: "Ceremonia de graduación",
       grado: "9° cuatrimestre · Grupos B, C, D y E",
@@ -857,11 +865,39 @@ function cargarEstado() {
       DATA.cfg.inst = base.inst;
       DATA.cfg.evento = base.evento;
       DATA.cfg.v = base.v;
+      /* Alta del grupo E vespertino en instalaciones que ya tenían datos.
+         Solo se agregan los que faltan, comparando por nombre, para no
+         duplicar a los que ya se hubieran capturado a mano. */
+      agregarFaltantes("E", LISTA_E);
     }
   } else {
     DATA = datosIniciales();
     Store.write(DATA);
   }
+}
+/* Agrega al grupo indicado los nombres que todavía no existan, tomando el
+   siguiente número libre. No toca ni renumera a los que ya estaban. */
+function agregarFaltantes(grupo, lista) {
+  var i, j, existe, mayor = 0, cambios = false;
+  for (j = 0; j < DATA.alumnos.length; j++) {
+    if (DATA.alumnos[j].grupo === grupo && DATA.alumnos[j].num > mayor) mayor = DATA.alumnos[j].num;
+  }
+  for (i = 0; i < lista.length; i++) {
+    existe = false;
+    for (j = 0; j < DATA.alumnos.length; j++) {
+      if (DATA.alumnos[j].grupo === grupo &&
+          String(DATA.alumnos[j].nombre).trim().toUpperCase() === lista[i].toUpperCase()) {
+        existe = true;
+        break;
+      }
+    }
+    if (!existe) {
+      mayor += 1;
+      DATA.alumnos.push({ grupo: grupo, num: mayor, nombre: lista[i] });
+      cambios = true;
+    }
+  }
+  return cambios;
 }
 function guardar() { Store.write(DATA); }
 
