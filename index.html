@@ -817,7 +817,7 @@ function datosIniciales() {
   return {
     cfg: {
       inst: "Universidad de Enfermería Cuautitlán",
-      v: 3,
+      v: 4,
       carrera: "Licenciatura en Enfermería",
       evento: "Ceremonia de graduación",
       grado: "9° cuatrimestre · Grupos B, C, D y E",
@@ -1046,67 +1046,74 @@ function dibujarQR(ctx, texto, cx, y, ladoMaximo) {
 
 function dibujarInvitacion(canvas, al, pase) {
   var W = 1000, H = 1500;
-  canvas.width = W;
-  canvas.height = H;
+  canvas.width = W; canvas.height = H;
   var ctx = canvas.getContext("2d");
   if (!ctx) return;
   var cfg = DATA.cfg, cx = W / 2, i;
 
-  ctx.fillStyle = COL.papel;
+  /* ---- Fondo papel ---- */
+  ctx.fillStyle = "#FFFCFA";
   ctx.fillRect(0, 0, W, H);
 
-  /* franjas coral arriba y abajo */
-  ctx.fillStyle = COL.coral;
+  /* ---- Franjas coral arriba y abajo ---- */
+  ctx.fillStyle = "#FFA384";
   ctx.fillRect(0, 0, W, 18);
   ctx.fillRect(0, H - 18, W, 18);
 
-  /* doble marco: coral por fuera, oro fino por dentro */
-  ctx.strokeStyle = COL.coral;
+  /* ---- Marco doble: coral exterior, oro interior ---- */
+  ctx.strokeStyle = "#FFA384";
   ctx.lineWidth = 3;
   ctx.strokeRect(40, 40, W - 80, H - 80);
-  ctx.strokeStyle = COL.oro;
+  ctx.strokeStyle = "#C79A3A";
   ctx.lineWidth = 1;
   ctx.strokeRect(52, 52, W - 104, H - 104);
 
   ctx.textBaseline = "alphabetic";
 
+  /* ---- Escudo centrado arriba ---- */
   dibujarSello(ctx, cx, 202, 96);
 
+  /* ---- Institución ---- */
   ctx.textAlign = "left";
-  ctx.fillStyle = COL.grisOsc;
+  ctx.fillStyle = "#75727A";
   ctx.font = "600 17px system-ui,Arial,sans-serif";
   textoEspaciado(ctx, String(cfg.inst).toUpperCase(), cx, 340, 4);
 
-  ctx.strokeStyle = COL.oro;
+  /* ---- Línea dorada bajo institución ---- */
+  ctx.strokeStyle = "#C79A3A";
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(cx - 110, 366);
   ctx.lineTo(cx + 110, 366);
   ctx.stroke();
 
+  /* ---- Título del evento ---- */
   ctx.textAlign = "center";
-  ctx.fillStyle = COL.tinta;
+  ctx.fillStyle = "#3A3B40";
   ctx.font = "300 52px Georgia,serif";
   var tit = envolver(ctx, String(cfg.evento), W - 180);
   ctx.fillText(tit[0], cx, 428);
 
-  ctx.font = "21px Georgia,serif";
-  ctx.fillStyle = COL.grisOsc;
+  ctx.font = "22px Georgia,serif";
+  ctx.fillStyle = "#75727A";
   ctx.fillText(String(cfg.carrera), cx, 464);
   ctx.font = "17px system-ui,Arial,sans-serif";
   ctx.fillText(String(cfg.grado), cx, 492);
 
-  ctx.strokeStyle = COL.coral;
+  /* ---- Separador coral ---- */
+  ctx.strokeStyle = "#FFA384";
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(cx - 44, 522);
   ctx.lineTo(cx + 44, 522);
   ctx.stroke();
 
-  ctx.fillStyle = COL.grisOsc;
+  /* ---- Tipo de pase ---- */
+  ctx.fillStyle = "#75727A";
   ctx.font = "italic 19px Georgia,serif";
   ctx.fillText(pase === 0 ? "Pase de acceso de" : "Acompañante de", cx, 566);
 
+  /* ---- Nombre del alumno ---- */
   var tam = 48;
   ctx.font = "600 " + tam + "px Georgia,serif";
   var lineas = envolver(ctx, al.nombre, W - 200);
@@ -1115,17 +1122,17 @@ function dibujarInvitacion(canvas, al, pase) {
     ctx.font = "600 " + tam + "px Georgia,serif";
     lineas = envolver(ctx, al.nombre, W - 200);
   }
-  ctx.fillStyle = COL.tinta;
+  ctx.fillStyle = "#3A3B40";
   var y = 622;
   for (i = 0; i < lineas.length && i < 3; i++) {
     ctx.fillText(lineas[i], cx, y);
     y += tam + 8;
   }
 
-  /* distintivo del tipo de pase */
+  /* ---- Distintivo tipo de pase ---- */
   var by = y + 6, bw = 356, bh = 46;
-  ctx.fillStyle = COL.white;
-  ctx.strokeStyle = COL.coral;
+  ctx.fillStyle = "#FFFFFF";
+  ctx.strokeStyle = "#FFA384";
   ctx.lineWidth = 2;
   ctx.beginPath();
   if (ctx.roundRect) ctx.roundRect(cx - bw / 2, by, bw, bh, 23);
@@ -1137,21 +1144,22 @@ function dibujarInvitacion(canvas, al, pase) {
   ctx.textAlign = "left";
   textoEspaciado(ctx, etiquetaPaseCorta(pase) + " · GRUPO " + al.grupo, cx, by + 29, 3);
 
+  /* ---- Bloque de datos ---- */
   var iy = by + bh + 46;
   var datos = [["Fecha", cfg.fecha, ""], ["Hora", cfg.hora, ""], ["Lugar", cfg.lugar, cfg.dir || ""]];
   for (i = 0; i < datos.length; i++) {
-    ctx.fillStyle = COL.coralOsc;
+    ctx.fillStyle = "#D9765A";
     ctx.font = "700 12px system-ui,Arial,sans-serif";
     ctx.textAlign = "left";
     textoEspaciado(ctx, String(datos[i][0]).toUpperCase(), cx, iy, 4);
     ctx.textAlign = "center";
-    ctx.fillStyle = COL.tinta;
+    ctx.fillStyle = "#3A3B40";
     ctx.font = "23px Georgia,serif";
     var lin = envolver(ctx, datos[i][1], W - 240);
     ctx.fillText(lin[0], cx, iy + 30);
     iy += 66;
     if (datos[i][2]) {
-      ctx.fillStyle = COL.grisOsc;
+      ctx.fillStyle = "#75727A";
       ctx.font = "17px system-ui,Arial,sans-serif";
       var sub = envolver(ctx, datos[i][2], W - 240);
       ctx.fillText(sub[0], cx, iy - 12);
@@ -1159,38 +1167,47 @@ function dibujarInvitacion(canvas, al, pase) {
     }
   }
 
+  /* ---- Código de barras / QR ---- */
   var folio = folioDe(al, pase);
   var modo = cfg.codigo || "barras";
   var yFolio;
+  var yBar = iy + 30;
+
   if (modo === "qr") {
-    var caja = dibujarQR(ctx, folio, cx, 1062, 264);
-    ctx.strokeStyle = COL.gris;
+    var caja = dibujarQR(ctx, folio, cx, yBar, 264);
+    ctx.strokeStyle = "#C1BFC0";
     ctx.lineWidth = 1;
-    ctx.strokeRect(caja.x - 8.5, 1062 - 8.5, caja.lado + 17, caja.lado + 17);
-    yFolio = 1062 + caja.lado + 46;
+    ctx.strokeRect(caja.x - 8.5, yBar - 8.5, caja.lado + 17, caja.lado + 17);
+    yFolio = yBar + caja.lado + 46;
   } else if (modo === "ambos") {
-    var cajaQR = dibujarQR(ctx, folio, cx, 1044, 190);
-    ctx.strokeStyle = COL.gris;
+    var cajaQR = dibujarQR(ctx, folio, cx, yBar, 190);
+    ctx.strokeStyle = "#C1BFC0";
     ctx.lineWidth = 1;
-    ctx.strokeRect(cajaQR.x - 8.5, 1044 - 8.5, cajaQR.lado + 17, cajaQR.lado + 17);
-    var yb = 1044 + cajaQR.lado + 30;
-    dibujarBarras(ctx, folio, cx, yb, 660, 76);
-    yFolio = yb + 76 + 42;
+    ctx.strokeRect(cajaQR.x - 8.5, yBar - 8.5, cajaQR.lado + 17, cajaQR.lado + 17);
+    var yb = yBar + cajaQR.lado + 30;
+    ctx.fillStyle = "rgba(255,255,255,0.92)";
+    ctx.fillRect(cx - 420, yb - 14, 840, 104);
+    dibujarBarras(ctx, folio, cx, yb, 800, 76);
+    yFolio = yb + 76 + 38;
   } else {
-    var barras = dibujarBarras(ctx, folio, cx, 1096, 800, 150);
-    yFolio = barras.fin + 46;
+    ctx.fillStyle = "rgba(255,255,255,0.0)";
+    ctx.fillRect(cx - 460, yBar - 14, 920, 178);
+    var barras = dibujarBarras(ctx, folio, cx, yBar, 820, 150);
+    yFolio = barras.fin + 38;
   }
 
-  ctx.fillStyle = COL.coralOsc;
+  /* ---- Folio ---- */
+  ctx.fillStyle = "#D9765A";
   ctx.font = "700 21px ui-monospace,Menlo,Consolas,monospace";
   ctx.textAlign = "left";
   textoEspaciado(ctx, folio, cx, yFolio, 4);
 
+  /* ---- Nota al pie ---- */
   ctx.textAlign = "center";
-  ctx.fillStyle = COL.grisOsc;
+  ctx.fillStyle = "#75727A";
   ctx.font = "15px system-ui,Arial,sans-serif";
   var nota = envolver(ctx, cfg.nota, W - 260);
-  var ny = 1412;
+  var ny = H - 72;
   for (i = 0; i < nota.length && i < 2; i++) {
     ctx.fillText(nota[i], cx, ny);
     ny += 21;
